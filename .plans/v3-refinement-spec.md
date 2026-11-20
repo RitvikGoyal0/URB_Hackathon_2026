@@ -16,10 +16,10 @@ This spec overrides the V3 doc where they conflict. The V3 doc assumed a databas
 | Bug source | Reproduced on **production** (`/explore`): Explore → listing → "All homes" crashes with "This page couldn't load", about half the time. The same happens after "Find Homes Together". Root cause in §3.1. |
 | Formulas | Plain language everywhere. The method (group score formula, weights, assumptions) sits in **one collapsed "How we score" disclosure** on the listing page, for judges. No math anywhere else. |
 | Subjective features | **Count a feature only if the source states it.** For quiet building, large kitchen, social spaces and similar, the listing must carry the source's own wording (shown as a quote). Without it the feature is unknown: never scored as met and never used in lifestyle rules. |
-| Bus / transit | **Real Google transit times** come from a server route, cached for at most 30 days, with "Powered by Google" attribution. The trip assumed is arriving by **9:00 AM on a weekday** (America/Detroit), unless a place has its own arrival time. **We never use walk time as a stand-in for bus time.** If transit is unavailable, show "Bus estimate unavailable", and that place counts as missing data. |
-| Google key | **Shaurya creates it.** It is billing-enabled and restricted to Places API (New), Routes / Distance Matrix and Geocoding. It goes in `.env.local` and Vercel (Production) as `GOOGLE_MAPS_API_KEY`, server-only. |
+| Bus / transit | **Estimated, not routed** *(revised: no Google key)*. Bus time is computed from the straight-line distance, scaled up for real streets, plus walking to the stop and waiting (§5.4). It is always labeled as an estimate ("~16 min by bus · est."). Walk time is never shown as a bus time. When walking is faster, the app says so. |
+| Google key | **Not used** *(revised)*. No paid APIs. Walk, bike and drive times for campus places come from the committed OpenStreetMap routing data. |
 | Property photos | **No scraping.** The team supplies photos for every listing (checklist in §11). Only use photos the team took or has permission to use. Until a photo arrives, the card shows an honest "Photo coming soon" placeholder. |
-| Custom places | **Google for both:** Places autocomplete finds candidates and **the student confirms the right one**. Google then computes walk, bike, transit and drive times. Nothing is invented: no confirmation, no place. |
+| Custom places | **Follow-up questions, this-or-that style** *(revised)*. When a student mentions a place we don't know (e.g. MRacing), they get one question card at a time:<br>1. **Where is it?** Pick a campus area, a known U-M building, or drop a pin on the map.<br>2. **How often?**<br>3. **How do you get there?**<br>4. **How important is it?**<br>**The student provides the location.** We never invent one: no answer, no place. Travel times are estimated from distance (§5.4). |
 | Demo start state | **No lobby.** After onboarding, the dashboard shows "Create your housing group". |
 | Demo cast | **Friends: Jordan and Sam** (so the Sam budget flip is always possible). **Recommended: whoever scores highest** on profile similarity ("let the score decide"). Riley is expected to rank first but isn't hard-coded. 4–6 candidate cards are shown. |
 | Invites | **Pending, then join:** "Invited · pending" for about 3 seconds, then "Joined". |
@@ -28,14 +28,14 @@ This spec overrides the V3 doc where they conflict. The V3 doc assumed a databas
 | Bedroom filter | **In a lobby:** show only homes with bedrooms = the lobby's target size (exact match). **Solo (no active lobby):** show any size, priced per room, assuming the other rooms get filled. |
 | Card commute | **"Your average"**, e.g. "14 min avg for you". Each roommate's average is on the detail page. |
 | Priorities | Onboarding keeps **this-or-that**. The **profile page** gets "Customize your priorities", where the student edits the same five weights by hand. Not in What-if. |
-| Schedule | Gemini reads a schedule screenshot. **Each class's building becomes a place.** A class counts as a trip from home only if it is the first class of the day, or follows a gap of **2 hours or more**. Classes after a shorter gap (back-to-back) don't count as trips. |
+| Schedule | Gemini reads a schedule screenshot. **Each class's building becomes a place**, located through the same follow-up question if it isn't in the building list. A class counts as a trip from home only if it is the first class of the day, or follows a gap of **2 hours or more**. Classes after a shorter gap (back-to-back) don't count as trips. |
 | Fictional listings | **Remove all 4** (Packard, Northside, Kerrytown Row, Stadium). Replace them with real listings from offcampushousing.umich.edu: more 4BR homes, budget options and other sizes. Going down to about 18 listings is acceptable. |
 | Stage flip | It must be rebuilt from real homes. Allowed: **re-tune the fictional students' budgets and places** so that raising Sam's budget makes a real, previously blocked home #1. Listing data stays 100% real. |
 | Avatars | Initials and colors only. **No demo tags anywhere in the app.** The presenter tells the audience on stage that the students are fictional. The README keeps the disclosure. |
 | Demo reset | A **hidden `/demo` page** (not linked anywhere) with Reset and helper controls. |
 | Navigation | **Dashboard-first:** Dashboard · Explore · Roommates · Saved · Profile, plus an active-lobby switcher. The landing page stays at `/` for first-time visitors. |
 | Repo | **Push the current working version to Ritvik's `main` now** (merge his 2 commits with `--allow-unrelated-histories`, keep our README, no force push). Then build V3 directly on `main`, committing each working piece. |
-| Scope | All four groups are must-ship: (1) fixes + lobbies + roommates, (2) simpler UI, (3) places + Google transit, (4) uploads + photo galleries. |
+| Scope | All four groups are must-ship: (1) fixes + lobbies + roommates, (2) simpler UI, (3) places + estimated commutes, (4) uploads + photo galleries. |
 
 ---
 
@@ -45,7 +45,7 @@ This spec overrides the V3 doc where they conflict. The V3 doc assumed a databas
 2. **Lobbies:** create, switch, leave and use multiple lobbies, each with its own members, saved homes, votes and what-if.
 3. **Roommates:** a "Students you might get along with" page with a real similarity score, 2 reasons per person, and invite → pending → joined.
 4. **Simpler UI:** a new dashboard; photo-first cards; a simpler listing page with compact per-roommate cards; formulas collapsed; vote buttons fixed; vote summary like "2 of 4 interested"; copy cleanup.
-5. **Places + transit:** add, edit and remove places (MRacing etc.) using Google search and confirmation; Google transit times; an average-commute number.
+5. **Places + commute:** add, edit and remove places (MRacing etc.) through follow-up questions; estimated bus times; an average-commute number.
 6. **Uploads + galleries:** profile photo; schedule screenshot → Gemini → review → places; house photo gallery for team-supplied images.
 
 ---
@@ -100,7 +100,6 @@ interface AppStateV2 {
   liveProfile: MemberProfile | null;     // extended, see §4.2
   lobbies: Lobby[];
   activeLobbyId: Id | null;              // null = solo mode
-  commuteCache: Record<string, CachedTrip>; // key: `${originKey}|${destKey}|${mode}|${arriveBy}`
   demo: { inviteDelayMs: number };       // 3000 by default
 }
 interface Lobby {
@@ -130,9 +129,9 @@ weights: Weights;                        // unchanged shape; edited in profile (
 interface Place {
   id: Id; name: string;                  // "MRacing", "North Campus"
   kind: "registry" | "custom" | "class";
-  registryId?: string;                   // campus destinations already in our data
-  googlePlaceId?: string; address?: string; lat: number; lng: number;
-  verified: true;                        // only saved after the student confirms the place
+  registryId?: string;                   // campus area or known building from our data
+  location: { source: "registry" | "building" | "pin"; label: string; lat: number; lng: number };
+  verified: true;                        // only saved after the student picks/places it
   visitsPerWeek: number;                 // Daily=5, Several=3, Weekly=1, Occasionally=0.25, or custom
   importance: 1 | 2 | 3;                 // Low / Medium / High
   mode?: TravelMode;                     // defaults to profile.travelMode
@@ -166,9 +165,25 @@ Everything stays deterministic and pure, with tests for every rule.
    - Unknown rent → "Pricing not verified", affordability null, never $0.
    - Update `rent.ts`, the rent text and the rent tests.
 4. **Commute:**
-   - **Inputs:** for each member place, use the member's mode for that place. **Walk, bike and drive** for registry places come from the committed OSRM matrix. **Transit**, and every mode for custom or class places, comes from the Google commute cache (§6).
-   - **Score:** the same curve (100 at ≤ 10 min, 0 at ≥ 40 min), weighted by visits/week × importance. A place without a usable time is left out and the coverage shows "based on 3 of 4 places". If nothing is usable, the subscore is null.
-   - **The bus rule is removed.** Walk time is never used for a bus trip.
+   - **Inputs:** for each member place, use the member's mode for that place.
+     - **Walk, bike and drive** to the 7 campus areas come from the committed OSRM matrix (routed, not estimated).
+     - **Bus,** and every mode to custom, building or class places, comes from the **distance estimator** (`estimate.ts`, below), labeled "est."
+   - **Distance estimator** (pure function, constants in `constants.ts`, all tested):
+
+     ```
+     d          = haversine(listing, place) in km      // straight line
+     road_km    = d × 1.35                              // detour factor: streets aren't straight
+     walk_min   = road_km / 4.8 km/h × 60
+     bike_min   = road_km / 14  km/h × 60
+     drive_min  = road_km / 30  km/h × 60 + 4           // + parking
+     bus_min    = 5 (walk to/from stops) + 5 (avg wait) + road_km / 18 km/h × 60
+     ```
+
+     - **Short trips:** when `bus_min ≥ walk_min` for a bus rider, use walk time and say "Walking is faster (8 min)". Nobody waits for a bus to go 400 m.
+     - **Labels:** estimated times always show "est." and a tooltip "Estimated from distance; real bus times vary. Check the Magic Bus app." Routed OSRM times show no label.
+     - **Sanity test:** for the 7 campus areas, estimator walk and bike times must land within ±35% of the routed OSRM times. That's a test that keeps the constants honest.
+   - **Score:** the same curve (100 at ≤ 10 min, 0 at ≥ 40 min), weighted by visits/week × importance. A place without a location is left out and the coverage shows "based on 3 of 4 places".
+   - **The old bus rule** (walk time with minutes past 20 counted at 50%) **is removed.** It's replaced by the bus estimate above.
    - **Average commute (display):** `Σ(minutes × visitsPerWeek) / Σ(visitsPerWeek)` over places with usable times, rounded. One-way. It's not shown as a formula anywhere.
 5. **Schedule trips:** for each weekday, sort the confirmed classes. A class counts as a trip from home if it's the first of the day, or if the gap since the previous class ended is **≥ 120 minutes**. A building's `visitsPerWeek` is its number of counted trips. Test MWF back-to-back blocks, a 2:00 gap exactly (counts), 1:59 (doesn't count), and single classes.
 6. **Lifestyle and amenities:** apply the subjective feature rule (§4.3). Lifestyle rules fire only on evidenced features.
@@ -197,23 +212,20 @@ Everything stays deterministic and pure, with tests for every rule.
 10. **Stage flip (rebuilt):** after the listing swap, find a real home Y that is blocked only by Sam's budget, and that becomes #1 when Sam's budget rises by $100–$250 in a 4-person lobby (Maya + Jordan + Sam + the top candidate). Re-tune the fictional students' budgets and places until it holds. Lock it in with tests that:
     - cover **every** candidate the presenter might invite as the 4th member
     - cover bus and walk modes
-    - use Google transit **from a test fixture** (no network in tests)
+    - use the deterministic distance estimator for bus (no network in tests)
 
 ---
 
-## 6. Google integration (server-only)
+## 6. Places and travel times without paid APIs *(revised: replaces the Google plan)*
 
-- **Key:** `GOOGLE_MAPS_API_KEY` in `.env.local` and on Vercel (Production). Restrict it to the APIs below. It is never sent to the browser.
-- **Routes:**
-  - `POST /api/places/search` `{query}` → up to 5 candidates (name, address, lat, lng, placeId) from **Places API (New) Text Search / Autocomplete**, biased to Ann Arbor.
-  - `POST /api/commute` `{origins: listingIds[], destination: {lat,lng}, modes[], arriveBy}` → minutes per listing and mode, from the **Routes API `computeRouteMatrix`** (TRANSIT with `arrivalTime` = next weekday 9:00 America/Detroit; WALK, BICYCLE and DRIVE for custom places).
-- **Caching (at most 30 days):**
-  - **Server:** Next `"use cache"` with `cacheLife` of 30 days or less, keyed by request.
-  - **Client:** `commuteCache` in the store with `fetchedAt`; anything older than 30 days is refetched.
-  - Nothing from Google is committed to the repo.
-- **Attribution:** wherever a Google-derived time or place appears, show "Powered by Google" in small text, on the detail commute block and in place search.
-- **Failure:** on a timeout (8 s) or error → "Bus estimate unavailable", or "Couldn't find travel times for this place". The place stays saved and is retried later. No made-up numbers.
-- **Demo safety:** `/demo` gets a "Warm travel times" button that pre-fetches transit for the demo profile's places to every listing, so stage clicks hit the cache.
+- **No external calls at runtime.** Every travel time is either routed ahead of time (OSRM matrix: walk, bike and drive to the 7 campus areas) or estimated in the browser from distance (§5.4). Nothing can fail on stage because a map service is slow.
+- **Known U-M buildings list** (`src/data/buildings.umich.json`, new):
+  - about 25 frequently visited buildings, each with coordinates verified once against OpenStreetMap at build time, with source and date, the same way the 7 campus areas were checked
+  - must include the Wilson Student Team Project Center (MRacing and other team shops), Michigan Union, the League, Pierpont Commons, the Bob and Betty Beyster Building, EECS, G.G. Brown, the Ford Robotics Building, Duderstadt, Hatcher/Shapiro libraries, the Ross School of Business, the CCRB, the IM Building, Mott/University Hospital, the Chemistry Building, Angell Hall, Mason Hall and the Ann Arbor Blake Transit Center
+  - powers the "Where is it?" question and matching class buildings from schedules
+  - if a building can't be verified, it's left out rather than guessed
+- **Drop a pin:** the "Where is it?" card offers a small Leaflet map (the same map component, with the crash fix from §3.1). The student taps where the place is, and those coordinates are saved with `source: "pin"`. This covers any place not on the list (a job, a friend's house, a gym off campus).
+- **Gemini follow-ups:** the existing parse already returns `unmappedPlaces` with a question and a suggested area (e.g. "evening club meetings" → "Where do your club meetings happen?"). V3 extends the same mechanism. Every unmapped place, organization (MRacing) or schedule building becomes a follow-up card. The AI may *suggest* an area or building, but the student must pick it.
 
 ---
 
@@ -280,7 +292,7 @@ Everything stays deterministic and pure, with tests for every rule.
 2. **Each roommate:** a compact card per member:
    - Name, then: Match 82 · Commute 14 min avg (Bus · 4 places) · Rent $1,040/mo · Within budget / Over by $40
    - One short note: the strongest fit or the main compromise.
-   - Missing data shows as "Bus estimate unavailable" or "based on 3 of 4 places".
+   - Estimated times show "est."; places without a location show "based on 3 of 4 places".
    - A "Details" expander lists each place's time.
 3. **Key amenities:** verified items as chips; subjective items with their quote; unknowns listed as "Not listed".
 4. **Pros and trade-offs:** at most 2 of each, from `explainListing`.
@@ -303,15 +315,19 @@ Sections:
 - **Customize your priorities:** five rows with four levels each; the numeric weights appear under "Advanced"
 - **Settings:** Delete my profile
 
-**Add location form:**
-- Name
-- Search box: Google candidates, and the student taps the correct one, with a small map pin preview
-- How often: Daily / Several times a week / Weekly / Occasionally / Custom per week
-- Transportation: Walk / Bus / Bike / Drive
-- Importance: High / Medium / Low
-- Optional: arrival time and days
+**+ Add location: follow-up cards, one question at a time, in the same component and style as this-or-that:**
+1. **"What's the place called?"** A text field, e.g. "MRacing".
+2. **"Where is it?"** Answer buttons:
+   - the 7 campus areas
+   - a searchable list of known U-M buildings (§6)
+   - **Drop a pin on the map**
 
-Edit and remove are inline.
+   The AI's suggestion, if any, is highlighted but not pre-selected.
+3. **"How often do you go?"** Daily (5/wk) · A few times a week (3/wk) · Weekly (1/wk) · Occasionally (¼/wk) · Custom number.
+4. **"How do you usually get there?"** Walk · Bus · Bike · Drive. Defaults to the profile's usual mode.
+5. **"How important is being close to it?"** High · Medium · Low.
+
+There's a Back button on every card, and **Skip** on optional ones. The summary row shows "MRacing · Wilson Center · 3×/wk · Bus · High" with Edit and Remove. Edit reopens the same cards pre-filled.
 
 ### 7.9 Copy
 - No "algorithm", "weighted" or "mean/min" anywhere outside "How we score".
@@ -321,8 +337,8 @@ Edit and remove are inline.
 
 ## 8. Onboarding (updated flow)
 1. **Free text:** stays as is. Gemini parse, then review.
-2. **New step "About you":** major, organizations (chips) and an optional photo. If an organization like "MRacing" is entered, suggest adding it as a place (goes through the Google confirm flow).
-3. **Places:** parsed places, plus **+ Add location**.
+2. **New step "About you":** major, organizations (chips) and an optional photo. If an organization like "MRacing" is entered, ask "Do you go to MRacing regularly?" Yes opens the place follow-up cards (§7.8).
+3. **Places:** parsed places, plus a follow-up card for each unmapped place, plus **+ Add location**.
 4. **Optional "Upload your schedule"** (§9.2).
 5. **This-or-that:** stays as is. Then go to `/dashboard`.
 
@@ -340,7 +356,7 @@ Edit and remove are inline.
 - **Formats:** JPEG, PNG or WebP, up to 8 MB. Downscaled to a long edge of 1600 px or less before upload.
 - **Route:** `POST /api/schedule/parse` (server, Gemini vision, same model race as the profile parse, 15 s budget) returns `ScheduleClass[]`. The prompt rule is that only what's visible gets extracted. A missing building or time stays empty; nothing is guessed.
 - **Review table:** class, days, start and end, building. All fields are editable, and the student confirms each row.
-- **Buildings:** each confirmed building goes through the Google confirm flow to become a `class` place. Trips are counted with the 2-hour rule (§5.5).
+- **Buildings:** each confirmed building is matched against the known buildings list (§6), with the student confirming the match. Buildings that aren't on the list get the "Where is it?" follow-up card. Each one becomes a `class` place, and trips are counted with the 2-hour rule (§5.5).
 - **Fallback:** if parsing fails, the same table opens empty for manual entry.
 - **Image storage:** a thumbnail of about 300 KB or less is kept for preview, Replace and Remove.
 
@@ -359,11 +375,10 @@ Edit and remove are inline.
 
 ## 10. Hidden `/demo` page
 Not linked anywhere. Controls:
-- **Reset demo:** clears lobbies, votes, saved homes, scenarios, the commute cache and onboarding. This is only the browser store; no real data exists elsewhere.
-- **Load demo profile:** skips onboarding by applying the cached demo parse plus MRacing as a confirmed place.
-- **Warm travel times:** see §6.
+- **Reset demo:** clears lobbies, votes, saved homes, scenarios and onboarding. This is only the browser store; no real data exists elsewhere.
+- **Load demo profile:** skips onboarding by applying the cached demo parse plus MRacing (Wilson Center) as a confirmed place.
 - **Invite delay:** 0 / 3 / 5 seconds.
-- **Status:** whether Google and Gemini keys are present (yes/no only, never the values) and the cache size.
+- **Status:** whether the Gemini key is present (yes/no only, never the value) and the store size.
 
 ---
 
@@ -409,7 +424,7 @@ Not linked anywhere. Controls:
 
 ## 12. Demo script (about 5 min)
 1. `/demo` → Reset (done offstage). Open `/`, click **Find My Fit**, then **Michigan**.
-2. **Profile:** type the demo sentence → review → About you (Engineering, MRacing → add as a place; confirm the Google result) → optional schedule screenshot → this-or-that → Dashboard.
+2. **Profile:** type the demo sentence → review → About you (Engineering, MRacing → "Where is it?" → Wilson Center → 3×/wk → Bus → High) → optional schedule screenshot → this-or-that → Dashboard.
 3. **+ Create a Lobby:** "Engineering House", size 4.
 4. **Invite friends:** Jordan and Sam → pending → joined.
 5. **Roommates:** "Students you might get along with". Invite the top "Similar to your profile" card → joined.
@@ -427,8 +442,9 @@ Not linked anywhere. Controls:
   - the bedroom filter
   - the subjective feature rule
   - average commute, with partial coverage
-  - transit missing → null, never a walk substitute
+  - the distance estimator: haversine, detour factor, each mode's speed, "walking is faster" switch, and the ±35% sanity check against OSRM for the 7 campus areas
   - schedule trip counting (the 2-hour boundary)
+  - place follow-up flow: no location is saved until the student picks one
   - similarity: range, symmetry, determinism, reasons
   - weights from priorities
   - the rebuilt flip for every candidate as the 4th member
@@ -439,7 +455,7 @@ Not linked anywhere. Controls:
   - leaving a lobby
   - invite → joined
 - **Routes:**
-  - `/api/places/search`, `/api/commute` and `/api/schedule/parse` with mocked providers: success, timeout, bad input, key missing
+  - `/api/schedule/parse` with a mocked Gemini: success, timeout, bad input, key missing
 - **Browser checks (production build and Vercel), zero console errors:**
   - 10× Explore ↔ listing round trips
   - Find Homes Together from the dashboard and from the lobby page
@@ -459,7 +475,7 @@ Not linked anywhere. Controls:
 3. Lobby UI, invites, the dashboard and the nav switcher.
 4. `compat.ts` with the Roommates page.
 5. **Catalog swap:** remove the fictional listings, add real ones, add the feature evidence. Rebuild the flip and re-tune personas (with tests).
-6. **Google routes,** then places add/edit/remove, transit, average commute, and the `/demo` warm-up. *(Shaurya provides `GOOGLE_MAPS_API_KEY` before this step.)*
+6. **Distance estimator,** the buildings list, the place follow-up cards (add, edit and remove, including drop-a-pin) and the average commute.
 7. Simpler cards, listing page, voting and the collapsed "How we score".
 8. Uploads (profile photo, then the schedule parse) and the gallery for whatever team photos have arrived.
 9. **Polish and full demo run:** desktop plus 390 px. Push and deploy.
@@ -474,6 +490,6 @@ Not linked anywhere. Controls:
 
 ## 15. Risks and notes
 - **Scope vs. time:** all four groups in 3–5 hours is aggressive. The build order puts demo-critical work first.
-- **Google dependency on stage:** use the `/demo` warm-up. If Google fails, the app shows "Bus estimate unavailable" instead of failing, but Maya's commute numbers would then be partial.
-- **The Google key and team photos must arrive before steps 6 and 8.**
+- **Bus times are estimates,** not schedules. They're labeled "est." everywhere, and the tooltip points to the Magic Bus app. If a judge asks, the answer is: distance-based, with a detour factor, stop access and average wait, and the constants are checked against routed walking and biking times in tests.
+- **Team photos must arrive before step 8.** Until then, listings show "Photo coming soon".
 - **Honesty:** no demo tags in the app, at the team's request, so the presenter must say the students are fictional. All listings will be real.
