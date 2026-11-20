@@ -1,3 +1,58 @@
 [
-  { "id": "res_offcampus_search", "campusId": "umich", "title": "U-M off-campus housing search", "summary": "The university's official listing search, with per-bed pricing, commute times and a U-M-only sublet board.", "url": "https://offcampushousing.umich.edu/", "category": "Search" }
+  {
+    "id": "res_offcampus_search",
+    "campusId": "umich",
+    "title": "U-M off-campus housing search",
+    "summary": "The university's official listing marketplace for student rentals near campus, with filters, walk/bike/bus distances and a sublet board.",
+    "url": "https://offcampushousing.umich.edu/",
+    "category": "Search"
+  },
+  {
+    "id": "res_finding_housing",
+    "campusId": "umich",
+    "title": "Finding Housing & Roommates",
+    "summary": "Beyond the Diag's starting point for hunting for a place and a roommate, including U-M-only roommate matching and free sublet posts.",
+    "url": "https://deanofstudents.umich.edu/student-programs/beyond-the-diag/finding-housing-roommates/",
+    "category": "Housing"
+  },
+  {
+    "id": "res_neighborhoods",
+    "campusId": "umich",
+    "title": "Getting to Know Ann Arbor Neighborhoods",
+    "summary": "A plain-language tour of the areas students rent in, so you can compare vibe, distance and noise before touring.",
+    "url": "https://deanofstudents.umich.edu/student-programs/beyond-the-diag/off-campus-living-guide/getting-to-know-ann-arbor-neighborhoods/",
+    "category": "Neighborhoods"
+  },
+  {
+    "id": "res_living_on_own",
+    "campusId": "umich",
+    "title": "Living on Your Own",
+    "summary": "What to know before signing: how leases work, what joint and several liability means for a group, deposits, and subleasing.",
+    "url": "https://deanofstudents.umich.edu/student-programs/beyond-the-diag/off-campus-living-guide/living-on-your-own/",
+    "category": "Leases"
+  },
+  {
+    "id": "res_staying_safe",
+    "campusId": "umich",
+    "title": "Staying Safe",
+    "summary": "Practical safety tips for renting and living off campus, from securing your home to knowing who to call.",
+    "url": "https://deanofstudents.umich.edu/student-programs/beyond-the-diag/off-campus-living-guide/staying-safe/",
+    "category": "Safety"
+  },
+  {
+    "id": "res_beyond_diag",
+    "campusId": "umich",
+    "title": "Beyond the Diag: Off-Campus Living Guide",
+    "summary": "The full Dean of Students guide to living off campus, including being a good neighbor and the Neighborhood Ambassadors program.",
+    "url": "https://deanofstudents.umich.edu/student-programs/beyond-the-diag/off-campus-living-guide/",
+    "category": "Guide"
+  },
+  {
+    "id": "res_transit",
+    "campusId": "umich",
+    "title": "U-M Transit (Magic Bus) — Logistics, Transportation & Parking",
+    "summary": "Campus bus routes, schedules and parking information from U-M Logistics, Transportation & Parking; check here for bus options between a rental and campus.",
+    "url": "https://ltp.umich.edu/campus-transit/",
+    "category": "Transit"
+  }
 ]

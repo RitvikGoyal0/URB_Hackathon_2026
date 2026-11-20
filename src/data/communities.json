@@ -3,16 +3,1210 @@
     "id": "haven_geddes",
     "campusId": "umich",
     "name": "Haven on Geddes",
-    "aliases": ["Haven Ann Arbor", "1700 Geddes"],
+    "aliases": [
+      "Haven Ann Arbor",
+      "1700 Geddes"
+    ],
     "brand": "Haven",
-    "address": "1700 Geddes Ave, Ann Arbor, MI 48104",
-    "lat": 42.2786,
-    "lng": -83.7255,
-    "description": "STUB — Data agent replaces with sourced description and amenity claims.",
-    "amenities": [],
+    "address": "1700 Geddes Avenue, Ann Arbor, MI 48104",
+    "lat": 42.2758,
+    "lng": -83.7268,
+    "description": "Student community at 1700 Geddes Ave beside Nichols Arboretum. The live floor-plans page (checked 2026-11-20) shows two 3-bedroom layouts, a Ranch and a Bi-Level with flex bedroom, priced per bed with private bedrooms. Provider materials describe about 62 homes for groups of roughly 3-6 and list '1.1 mi to Central Campus' (provider claim, not used for scoring; routing uses the OSRM matrix). Coordinates: OpenStreetMap Nominatim geocode of the street address, 2026-11-20.",
+    "amenities": [
+      {
+        "value": "Private bedrooms (Private space option on both 3BR floor plans)",
+        "provenance": {
+          "sourceUrl": "https://www.havenongeddes.com/ann-arbor/haven-on-geddes/student/",
+          "sourceName": "Haven on Geddes (official site)",
+          "observedAt": "2026-11-20",
+          "status": "provider_reported"
+        },
+        "scope": "floorplan"
+      },
+      {
+        "value": "Pets: up to 2 per home; dogs up to 75 lbs combined (see property policy)",
+        "provenance": {
+          "sourceUrl": "https://www.havenongeddes.com/ann-arbor/haven-on-geddes/faqs/",
+          "sourceName": "Haven on Geddes (official site footer)",
+          "observedAt": "2026-11-20",
+          "status": "provider_reported",
+          "note": "Pet policy text in site footer; managed by Elevation Real Estate and Management."
+        },
+        "scope": "community"
+      },
+      {
+        "value": "62 homes, groups of about 3-6",
+        "provenance": {
+          "sourceUrl": "https://www.havenongeddes.com/ann-arbor/haven-on-geddes/student/",
+          "sourceName": "Haven on Geddes (project research brief, MVP_Info §5.1)",
+          "observedAt": "2026-11-20",
+          "status": "unverified",
+          "note": "Listed in the project's earlier research; NOT shown on the live floor-plans page when re-checked 2026-11-20. Confirm with property."
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Ranch and townhome-style layouts",
+        "provenance": {
+          "sourceUrl": "https://www.havenongeddes.com/ann-arbor/haven-on-geddes/student/",
+          "sourceName": "Haven on Geddes (project research brief, MVP_Info §5.1)",
+          "observedAt": "2026-11-20",
+          "status": "unverified",
+          "note": "Listed in the project's earlier research; NOT shown on the live floor-plans page when re-checked 2026-11-20. Confirm with property."
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Full kitchens with stainless appliances and dishwashers",
+        "provenance": {
+          "sourceUrl": "https://www.havenongeddes.com/ann-arbor/haven-on-geddes/student/",
+          "sourceName": "Haven on Geddes (project research brief, MVP_Info §5.1)",
+          "observedAt": "2026-11-20",
+          "status": "unverified",
+          "note": "Listed in the project's earlier research; NOT shown on the live floor-plans page when re-checked 2026-11-20. Confirm with property."
+        },
+        "scope": "community"
+      },
+      {
+        "value": "In-unit laundry on some layouts only",
+        "provenance": {
+          "sourceUrl": "https://www.havenongeddes.com/ann-arbor/haven-on-geddes/student/",
+          "sourceName": "Haven on Geddes (project research brief, MVP_Info §5.1)",
+          "observedAt": "2026-11-20",
+          "status": "unverified",
+          "note": "Listed in the project's earlier research; NOT shown on the live floor-plans page when re-checked 2026-11-20. Confirm with property."
+        },
+        "scope": "floorplan"
+      },
+      {
+        "value": "Balconies / patios",
+        "provenance": {
+          "sourceUrl": "https://www.havenongeddes.com/ann-arbor/haven-on-geddes/student/",
+          "sourceName": "Haven on Geddes (project research brief, MVP_Info §5.1)",
+          "observedAt": "2026-11-20",
+          "status": "unverified",
+          "note": "Listed in the project's earlier research; NOT shown on the live floor-plans page when re-checked 2026-11-20. Confirm with property."
+        },
+        "scope": "floorplan"
+      },
+      {
+        "value": "Utilities included",
+        "provenance": {
+          "sourceUrl": "https://www.havenongeddes.com/ann-arbor/haven-on-geddes/student/",
+          "sourceName": "Haven on Geddes (project research brief, MVP_Info §5.1)",
+          "observedAt": "2026-11-20",
+          "status": "unverified",
+          "note": "Listed in the project's earlier research; NOT shown on the live floor-plans page when re-checked 2026-11-20. Confirm with property."
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Fitness center",
+        "provenance": {
+          "sourceUrl": "https://www.havenongeddes.com/ann-arbor/haven-on-geddes/student/",
+          "sourceName": "Haven on Geddes (project research brief, MVP_Info §5.1)",
+          "observedAt": "2026-11-20",
+          "status": "unverified",
+          "note": "Listed in the project's earlier research; NOT shown on the live floor-plans page when re-checked 2026-11-20. Confirm with property."
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Media / game room",
+        "provenance": {
+          "sourceUrl": "https://www.havenongeddes.com/ann-arbor/haven-on-geddes/student/",
+          "sourceName": "Haven on Geddes (project research brief, MVP_Info §5.1)",
+          "observedAt": "2026-11-20",
+          "status": "unverified",
+          "note": "Listed in the project's earlier research; NOT shown on the live floor-plans page when re-checked 2026-11-20. Confirm with property."
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Study lounge",
+        "provenance": {
+          "sourceUrl": "https://www.havenongeddes.com/ann-arbor/haven-on-geddes/student/",
+          "sourceName": "Haven on Geddes (project research brief, MVP_Info §5.1)",
+          "observedAt": "2026-11-20",
+          "status": "unverified",
+          "note": "Listed in the project's earlier research; NOT shown on the live floor-plans page when re-checked 2026-11-20. Confirm with property."
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Key-fob access",
+        "provenance": {
+          "sourceUrl": "https://www.havenongeddes.com/ann-arbor/haven-on-geddes/student/",
+          "sourceName": "Haven on Geddes (project research brief, MVP_Info §5.1)",
+          "observedAt": "2026-11-20",
+          "status": "unverified",
+          "note": "Listed in the project's earlier research; NOT shown on the live floor-plans page when re-checked 2026-11-20. Confirm with property."
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Next to Nichols Arboretum",
+        "provenance": {
+          "sourceUrl": "https://www.havenongeddes.com/ann-arbor/haven-on-geddes/student/",
+          "sourceName": "Haven on Geddes (project research brief, MVP_Info §5.1)",
+          "observedAt": "2026-11-20",
+          "status": "unverified",
+          "note": "Listed in the project's earlier research; NOT shown on the live floor-plans page when re-checked 2026-11-20. Confirm with property."
+        },
+        "scope": "community"
+      }
+    ],
     "officialUrl": "https://www.havenongeddes.com/ann-arbor/haven-on-geddes/student/",
     "images": [],
-    "provenance": { "sourceUrl": "https://www.havenongeddes.com/ann-arbor/haven-on-geddes/student/", "sourceName": "Haven on Geddes", "observedAt": "2026-11-20", "status": "provider_reported" }
+    "provenance": {
+      "sourceUrl": "https://www.havenongeddes.com/ann-arbor/haven-on-geddes/student/",
+      "sourceName": "Haven on Geddes (official site)",
+      "observedAt": "2026-11-20",
+      "status": "provider_reported"
+    }
+  },
+  {
+    "id": "um_landmark",
+    "campusId": "umich",
+    "name": "Landmark",
+    "aliases": [],
+    "brand": "Other",
+    "address": "1300 South University Ave, Ann Arbor, MI 48104",
+    "lat": 42.2746,
+    "lng": -83.7328,
+    "description": "High-rise student building on South University with individual per-person leases. Listing describes furnished apartments, a fitness center, TV lounge, hot tub and sun deck, with garage parking and bike storage.",
+    "amenities": [
+      {
+        "value": "Fitness center",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/landmark-107340",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "TV lounge",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/landmark-107340",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Business center",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/landmark-107340",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Hot tub and sun deck",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/landmark-107340",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Garage parking (price on request)",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/landmark-107340",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Bike storage",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/landmark-107340",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Internet included",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/landmark-107340",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      }
+    ],
+    "officialUrl": "https://offcampushousing.umich.edu/listing/landmark-107340",
+    "images": [],
+    "provenance": {
+      "sourceUrl": "https://offcampushousing.umich.edu/listing/landmark-107340",
+      "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+      "observedAt": "2026-11-20",
+      "status": "third_party_reported"
+    }
+  },
+  {
+    "id": "um_foundry",
+    "campusId": "umich",
+    "name": "Foundry Lofts",
+    "aliases": [],
+    "brand": "Other",
+    "address": "413 E Huron St, Ann Arbor, MI 48104",
+    "lat": 42.2816,
+    "lng": -83.7433,
+    "description": "Downtown high-rise with per-person leasing, furnished 4-bed/4-bath suites, clubhouse, 24-hour fitness center, billiards and a rooftop terrace.",
+    "amenities": [
+      {
+        "value": "Furnished",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/foundry-lofts-6815",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "24-hour fitness center",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/foundry-lofts-6815",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Clubhouse and billiards",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/foundry-lofts-6815",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Rooftop terrace and fire pits",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/foundry-lofts-6815",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Washer and dryer in unit",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/foundry-lofts-6815",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Heated underground parking ($250/mo)",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/foundry-lofts-6815",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Bedrooms keyed separately; private bathrooms",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/foundry-lofts-6815",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      }
+    ],
+    "officialUrl": "https://offcampushousing.umich.edu/listing/foundry-lofts-6815",
+    "images": [],
+    "provenance": {
+      "sourceUrl": "https://offcampushousing.umich.edu/listing/foundry-lofts-6815",
+      "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+      "observedAt": "2026-11-20",
+      "status": "third_party_reported"
+    }
+  },
+  {
+    "id": "um_yard",
+    "campusId": "umich",
+    "name": "The Yard",
+    "aliases": [],
+    "brand": "Other",
+    "address": "615 South Main Street, Ann Arbor, MI 48104",
+    "lat": 42.2733,
+    "lng": -83.7486,
+    "description": "Furnished per-person apartments south of downtown with a private shuttle to campus, 24-hour fitness, heated pool, game and cyber lounges and included underground parking.",
+    "amenities": [
+      {
+        "value": "Furnished",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/the-yard-57184",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "24-hour fitness center",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/the-yard-57184",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Swimming pool",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/the-yard-57184",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Game room and cyber lounge",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/the-yard-57184",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Underground parking included",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/the-yard-57184",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Washer and dryer in unit",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/the-yard-57184",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Pets allowed",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/the-yard-57184",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Private shuttle",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/the-yard-57184",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      }
+    ],
+    "officialUrl": "https://offcampushousing.umich.edu/listing/the-yard-57184",
+    "images": [],
+    "provenance": {
+      "sourceUrl": "https://offcampushousing.umich.edu/listing/the-yard-57184",
+      "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+      "observedAt": "2026-11-20",
+      "status": "third_party_reported"
+    }
+  },
+  {
+    "id": "um_trails",
+    "campusId": "umich",
+    "name": "University Trails",
+    "aliases": [],
+    "brand": "Other",
+    "address": "2327 Erie Drive, Ann Arbor, MI 48105",
+    "lat": 42.3095,
+    "lng": -83.737,
+    "description": "Newer townhome-style community north of campus with a free private shuttle to U-M and free surface parking. Per-person leases on 4-bed/4.5-bath homes.",
+    "amenities": [
+      {
+        "value": "Free private shuttle with stops at U-M campus",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/university-trails-107271",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Free parking",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/university-trails-107271",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Indoor bike storage",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/university-trails-107271",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "24-hour emergency maintenance",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/university-trails-107271",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      }
+    ],
+    "officialUrl": "https://offcampushousing.umich.edu/listing/university-trails-107271",
+    "images": [],
+    "provenance": {
+      "sourceUrl": "https://offcampushousing.umich.edu/listing/university-trails-107271",
+      "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+      "observedAt": "2026-11-20",
+      "status": "third_party_reported"
+    }
+  },
+  {
+    "id": "um_courtyards",
+    "campusId": "umich",
+    "name": "The Courtyards Apartments",
+    "aliases": [],
+    "brand": "Other",
+    "address": "1780 Broadway Street, Ann Arbor, MI 48105",
+    "lat": 42.2966,
+    "lng": -83.7211,
+    "description": "Garden-style complex off Broadway near North Campus (site lists a 13-minute walk to campus). Furnished 4x4 apartments with in-unit washer/dryer, game room, fitness center and study rooms.",
+    "amenities": [
+      {
+        "value": "Furnished",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/the-courtyards-apartments-17490",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "In-unit washer and dryer",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/the-courtyards-apartments-17490",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Game room, billiards and clubhouse",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/the-courtyards-apartments-17490",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "24-hour fitness center",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/the-courtyards-apartments-17490",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Study rooms and free printing",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/the-courtyards-apartments-17490",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Heat, gas and internet included",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/the-courtyards-apartments-17490",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Garage parking (monthly fee)",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/the-courtyards-apartments-17490",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      }
+    ],
+    "officialUrl": "https://offcampushousing.umich.edu/listing/the-courtyards-apartments-17490",
+    "images": [],
+    "provenance": {
+      "sourceUrl": "https://offcampushousing.umich.edu/listing/the-courtyards-apartments-17490",
+      "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+      "observedAt": "2026-11-20",
+      "status": "third_party_reported"
+    }
+  },
+  {
+    "id": "um_depot",
+    "campusId": "umich",
+    "name": "106 Depot St",
+    "aliases": [],
+    "brand": "Other",
+    "address": "106 Depot St, Ann Arbor, MI 48104",
+    "lat": 42.2887,
+    "lng": -83.7469,
+    "description": "Four-bedroom, two-bath house near N Fourth and Depot, close to Kerrytown. Listing describes a remodeled kitchen, central air, a side deck, free parking and free laundry.",
+    "amenities": [
+      {
+        "value": "Remodeled kitchen with dishwasher",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/106-depot-st-ann-arbor-mi-48104-usa-118298",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Central air conditioning",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/106-depot-st-ann-arbor-mi-48104-usa-118298",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Free parking",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/106-depot-st-ann-arbor-mi-48104-usa-118298",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Free laundry",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/106-depot-st-ann-arbor-mi-48104-usa-118298",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Private side deck",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/106-depot-st-ann-arbor-mi-48104-usa-118298",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Optional furnishings",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/106-depot-st-ann-arbor-mi-48104-usa-118298",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      }
+    ],
+    "officialUrl": "https://offcampushousing.umich.edu/listing/106-depot-st-ann-arbor-mi-48104-usa-118298",
+    "images": [],
+    "provenance": {
+      "sourceUrl": "https://offcampushousing.umich.edu/listing/106-depot-st-ann-arbor-mi-48104-usa-118298",
+      "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+      "observedAt": "2026-11-20",
+      "status": "third_party_reported"
+    }
+  },
+  {
+    "id": "um_miller",
+    "campusId": "umich",
+    "name": "209 Miller Ave",
+    "aliases": [],
+    "brand": "Other",
+    "address": "209 Miller Ave, Ann Arbor, MI 48104",
+    "lat": 42.2832,
+    "lng": -83.7502,
+    "description": "Four-bedroom, two-bath house one block from downtown, near Kerrytown and the Old West Side. Listing mentions a big modern kitchen, free laundry and parking, and a fenced back garden with deck.",
+    "amenities": [
+      {
+        "value": "Big modern kitchen with dishwasher",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/209-miller-ave-ann-arbor-mi-48104-usa-118317",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Free laundry",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/209-miller-ave-ann-arbor-mi-48104-usa-118317",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Free parking",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/209-miller-ave-ann-arbor-mi-48104-usa-118317",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Fenced garden and wood deck",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/209-miller-ave-ann-arbor-mi-48104-usa-118317",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Optional furnishings",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/209-miller-ave-ann-arbor-mi-48104-usa-118317",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Hardwood floors",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/209-miller-ave-ann-arbor-mi-48104-usa-118317",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      }
+    ],
+    "officialUrl": "https://offcampushousing.umich.edu/listing/209-miller-ave-ann-arbor-mi-48104-usa-118317",
+    "images": [],
+    "provenance": {
+      "sourceUrl": "https://offcampushousing.umich.edu/listing/209-miller-ave-ann-arbor-mi-48104-usa-118317",
+      "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+      "observedAt": "2026-11-20",
+      "status": "third_party_reported"
+    }
+  },
+  {
+    "id": "um_smain",
+    "campusId": "umich",
+    "name": "720 S Main St",
+    "aliases": [],
+    "brand": "Other",
+    "address": "720 S Main St, Ann Arbor, MI 48104",
+    "lat": 42.2721,
+    "lng": -83.7499,
+    "description": "Four-bedroom, one-bath house on S Main with garage, fenced yard and basement laundry. Pets allowed.",
+    "amenities": [
+      {
+        "value": "Garage parking included",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/720-s-main-st-108751",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Basement laundry (washer/dryer)",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/720-s-main-st-108751",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Central air conditioning",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/720-s-main-st-108751",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Fenced yard",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/720-s-main-st-108751",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Pets allowed",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/720-s-main-st-108751",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Furnished packages available",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/720-s-main-st-108751",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      }
+    ],
+    "officialUrl": "https://offcampushousing.umich.edu/listing/720-s-main-st-108751",
+    "images": [],
+    "provenance": {
+      "sourceUrl": "https://offcampushousing.umich.edu/listing/720-s-main-st-108751",
+      "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+      "observedAt": "2026-11-20",
+      "status": "third_party_reported"
+    }
+  },
+  {
+    "id": "um_mary",
+    "campusId": "umich",
+    "name": "602 Mary Ct",
+    "aliases": [],
+    "brand": "Other",
+    "address": "602 Mary Ct, Ann Arbor, MI 48104",
+    "lat": 42.27,
+    "lng": -83.7416,
+    "description": "Four-bedroom house described as a '4 Bedroom / 5 Person home' with off-street parking, yard and a dishwasher.",
+    "amenities": [
+      {
+        "value": "Off-street parking included",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/602-mary-ct-ann-arbor-mi-48104-113683",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Dishwasher",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/602-mary-ct-ann-arbor-mi-48104-113683",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Yard and porch",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/602-mary-ct-ann-arbor-mi-48104-113683",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "On-site laundry",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/602-mary-ct-ann-arbor-mi-48104-113683",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      }
+    ],
+    "officialUrl": "https://offcampushousing.umich.edu/listing/602-mary-ct-ann-arbor-mi-48104-113683",
+    "images": [],
+    "provenance": {
+      "sourceUrl": "https://offcampushousing.umich.edu/listing/602-mary-ct-ann-arbor-mi-48104-113683",
+      "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+      "observedAt": "2026-11-20",
+      "status": "third_party_reported"
+    }
+  },
+  {
+    "id": "um_ashley",
+    "campusId": "umich",
+    "name": "217 N Ashley St",
+    "aliases": [],
+    "brand": "Other",
+    "address": "215/217 N Ashley St, Ann Arbor, MI 48103",
+    "lat": 42.2829,
+    "lng": -83.7499,
+    "description": "Bi-level duplex a couple of blocks from Kerrytown and Main Street with three rooms, a spacious kitchen, central A/C and off-street parking (2 spots included). Listing says no hidden leasing or move-in fees.",
+    "amenities": [
+      {
+        "value": "Spacious kitchen",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/217-n.-ashley-st-110704",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Central A/C",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/217-n.-ashley-st-110704",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Washer and dryer",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/217-n.-ashley-st-110704",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Dishwasher",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/217-n.-ashley-st-110704",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "2 off-street parking spots included",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/217-n.-ashley-st-110704",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Trash, lawn care and snow removal included",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/217-n.-ashley-st-110704",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      }
+    ],
+    "officialUrl": "https://offcampushousing.umich.edu/listing/217-n.-ashley-st-110704",
+    "images": [],
+    "provenance": {
+      "sourceUrl": "https://offcampushousing.umich.edu/listing/217-n.-ashley-st-110704",
+      "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+      "observedAt": "2026-11-20",
+      "status": "third_party_reported"
+    }
+  },
+  {
+    "id": "um_oldwest",
+    "campusId": "umich",
+    "name": "443 3rd St",
+    "aliases": [],
+    "brand": "Other",
+    "address": "443 3rd St, Ann Arbor, MI 48103",
+    "lat": 42.2766,
+    "lng": -83.7533,
+    "description": "First-floor one-bedroom in a historic Old West Side duplex with private entry, den, pantry, basement laundry and off-street parking.",
+    "amenities": [
+      {
+        "value": "Private entry",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/old-west-side-apartment-443-3rd-st-ann-arbor-mi-48103-111932",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Basement laundry (private)",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/old-west-side-apartment-443-3rd-st-ann-arbor-mi-48103-111932",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Off-street parking included",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/old-west-side-apartment-443-3rd-st-ann-arbor-mi-48103-111932",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Hardwood floors",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/old-west-side-apartment-443-3rd-st-ann-arbor-mi-48103-111932",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Porch and yard",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/old-west-side-apartment-443-3rd-st-ann-arbor-mi-48103-111932",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      }
+    ],
+    "officialUrl": "https://offcampushousing.umich.edu/listing/old-west-side-apartment-443-3rd-st-ann-arbor-mi-48103-111932",
+    "images": [],
+    "provenance": {
+      "sourceUrl": "https://offcampushousing.umich.edu/listing/old-west-side-apartment-443-3rd-st-ann-arbor-mi-48103-111932",
+      "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+      "observedAt": "2026-11-20",
+      "status": "third_party_reported"
+    }
+  },
+  {
+    "id": "um_hub",
+    "campusId": "umich",
+    "name": "Hub Ann Arbor State",
+    "aliases": [],
+    "brand": "Other",
+    "address": "723 Packard Street, Ann Arbor, MI 48104",
+    "lat": 42.2704,
+    "lng": -83.7397,
+    "description": "Coming-soon studio building near campus listing a fitness center, pool, group study space and pet-friendly policy. Pricing and availability are not published.",
+    "amenities": [
+      {
+        "value": "Fitness center",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/hub-ann-arbor-state-235816",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Swimming pool",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/hub-ann-arbor-state-235816",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Group study space",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/hub-ann-arbor-state-235816",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Pets allowed",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/hub-ann-arbor-state-235816",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Bike repair station",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/hub-ann-arbor-state-235816",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      }
+    ],
+    "officialUrl": "https://offcampushousing.umich.edu/listing/hub-ann-arbor-state-235816",
+    "images": [],
+    "provenance": {
+      "sourceUrl": "https://offcampushousing.umich.edu/listing/hub-ann-arbor-state-235816",
+      "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+      "observedAt": "2026-11-20",
+      "status": "third_party_reported"
+    }
+  },
+  {
+    "id": "um_forest",
+    "campusId": "umich",
+    "name": "Forest Edge (727 S Forest Ave)",
+    "aliases": [],
+    "brand": "Other",
+    "address": "727 S Forest Ave, Ann Arbor, MI 48104",
+    "lat": 42.2727,
+    "lng": -83.7327,
+    "description": "Brick manor building on S Forest with 4-bedroom, 2-bath apartments, furnished, with wood floors, high ceilings, community laundry and covered garage parking for an annual fee.",
+    "amenities": [
+      {
+        "value": "Furnished",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/727-s.-forest-ave-107804",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Granite countertops and dishwasher",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/727-s.-forest-ave-107804",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Central A/C",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/727-s.-forest-ave-107804",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Community laundry (on-site)",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/727-s.-forest-ave-107804",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Garage parking ($1,400/year)",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/727-s.-forest-ave-107804",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Trash, lawn care and snow removal included",
+        "provenance": {
+          "sourceUrl": "https://offcampushousing.umich.edu/listing/727-s.-forest-ave-107804",
+          "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+          "observedAt": "2026-11-20",
+          "status": "third_party_reported"
+        },
+        "scope": "community"
+      }
+    ],
+    "officialUrl": "https://offcampushousing.umich.edu/listing/727-s.-forest-ave-107804",
+    "images": [],
+    "provenance": {
+      "sourceUrl": "https://offcampushousing.umich.edu/listing/727-s.-forest-ave-107804",
+      "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+      "observedAt": "2026-11-20",
+      "status": "third_party_reported"
+    }
   },
   {
     "id": "stub_packard",
@@ -22,11 +1216,47 @@
     "brand": "Synthetic",
     "address": "Near Packard St (fictional)",
     "lat": 42.2712,
-    "lng": -83.7360,
-    "description": "STUB synthetic listing for parallel development.",
-    "amenities": [],
+    "lng": -83.736,
+    "description": "FICTIONAL demo listing. A budget 4-bedroom house on the south-central side, built to be the default top pick under the seeded budgets.",
+    "amenities": [
+      {
+        "value": "Parking",
+        "provenance": {
+          "sourceUrl": "synthetic://demo",
+          "sourceName": "Demo data (fictional)",
+          "observedAt": "2026-11-20",
+          "status": "synthetic"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "In-unit laundry",
+        "provenance": {
+          "sourceUrl": "synthetic://demo",
+          "sourceName": "Demo data (fictional)",
+          "observedAt": "2026-11-20",
+          "status": "synthetic"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Dishwasher",
+        "provenance": {
+          "sourceUrl": "synthetic://demo",
+          "sourceName": "Demo data (fictional)",
+          "observedAt": "2026-11-20",
+          "status": "synthetic"
+        },
+        "scope": "community"
+      }
+    ],
     "images": [],
-    "provenance": { "sourceUrl": "synthetic://demo", "sourceName": "Demo data (fictional)", "observedAt": "2026-11-20", "status": "synthetic" }
+    "provenance": {
+      "sourceUrl": "synthetic://demo",
+      "sourceName": "Demo data (fictional)",
+      "observedAt": "2026-11-20",
+      "status": "synthetic"
+    }
   },
   {
     "id": "stub_northside",
@@ -35,11 +1265,177 @@
     "aliases": [],
     "brand": "Synthetic",
     "address": "Near Plymouth Rd (fictional)",
-    "lat": 42.2960,
-    "lng": -83.7190,
-    "description": "STUB synthetic listing for parallel development.",
-    "amenities": [],
+    "lat": 42.296,
+    "lng": -83.719,
+    "description": "FICTIONAL demo listing. A North Campus garden-style 4-bedroom with a large shared kitchen, priced just above the tightest budget so a budget change flips the ranking.",
+    "amenities": [
+      {
+        "value": "Large kitchen",
+        "provenance": {
+          "sourceUrl": "synthetic://demo",
+          "sourceName": "Demo data (fictional)",
+          "observedAt": "2026-11-20",
+          "status": "synthetic"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Parking",
+        "provenance": {
+          "sourceUrl": "synthetic://demo",
+          "sourceName": "Demo data (fictional)",
+          "observedAt": "2026-11-20",
+          "status": "synthetic"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "In-unit laundry",
+        "provenance": {
+          "sourceUrl": "synthetic://demo",
+          "sourceName": "Demo data (fictional)",
+          "observedAt": "2026-11-20",
+          "status": "synthetic"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Shared lounge",
+        "provenance": {
+          "sourceUrl": "synthetic://demo",
+          "sourceName": "Demo data (fictional)",
+          "observedAt": "2026-11-20",
+          "status": "synthetic"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Air conditioning",
+        "provenance": {
+          "sourceUrl": "synthetic://demo",
+          "sourceName": "Demo data (fictional)",
+          "observedAt": "2026-11-20",
+          "status": "synthetic"
+        },
+        "scope": "community"
+      }
+    ],
     "images": [],
-    "provenance": { "sourceUrl": "synthetic://demo", "sourceName": "Demo data (fictional)", "observedAt": "2026-11-20", "status": "synthetic" }
+    "provenance": {
+      "sourceUrl": "synthetic://demo",
+      "sourceName": "Demo data (fictional)",
+      "observedAt": "2026-11-20",
+      "status": "synthetic"
+    }
+  },
+  {
+    "id": "syn_kerrytown_row",
+    "campusId": "umich",
+    "name": "Kerrytown Row (Demo)",
+    "aliases": [],
+    "brand": "Synthetic",
+    "address": "Near Detroit St (fictional)",
+    "lat": 42.2862,
+    "lng": -83.7452,
+    "description": "FICTIONAL demo listing. A pricier Kerrytown-area 4-bedroom townhome with parking and a large kitchen.",
+    "amenities": [
+      {
+        "value": "Large kitchen",
+        "provenance": {
+          "sourceUrl": "synthetic://demo",
+          "sourceName": "Demo data (fictional)",
+          "observedAt": "2026-11-20",
+          "status": "synthetic"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Parking",
+        "provenance": {
+          "sourceUrl": "synthetic://demo",
+          "sourceName": "Demo data (fictional)",
+          "observedAt": "2026-11-20",
+          "status": "synthetic"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "In-unit laundry",
+        "provenance": {
+          "sourceUrl": "synthetic://demo",
+          "sourceName": "Demo data (fictional)",
+          "observedAt": "2026-11-20",
+          "status": "synthetic"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Air conditioning",
+        "provenance": {
+          "sourceUrl": "synthetic://demo",
+          "sourceName": "Demo data (fictional)",
+          "observedAt": "2026-11-20",
+          "status": "synthetic"
+        },
+        "scope": "community"
+      }
+    ],
+    "images": [],
+    "provenance": {
+      "sourceUrl": "synthetic://demo",
+      "sourceName": "Demo data (fictional)",
+      "observedAt": "2026-11-20",
+      "status": "synthetic"
+    }
+  },
+  {
+    "id": "syn_stadium_townhomes",
+    "campusId": "umich",
+    "name": "Stadium Townhomes (Demo)",
+    "aliases": [],
+    "brand": "Synthetic",
+    "address": "Near Stadium Blvd (fictional)",
+    "lat": 42.265,
+    "lng": -83.757,
+    "description": "FICTIONAL demo listing. A south-of-campus 4-bedroom townhome with in-unit laundry and parking, farther from North Campus.",
+    "amenities": [
+      {
+        "value": "Parking",
+        "provenance": {
+          "sourceUrl": "synthetic://demo",
+          "sourceName": "Demo data (fictional)",
+          "observedAt": "2026-11-20",
+          "status": "synthetic"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "In-unit laundry",
+        "provenance": {
+          "sourceUrl": "synthetic://demo",
+          "sourceName": "Demo data (fictional)",
+          "observedAt": "2026-11-20",
+          "status": "synthetic"
+        },
+        "scope": "community"
+      },
+      {
+        "value": "Pets allowed",
+        "provenance": {
+          "sourceUrl": "synthetic://demo",
+          "sourceName": "Demo data (fictional)",
+          "observedAt": "2026-11-20",
+          "status": "synthetic"
+        },
+        "scope": "community"
+      }
+    ],
+    "images": [],
+    "provenance": {
+      "sourceUrl": "synthetic://demo",
+      "sourceName": "Demo data (fictional)",
+      "observedAt": "2026-11-20",
+      "status": "synthetic"
+    }
   }
 ]

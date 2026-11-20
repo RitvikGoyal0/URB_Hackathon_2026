@@ -12,13 +12,834 @@
       "basis": "per_unit",
       "fees": [],
       "utilitiesIncluded": true,
-      "secondary": { "min": 1095, "max": 1335, "basis": "per_bedroom", "label": "Per-bed pricing" },
-      "provenance": { "sourceUrl": "https://www.havenongeddes.com/ann-arbor/haven-on-geddes/student/", "sourceName": "Haven on Geddes", "observedAt": "2026-11-20", "status": "provider_reported" }
+      "secondary": {
+        "min": 1095,
+        "max": 1335,
+        "basis": "per_bedroom",
+        "label": "Per-bed pricing"
+      },
+      "provenance": {
+        "sourceUrl": "https://www.havenongeddes.com/ann-arbor/haven-on-geddes/student/",
+        "sourceName": "Haven on Geddes (project research brief)",
+        "observedAt": "2026-11-20",
+        "status": "unverified",
+        "note": "Whole-unit $4,396/mo (about $1,099 per person) carried over from the project brief. On re-check 2026-11-20 the live floor-plans page showed only 3BR layouts at $1,100 and $1,335 per bed (no 4BR, no whole-unit price). Verify before presenting as provider-reported."
+      }
     },
-    "availability": { "status": "unknown", "provenance": { "sourceUrl": "https://www.havenongeddes.com/ann-arbor/haven-on-geddes/student/", "sourceName": "Haven on Geddes", "observedAt": "2026-11-20", "status": "provider_reported" } },
-    "features": { "inUnitLaundry": null, "dishwasher": true, "parking": null, "furnished": null, "largeKitchen": true, "socialAmenities": true, "quietBuilding": null, "petFriendly": null, "ac": null },
+    "availability": {
+      "status": "unknown",
+      "provenance": {
+        "sourceUrl": "https://www.havenongeddes.com/ann-arbor/haven-on-geddes/student/",
+        "sourceName": "Haven on Geddes (official site)",
+        "observedAt": "2026-11-20",
+        "status": "provider_reported"
+      }
+    },
+    "features": {
+      "inUnitLaundry": null,
+      "dishwasher": true,
+      "parking": null,
+      "furnished": null,
+      "largeKitchen": true,
+      "socialAmenities": true,
+      "quietBuilding": null,
+      "petFriendly": null,
+      "ac": null
+    },
     "sourceType": "haven",
-    "provenance": { "sourceUrl": "https://www.havenongeddes.com/ann-arbor/haven-on-geddes/student/", "sourceName": "Haven on Geddes", "observedAt": "2026-11-20", "status": "provider_reported" },
+    "provenance": {
+      "sourceUrl": "https://www.havenongeddes.com/ann-arbor/haven-on-geddes/student/",
+      "sourceName": "Haven on Geddes",
+      "observedAt": "2026-11-20",
+      "status": "provider_reported",
+      "note": "4BR whole-unit offering per project brief; see rent note."
+    },
+    "images": []
+  },
+  {
+    "id": "geddes_3br_bilevel",
+    "communityId": "haven_geddes",
+    "name": "Haven on Geddes — 3BR Bi-Level w/ Flex Bedroom",
+    "housingType": "townhome",
+    "bedrooms": 3,
+    "bathrooms": 1.5,
+    "sqft": 952,
+    "privateBedrooms": true,
+    "rent": {
+      "amount": 1100,
+      "basis": "per_bedroom",
+      "fees": [],
+      "utilitiesIncluded": null,
+      "provenance": {
+        "sourceUrl": "https://www.havenongeddes.com/ann-arbor/haven-on-geddes/student/",
+        "sourceName": "Haven on Geddes (official site)",
+        "observedAt": "2026-11-20",
+        "status": "provider_reported",
+        "note": "$1,100 per bed, 'Private' space option. Lease term listed: '27-'28 (08/26/2027 - 07/27/2028). Deposit shown as N/A."
+      }
+    },
+    "availability": {
+      "status": "unknown",
+      "provenance": {
+        "sourceUrl": "https://www.havenongeddes.com/ann-arbor/haven-on-geddes/student/",
+        "sourceName": "Haven on Geddes (official site)",
+        "observedAt": "2026-11-20",
+        "status": "provider_reported",
+        "note": "Lease term 08/26/2027 - 07/27/2028 shown; no move-in availability stated."
+      }
+    },
+    "features": {
+      "inUnitLaundry": null,
+      "dishwasher": null,
+      "parking": null,
+      "furnished": null,
+      "largeKitchen": null,
+      "socialAmenities": null,
+      "quietBuilding": null,
+      "petFriendly": null,
+      "ac": null
+    },
+    "sourceType": "haven",
+    "provenance": {
+      "sourceUrl": "https://www.havenongeddes.com/ann-arbor/haven-on-geddes/student/",
+      "sourceName": "Haven on Geddes (official site)",
+      "observedAt": "2026-11-20",
+      "status": "provider_reported"
+    },
+    "images": []
+  },
+  {
+    "id": "geddes_3br_ranch",
+    "communityId": "haven_geddes",
+    "name": "Haven on Geddes — 3BR Ranch",
+    "housingType": "ranch",
+    "bedrooms": 3,
+    "bathrooms": 1,
+    "sqft": 968,
+    "privateBedrooms": true,
+    "rent": {
+      "amount": 1335,
+      "basis": "per_bedroom",
+      "fees": [],
+      "utilitiesIncluded": null,
+      "provenance": {
+        "sourceUrl": "https://www.havenongeddes.com/ann-arbor/haven-on-geddes/student/",
+        "sourceName": "Haven on Geddes (official site)",
+        "observedAt": "2026-11-20",
+        "status": "provider_reported",
+        "note": "$1,335 per bed, 'Private' space option. Lease term listed: '27-'28 (08/26/2027 - 07/27/2028). Deposit shown as N/A."
+      }
+    },
+    "availability": {
+      "status": "unknown",
+      "provenance": {
+        "sourceUrl": "https://www.havenongeddes.com/ann-arbor/haven-on-geddes/student/",
+        "sourceName": "Haven on Geddes (official site)",
+        "observedAt": "2026-11-20",
+        "status": "provider_reported",
+        "note": "Lease term 08/26/2027 - 07/27/2028 shown; no move-in availability stated."
+      }
+    },
+    "features": {
+      "inUnitLaundry": null,
+      "dishwasher": null,
+      "parking": null,
+      "furnished": null,
+      "largeKitchen": null,
+      "socialAmenities": null,
+      "quietBuilding": null,
+      "petFriendly": null,
+      "ac": null
+    },
+    "sourceType": "haven",
+    "provenance": {
+      "sourceUrl": "https://www.havenongeddes.com/ann-arbor/haven-on-geddes/student/",
+      "sourceName": "Haven on Geddes (official site)",
+      "observedAt": "2026-11-20",
+      "status": "provider_reported"
+    },
+    "images": []
+  },
+  {
+    "id": "um_landmark_4br",
+    "communityId": "um_landmark",
+    "name": "Landmark — 4BR (per-bed lease)",
+    "housingType": "high_rise",
+    "bedrooms": 4,
+    "bathrooms": 3,
+    "sqft": 1216,
+    "privateBedrooms": null,
+    "rent": {
+      "amount": 1629,
+      "amountMax": 1730,
+      "basis": "per_bedroom",
+      "fees": [
+        {
+          "label": "Utility billing admin fee ($6-$10 per installment, usage-based; lower bound shown)",
+          "monthly": 6,
+          "scope": "per_person"
+        }
+      ],
+      "utilitiesIncluded": null,
+      "provenance": {
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/landmark-107340",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+        "observedAt": "2026-11-20",
+        "status": "third_party_reported",
+        "note": "Site shows $1,629-$2,475 'per installment per person' across all Landmark floor plans; 4BR plans: 4X3H $1,629-$1,730 (3 bath, 1,216 sq ft), 4X2F $1,685-$1,715. One-time fees (application, admin, deposit) are not included in monthly rent. Admin $200 and application $35 per resident; security deposit $1,300-$2,000."
+      }
+    },
+    "availability": {
+      "status": "available",
+      "provenance": {
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/landmark-107340",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+        "observedAt": "2026-11-20",
+        "status": "third_party_reported"
+      },
+      "date": "2027-08-19"
+    },
+    "features": {
+      "inUnitLaundry": null,
+      "dishwasher": true,
+      "parking": true,
+      "furnished": true,
+      "largeKitchen": null,
+      "socialAmenities": true,
+      "quietBuilding": null,
+      "petFriendly": false,
+      "ac": true
+    },
+    "sourceType": "umich_offcampus",
+    "provenance": {
+      "sourceUrl": "https://offcampushousing.umich.edu/listing/landmark-107340",
+      "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+      "observedAt": "2026-11-20",
+      "status": "third_party_reported"
+    },
+    "images": []
+  },
+  {
+    "id": "um_foundry_4br",
+    "communityId": "um_foundry",
+    "name": "Foundry Lofts — 4BR/4BA (per-bed lease)",
+    "housingType": "high_rise",
+    "bedrooms": 4,
+    "bathrooms": 4,
+    "privateBedrooms": true,
+    "rent": {
+      "amount": 1149,
+      "amountMax": 1747,
+      "basis": "per_bedroom",
+      "fees": [],
+      "utilitiesIncluded": null,
+      "provenance": {
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/foundry-lofts-6815",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+        "observedAt": "2026-11-20",
+        "status": "third_party_reported",
+        "note": "Site shows 'Per Person Only'. 4x4 plans: D3 $1,149, D1/D2 $1,747 per bed. Several utilities (gas, water/sewer, internet, cable, trash) are listed under Utilities; confirm what is included. Heated underground parking is an optional $250/mo."
+      }
+    },
+    "availability": {
+      "status": "available",
+      "provenance": {
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/foundry-lofts-6815",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+        "observedAt": "2026-11-20",
+        "status": "third_party_reported",
+        "note": "Listed as 'Available: Now'; 4x4 floor plans show an earlier-year date."
+      }
+    },
+    "features": {
+      "inUnitLaundry": true,
+      "dishwasher": true,
+      "parking": true,
+      "furnished": true,
+      "largeKitchen": null,
+      "socialAmenities": true,
+      "quietBuilding": null,
+      "petFriendly": false,
+      "ac": true
+    },
+    "sourceType": "umich_offcampus",
+    "provenance": {
+      "sourceUrl": "https://offcampushousing.umich.edu/listing/foundry-lofts-6815",
+      "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+      "observedAt": "2026-11-20",
+      "status": "third_party_reported"
+    },
+    "images": []
+  },
+  {
+    "id": "um_yard_4br",
+    "communityId": "um_yard",
+    "name": "The Yard — 4BR (per-bed lease)",
+    "housingType": "high_rise",
+    "bedrooms": 4,
+    "bathrooms": 3,
+    "sqft": 1434,
+    "privateBedrooms": null,
+    "rent": {
+      "amount": 1399,
+      "amountMax": 1574,
+      "basis": "per_bedroom",
+      "fees": [],
+      "utilitiesIncluded": null,
+      "provenance": {
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/the-yard-57184",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+        "observedAt": "2026-11-20",
+        "status": "third_party_reported",
+        "note": "Site shows 'Per Person Only'. 4BR plans range $1,399 (4BR/4BA-B) to $1,574 (4BR/4BA-C) per bed; sample plan 4BR/3BA 1,434 sq ft at $1,529. High-speed internet listed as a utility."
+      }
+    },
+    "availability": {
+      "status": "available",
+      "provenance": {
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/the-yard-57184",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+        "observedAt": "2026-11-20",
+        "status": "third_party_reported"
+      },
+      "date": "2027-08-25"
+    },
+    "features": {
+      "inUnitLaundry": true,
+      "dishwasher": null,
+      "parking": true,
+      "furnished": true,
+      "largeKitchen": null,
+      "socialAmenities": true,
+      "quietBuilding": null,
+      "petFriendly": true,
+      "ac": true
+    },
+    "sourceType": "umich_offcampus",
+    "provenance": {
+      "sourceUrl": "https://offcampushousing.umich.edu/listing/the-yard-57184",
+      "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+      "observedAt": "2026-11-20",
+      "status": "third_party_reported"
+    },
+    "images": []
+  },
+  {
+    "id": "um_trails_4br",
+    "communityId": "um_trails",
+    "name": "University Trails — 4BR Townhome (per-bed lease)",
+    "housingType": "townhome",
+    "bedrooms": 4,
+    "bathrooms": 4.5,
+    "sqft": 1537,
+    "privateBedrooms": null,
+    "rent": {
+      "amount": 1199,
+      "basis": "per_bedroom",
+      "fees": [],
+      "utilitiesIncluded": null,
+      "provenance": {
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/university-trails-107271",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+        "observedAt": "2026-11-20",
+        "status": "third_party_reported",
+        "note": "Site shows 'Per Person Only'. 2027-28 plan D1 (4 bed / 4.5 bath, 1,537 sq ft) at $1,199 per bed; other 4BR plans listed for an earlier term at $1,189-$1,219."
+      }
+    },
+    "availability": {
+      "status": "available",
+      "provenance": {
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/university-trails-107271",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+        "observedAt": "2026-11-20",
+        "status": "third_party_reported"
+      },
+      "date": "2027-08-23"
+    },
+    "features": {
+      "inUnitLaundry": null,
+      "dishwasher": null,
+      "parking": true,
+      "furnished": null,
+      "largeKitchen": null,
+      "socialAmenities": null,
+      "quietBuilding": null,
+      "petFriendly": null,
+      "ac": null
+    },
+    "sourceType": "umich_offcampus",
+    "provenance": {
+      "sourceUrl": "https://offcampushousing.umich.edu/listing/university-trails-107271",
+      "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+      "observedAt": "2026-11-20",
+      "status": "third_party_reported"
+    },
+    "images": []
+  },
+  {
+    "id": "um_courtyards_4br",
+    "communityId": "um_courtyards",
+    "name": "The Courtyards — 4x4 Apartment (per-bed lease)",
+    "housingType": "garden_apartment",
+    "bedrooms": 4,
+    "bathrooms": 4,
+    "sqft": 1200,
+    "privateBedrooms": true,
+    "rent": {
+      "amount": 1299,
+      "basis": "per_bedroom",
+      "fees": [],
+      "utilitiesIncluded": null,
+      "provenance": {
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/the-courtyards-apartments-17490",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+        "observedAt": "2026-11-20",
+        "status": "third_party_reported",
+        "note": "Site header shows '$1299-$2249 /mo' with rent style 'per unit', but the 4x4 plan at $1,299 sits beside a 1x1 at $2,249 and the listing is tagged 'Per Person Leasing', so it is recorded as per bed. Confirm basis with property. Garage parking price not stated."
+      }
+    },
+    "availability": {
+      "status": "available",
+      "provenance": {
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/the-courtyards-apartments-17490",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+        "observedAt": "2026-11-20",
+        "status": "third_party_reported",
+        "note": "Listed as 'Available: Now'; 4x4 floor plan shows an earlier-year date."
+      }
+    },
+    "features": {
+      "inUnitLaundry": true,
+      "dishwasher": true,
+      "parking": true,
+      "furnished": true,
+      "largeKitchen": null,
+      "socialAmenities": true,
+      "quietBuilding": null,
+      "petFriendly": null,
+      "ac": true
+    },
+    "sourceType": "umich_offcampus",
+    "provenance": {
+      "sourceUrl": "https://offcampushousing.umich.edu/listing/the-courtyards-apartments-17490",
+      "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+      "observedAt": "2026-11-20",
+      "status": "third_party_reported"
+    },
+    "images": []
+  },
+  {
+    "id": "um_depot_4br",
+    "communityId": "um_depot",
+    "name": "106 Depot St — 4BR House (Kerrytown)",
+    "housingType": "house",
+    "bedrooms": 4,
+    "bathrooms": 2,
+    "privateBedrooms": true,
+    "rent": {
+      "amount": 4200,
+      "basis": "per_unit",
+      "fees": [],
+      "utilitiesIncluded": null,
+      "provenance": {
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/106-depot-st-ann-arbor-mi-48104-usa-118298",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+        "observedAt": "2026-11-20",
+        "status": "third_party_reported",
+        "note": "Listed as $4,200/mo for the whole house; utilities not stated. Listing says about a 15-minute walk to campus."
+      }
+    },
+    "availability": {
+      "status": "available",
+      "provenance": {
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/106-depot-st-ann-arbor-mi-48104-usa-118298",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+        "observedAt": "2026-11-20",
+        "status": "third_party_reported"
+      },
+      "date": "2027-08-01"
+    },
+    "features": {
+      "inUnitLaundry": null,
+      "dishwasher": true,
+      "parking": true,
+      "furnished": null,
+      "largeKitchen": null,
+      "socialAmenities": null,
+      "quietBuilding": null,
+      "petFriendly": null,
+      "ac": true
+    },
+    "sourceType": "umich_offcampus",
+    "provenance": {
+      "sourceUrl": "https://offcampushousing.umich.edu/listing/106-depot-st-ann-arbor-mi-48104-usa-118298",
+      "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+      "observedAt": "2026-11-20",
+      "status": "third_party_reported"
+    },
+    "images": []
+  },
+  {
+    "id": "um_miller_4br",
+    "communityId": "um_miller",
+    "name": "209 Miller Ave — 4BR House (Old West Side)",
+    "housingType": "house",
+    "bedrooms": 4,
+    "bathrooms": 2,
+    "privateBedrooms": true,
+    "rent": {
+      "amount": 4620,
+      "basis": "per_unit",
+      "fees": [],
+      "utilitiesIncluded": null,
+      "provenance": {
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/209-miller-ave-ann-arbor-mi-48104-usa-118317",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+        "observedAt": "2026-11-20",
+        "status": "third_party_reported",
+        "note": "Listed as $4,620/mo for the whole house; utilities not stated."
+      }
+    },
+    "availability": {
+      "status": "available",
+      "provenance": {
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/209-miller-ave-ann-arbor-mi-48104-usa-118317",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+        "observedAt": "2026-11-20",
+        "status": "third_party_reported"
+      },
+      "date": "2027-08-04"
+    },
+    "features": {
+      "inUnitLaundry": null,
+      "dishwasher": true,
+      "parking": true,
+      "furnished": null,
+      "largeKitchen": true,
+      "socialAmenities": null,
+      "quietBuilding": null,
+      "petFriendly": null,
+      "ac": null
+    },
+    "sourceType": "umich_offcampus",
+    "provenance": {
+      "sourceUrl": "https://offcampushousing.umich.edu/listing/209-miller-ave-ann-arbor-mi-48104-usa-118317",
+      "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+      "observedAt": "2026-11-20",
+      "status": "third_party_reported"
+    },
+    "images": []
+  },
+  {
+    "id": "um_smain_4br",
+    "communityId": "um_smain",
+    "name": "720 S Main St — 4BR House",
+    "housingType": "house",
+    "bedrooms": 4,
+    "bathrooms": 1,
+    "sqft": 1800,
+    "privateBedrooms": true,
+    "rent": {
+      "amount": 3550,
+      "basis": "per_unit",
+      "fees": [],
+      "utilitiesIncluded": false,
+      "provenance": {
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/720-s-main-st-108751",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+        "observedAt": "2026-11-20",
+        "status": "third_party_reported",
+        "note": "Listed as $3,550/mo for the whole house. Tenants pay water, gas, electricity and internet; owner pays other utilities."
+      }
+    },
+    "availability": {
+      "status": "available",
+      "provenance": {
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/720-s-main-st-108751",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+        "observedAt": "2026-11-20",
+        "status": "third_party_reported"
+      },
+      "date": "2027-08-20"
+    },
+    "features": {
+      "inUnitLaundry": true,
+      "dishwasher": null,
+      "parking": true,
+      "furnished": null,
+      "largeKitchen": null,
+      "socialAmenities": null,
+      "quietBuilding": null,
+      "petFriendly": true,
+      "ac": true
+    },
+    "sourceType": "umich_offcampus",
+    "provenance": {
+      "sourceUrl": "https://offcampushousing.umich.edu/listing/720-s-main-st-108751",
+      "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+      "observedAt": "2026-11-20",
+      "status": "third_party_reported"
+    },
+    "images": []
+  },
+  {
+    "id": "um_mary_4br",
+    "communityId": "um_mary",
+    "name": "602 Mary Ct — 4BR House",
+    "housingType": "house",
+    "bedrooms": 4,
+    "bathrooms": 1,
+    "sqft": 1400,
+    "maxOccupancy": 5,
+    "privateBedrooms": null,
+    "rent": {
+      "amount": 3600,
+      "basis": "per_unit",
+      "fees": [],
+      "utilitiesIncluded": null,
+      "provenance": {
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/602-mary-ct-ann-arbor-mi-48104-113683",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+        "observedAt": "2026-11-20",
+        "status": "third_party_reported",
+        "note": "Listed as $3,600/mo for the whole house; utilities not stated. Listing text reads '4 Bedroom /5 Person home', so a 5-person capacity is stated by the listing."
+      }
+    },
+    "availability": {
+      "status": "available",
+      "provenance": {
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/602-mary-ct-ann-arbor-mi-48104-113683",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+        "observedAt": "2026-11-20",
+        "status": "third_party_reported"
+      },
+      "date": "2027-05-01"
+    },
+    "features": {
+      "inUnitLaundry": null,
+      "dishwasher": true,
+      "parking": true,
+      "furnished": null,
+      "largeKitchen": null,
+      "socialAmenities": null,
+      "quietBuilding": null,
+      "petFriendly": null,
+      "ac": null
+    },
+    "sourceType": "umich_offcampus",
+    "provenance": {
+      "sourceUrl": "https://offcampushousing.umich.edu/listing/602-mary-ct-ann-arbor-mi-48104-113683",
+      "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+      "observedAt": "2026-11-20",
+      "status": "third_party_reported"
+    },
+    "images": []
+  },
+  {
+    "id": "um_ashley_3br",
+    "communityId": "um_ashley",
+    "name": "217 N Ashley St — 3BR Duplex",
+    "housingType": "duplex",
+    "bedrooms": 3,
+    "bathrooms": 1,
+    "privateBedrooms": null,
+    "rent": {
+      "amount": 1895,
+      "basis": "per_unit",
+      "fees": [],
+      "utilitiesIncluded": false,
+      "provenance": {
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/217-n.-ashley-st-110704",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+        "observedAt": "2026-11-20",
+        "status": "third_party_reported",
+        "note": "Listed as $1,895/mo for the whole duplex. Tenants pay gas, electricity and water/sewer. 3 bedrooms only, so a group of 4 does not fit."
+      }
+    },
+    "availability": {
+      "status": "available",
+      "provenance": {
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/217-n.-ashley-st-110704",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+        "observedAt": "2026-11-20",
+        "status": "third_party_reported"
+      },
+      "date": "2026-12-01"
+    },
+    "features": {
+      "inUnitLaundry": true,
+      "dishwasher": true,
+      "parking": true,
+      "furnished": null,
+      "largeKitchen": true,
+      "socialAmenities": null,
+      "quietBuilding": null,
+      "petFriendly": null,
+      "ac": true
+    },
+    "sourceType": "umich_offcampus",
+    "provenance": {
+      "sourceUrl": "https://offcampushousing.umich.edu/listing/217-n.-ashley-st-110704",
+      "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+      "observedAt": "2026-11-20",
+      "status": "third_party_reported"
+    },
+    "images": []
+  },
+  {
+    "id": "um_oldwest_1br",
+    "communityId": "um_oldwest",
+    "name": "443 3rd St — 1BR Duplex (Old West Side)",
+    "housingType": "duplex",
+    "bedrooms": 1,
+    "bathrooms": 1,
+    "sqft": 925,
+    "privateBedrooms": true,
+    "rent": {
+      "amount": 1795,
+      "basis": "per_unit",
+      "fees": [],
+      "utilitiesIncluded": null,
+      "provenance": {
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/old-west-side-apartment-443-3rd-st-ann-arbor-mi-48103-111932",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+        "observedAt": "2026-11-20",
+        "status": "third_party_reported",
+        "note": "Listed as $1,795/mo for the unit. 1 bedroom only, so a group of 4 does not fit."
+      }
+    },
+    "availability": {
+      "status": "available",
+      "provenance": {
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/old-west-side-apartment-443-3rd-st-ann-arbor-mi-48103-111932",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+        "observedAt": "2026-11-20",
+        "status": "third_party_reported",
+        "note": "Listed as 'Available: Now'."
+      }
+    },
+    "features": {
+      "inUnitLaundry": true,
+      "dishwasher": null,
+      "parking": true,
+      "furnished": null,
+      "largeKitchen": null,
+      "socialAmenities": null,
+      "quietBuilding": null,
+      "petFriendly": null,
+      "ac": null
+    },
+    "sourceType": "umich_offcampus",
+    "provenance": {
+      "sourceUrl": "https://offcampushousing.umich.edu/listing/old-west-side-apartment-443-3rd-st-ann-arbor-mi-48103-111932",
+      "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+      "observedAt": "2026-11-20",
+      "status": "third_party_reported"
+    },
+    "images": []
+  },
+  {
+    "id": "um_hub_studio",
+    "communityId": "um_hub",
+    "name": "Hub Ann Arbor State — Studio",
+    "housingType": "studio",
+    "bedrooms": 0,
+    "bathrooms": 1,
+    "privateBedrooms": null,
+    "rent": {
+      "amount": null,
+      "basis": "unknown",
+      "fees": [],
+      "utilitiesIncluded": null,
+      "provenance": {
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/hub-ann-arbor-state-235816",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+        "observedAt": "2026-11-20",
+        "status": "third_party_reported",
+        "note": "Site shows 'Ask For Price' (Contact for pricing). No rent recorded."
+      }
+    },
+    "availability": {
+      "status": "unknown",
+      "provenance": {
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/hub-ann-arbor-state-235816",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+        "observedAt": "2026-11-20",
+        "status": "third_party_reported",
+        "note": "Site shows 'Contact for Availability'."
+      }
+    },
+    "features": {
+      "inUnitLaundry": null,
+      "dishwasher": null,
+      "parking": null,
+      "furnished": null,
+      "largeKitchen": null,
+      "socialAmenities": null,
+      "quietBuilding": null,
+      "petFriendly": true,
+      "ac": null
+    },
+    "sourceType": "umich_offcampus",
+    "provenance": {
+      "sourceUrl": "https://offcampushousing.umich.edu/listing/hub-ann-arbor-state-235816",
+      "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+      "observedAt": "2026-11-20",
+      "status": "third_party_reported"
+    },
+    "images": []
+  },
+  {
+    "id": "um_forest_4br",
+    "communityId": "um_forest",
+    "name": "727 S Forest Ave — 4BR Apartment",
+    "housingType": "garden_apartment",
+    "bedrooms": 4,
+    "bathrooms": 2,
+    "sqft": 995,
+    "privateBedrooms": null,
+    "rent": {
+      "amount": 5450,
+      "amountMax": 5999,
+      "basis": "per_unit",
+      "fees": [],
+      "utilitiesIncluded": null,
+      "provenance": {
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/727-s.-forest-ave-107804",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+        "observedAt": "2026-11-20",
+        "status": "third_party_reported",
+        "note": "Whole-unit rents: units B and C $5,450/mo (995 sq ft), unit A $5,999/mo (1,753 sq ft). Garage parking is $1,400/year (optional)."
+      }
+    },
+    "availability": {
+      "status": "available",
+      "provenance": {
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/727-s.-forest-ave-107804",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+        "observedAt": "2026-11-20",
+        "status": "third_party_reported"
+      },
+      "date": "2027-08-19"
+    },
+    "features": {
+      "inUnitLaundry": false,
+      "dishwasher": true,
+      "parking": true,
+      "furnished": true,
+      "largeKitchen": null,
+      "socialAmenities": null,
+      "quietBuilding": null,
+      "petFriendly": false,
+      "ac": true
+    },
+    "sourceType": "umich_offcampus",
+    "provenance": {
+      "sourceUrl": "https://offcampushousing.umich.edu/listing/727-s.-forest-ave-107804",
+      "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+      "observedAt": "2026-11-20",
+      "status": "third_party_reported"
+    },
     "images": []
   },
   {
@@ -31,16 +852,45 @@
     "sqft": 1600,
     "privateBedrooms": true,
     "rent": {
-      "amount": 2900,
+      "amount": 2720,
       "basis": "per_unit",
       "fees": [],
       "utilitiesIncluded": false,
-      "provenance": { "sourceUrl": "synthetic://demo", "sourceName": "Demo data (fictional)", "observedAt": "2026-11-20", "status": "synthetic" }
+      "provenance": {
+        "sourceUrl": "synthetic://demo",
+        "sourceName": "Demo data (fictional)",
+        "observedAt": "2026-11-20",
+        "status": "synthetic"
+      }
     },
-    "availability": { "status": "available", "date": "2027-08-25", "provenance": { "sourceUrl": "synthetic://demo", "sourceName": "Demo data (fictional)", "observedAt": "2026-11-20", "status": "synthetic" } },
-    "features": { "inUnitLaundry": true, "dishwasher": false, "parking": true, "furnished": false, "largeKitchen": false, "socialAmenities": false, "quietBuilding": true, "petFriendly": false, "ac": false },
+    "availability": {
+      "status": "available",
+      "date": "2027-08-25",
+      "provenance": {
+        "sourceUrl": "synthetic://demo",
+        "sourceName": "Demo data (fictional)",
+        "observedAt": "2026-11-20",
+        "status": "synthetic"
+      }
+    },
+    "features": {
+      "inUnitLaundry": true,
+      "dishwasher": true,
+      "parking": true,
+      "furnished": false,
+      "largeKitchen": false,
+      "socialAmenities": false,
+      "quietBuilding": true,
+      "petFriendly": false,
+      "ac": false
+    },
     "sourceType": "synthetic",
-    "provenance": { "sourceUrl": "synthetic://demo", "sourceName": "Demo data (fictional)", "observedAt": "2026-11-20", "status": "synthetic" },
+    "provenance": {
+      "sourceUrl": "synthetic://demo",
+      "sourceName": "Demo data (fictional)",
+      "observedAt": "2026-11-20",
+      "status": "synthetic"
+    },
     "images": []
   },
   {
@@ -50,18 +900,150 @@
     "housingType": "garden_apartment",
     "bedrooms": 4,
     "bathrooms": 2,
+    "sqft": 1500,
     "privateBedrooms": true,
     "rent": {
-      "amount": null,
-      "basis": "unknown",
+      "amount": 3280,
+      "basis": "per_unit",
+      "fees": [],
+      "utilitiesIncluded": false,
+      "provenance": {
+        "sourceUrl": "synthetic://demo",
+        "sourceName": "Demo data (fictional)",
+        "observedAt": "2026-11-20",
+        "status": "synthetic"
+      }
+    },
+    "availability": {
+      "status": "available",
+      "date": "2027-08-25",
+      "provenance": {
+        "sourceUrl": "synthetic://demo",
+        "sourceName": "Demo data (fictional)",
+        "observedAt": "2026-11-20",
+        "status": "synthetic"
+      }
+    },
+    "features": {
+      "inUnitLaundry": true,
+      "dishwasher": true,
+      "parking": true,
+      "furnished": false,
+      "largeKitchen": true,
+      "socialAmenities": true,
+      "quietBuilding": true,
+      "petFriendly": false,
+      "ac": true
+    },
+    "sourceType": "synthetic",
+    "provenance": {
+      "sourceUrl": "synthetic://demo",
+      "sourceName": "Demo data (fictional)",
+      "observedAt": "2026-11-20",
+      "status": "synthetic"
+    },
+    "images": []
+  },
+  {
+    "id": "syn_kerrytown_row",
+    "communityId": "syn_kerrytown_row",
+    "name": "Kerrytown Row (Demo) — 4BR Townhome",
+    "housingType": "townhome",
+    "bedrooms": 4,
+    "bathrooms": 3,
+    "sqft": 1750,
+    "privateBedrooms": true,
+    "rent": {
+      "amount": 3900,
+      "basis": "per_unit",
+      "fees": [],
+      "utilitiesIncluded": false,
+      "provenance": {
+        "sourceUrl": "synthetic://demo",
+        "sourceName": "Demo data (fictional)",
+        "observedAt": "2026-11-20",
+        "status": "synthetic"
+      }
+    },
+    "availability": {
+      "status": "available",
+      "date": "2027-08-25",
+      "provenance": {
+        "sourceUrl": "synthetic://demo",
+        "sourceName": "Demo data (fictional)",
+        "observedAt": "2026-11-20",
+        "status": "synthetic"
+      }
+    },
+    "features": {
+      "inUnitLaundry": true,
+      "dishwasher": true,
+      "parking": true,
+      "furnished": false,
+      "largeKitchen": true,
+      "socialAmenities": false,
+      "quietBuilding": true,
+      "petFriendly": false,
+      "ac": true
+    },
+    "sourceType": "synthetic",
+    "provenance": {
+      "sourceUrl": "synthetic://demo",
+      "sourceName": "Demo data (fictional)",
+      "observedAt": "2026-11-20",
+      "status": "synthetic"
+    },
+    "images": []
+  },
+  {
+    "id": "syn_stadium_townhomes",
+    "communityId": "syn_stadium_townhomes",
+    "name": "Stadium Townhomes (Demo) — 4BR Townhome",
+    "housingType": "townhome",
+    "bedrooms": 4,
+    "bathrooms": 2.5,
+    "sqft": 1650,
+    "privateBedrooms": true,
+    "rent": {
+      "amount": 3400,
+      "basis": "per_unit",
       "fees": [],
       "utilitiesIncluded": null,
-      "provenance": { "sourceUrl": "synthetic://demo", "sourceName": "Demo data (fictional)", "observedAt": "2026-11-20", "status": "synthetic" }
+      "provenance": {
+        "sourceUrl": "synthetic://demo",
+        "sourceName": "Demo data (fictional)",
+        "observedAt": "2026-11-20",
+        "status": "synthetic"
+      }
     },
-    "availability": { "status": "unknown", "provenance": { "sourceUrl": "synthetic://demo", "sourceName": "Demo data (fictional)", "observedAt": "2026-11-20", "status": "synthetic" } },
-    "features": { "inUnitLaundry": null, "dishwasher": true, "parking": true, "furnished": null, "largeKitchen": true, "socialAmenities": null, "quietBuilding": true, "petFriendly": null, "ac": true },
+    "availability": {
+      "status": "available",
+      "date": "2027-08-25",
+      "provenance": {
+        "sourceUrl": "synthetic://demo",
+        "sourceName": "Demo data (fictional)",
+        "observedAt": "2026-11-20",
+        "status": "synthetic"
+      }
+    },
+    "features": {
+      "inUnitLaundry": true,
+      "dishwasher": true,
+      "parking": true,
+      "furnished": false,
+      "largeKitchen": false,
+      "socialAmenities": false,
+      "quietBuilding": true,
+      "petFriendly": true,
+      "ac": true
+    },
     "sourceType": "synthetic",
-    "provenance": { "sourceUrl": "synthetic://demo", "sourceName": "Demo data (fictional)", "observedAt": "2026-11-20", "status": "synthetic" },
+    "provenance": {
+      "sourceUrl": "synthetic://demo",
+      "sourceName": "Demo data (fictional)",
+      "observedAt": "2026-11-20",
+      "status": "synthetic"
+    },
     "images": []
   }
 ]

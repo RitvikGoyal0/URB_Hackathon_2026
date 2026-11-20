@@ -1,9 +1,79 @@
 [
-  { "id": "central_campus", "campusId": "umich", "name": "Central Campus (the Diag)", "shortName": "Central Campus", "category": "campus_area", "lat": 42.2770, "lng": -83.7382, "source": "OpenStreetMap (approx., to verify)", "verifiedAt": "2026-11-20" },
-  { "id": "north_campus", "campusId": "umich", "name": "North Campus (Pierpont Commons)", "shortName": "North Campus", "category": "campus_area", "lat": 42.2913, "lng": -83.7173, "source": "OpenStreetMap (approx., to verify)", "verifiedAt": "2026-11-20" },
-  { "id": "south_campus", "campusId": "umich", "name": "South Campus (athletic campus)", "shortName": "South Campus", "category": "campus_area", "lat": 42.2659, "lng": -83.7487, "source": "OpenStreetMap (approx., to verify)", "verifiedAt": "2026-11-20" },
-  { "id": "medical_campus", "campusId": "umich", "name": "Medical Campus", "shortName": "Medical Campus", "category": "campus_area", "lat": 42.2837, "lng": -83.7298, "source": "OpenStreetMap (approx., to verify)", "verifiedAt": "2026-11-20" },
-  { "id": "kerrytown", "campusId": "umich", "name": "Kerrytown", "shortName": "Kerrytown", "category": "neighborhood", "lat": 42.2846, "lng": -83.7457, "source": "OpenStreetMap (approx., to verify)", "verifiedAt": "2026-11-20" },
-  { "id": "ross", "campusId": "umich", "name": "Ross School of Business area", "shortName": "Ross", "category": "building", "lat": 42.2730, "lng": -83.7378, "source": "OpenStreetMap (approx., to verify)", "verifiedAt": "2026-11-20" },
-  { "id": "duderstadt", "campusId": "umich", "name": "Duderstadt Center (North Campus late-night study)", "shortName": "Duderstadt", "category": "building", "lat": 42.2913, "lng": -83.7158, "source": "OpenStreetMap (approx., to verify)", "verifiedAt": "2026-11-20" }
+  {
+    "id": "central_campus",
+    "campusId": "umich",
+    "name": "Central Campus (the Diag)",
+    "shortName": "Central Campus",
+    "category": "campus_area",
+    "lat": 42.2769,
+    "lng": -83.7382,
+    "source": "OpenStreetMap Nominatim: Hatcher Graduate Library 42.2762,-83.7382 and Burton Tower 42.2794,-83.7387 bracket the Diag; point set at the Diag center, 2026-11-20",
+    "verifiedAt": "2026-11-20"
+  },
+  {
+    "id": "north_campus",
+    "campusId": "umich",
+    "name": "North Campus (Pierpont Commons)",
+    "shortName": "North Campus",
+    "category": "campus_area",
+    "lat": 42.2911,
+    "lng": -83.7176,
+    "source": "OpenStreetMap Nominatim: Pierpont Commons, 2101 Bonisteel Blvd, 2026-11-20",
+    "verifiedAt": "2026-11-20"
+  },
+  {
+    "id": "south_campus",
+    "campusId": "umich",
+    "name": "South Campus (athletic campus)",
+    "shortName": "South Campus",
+    "category": "campus_area",
+    "lat": 42.2658,
+    "lng": -83.7478,
+    "source": "OpenStreetMap Nominatim: Michigan Stadium, 1201 S Main St (athletic campus), 2026-11-20",
+    "verifiedAt": "2026-11-20"
+  },
+  {
+    "id": "medical_campus",
+    "campusId": "umich",
+    "name": "Medical Campus",
+    "shortName": "Medical Campus",
+    "category": "campus_area",
+    "lat": 42.2836,
+    "lng": -83.7312,
+    "source": "OpenStreetMap Nominatim: University of Michigan Medical Center, 1500 E Medical Center Dr, 2026-11-20",
+    "verifiedAt": "2026-11-20"
+  },
+  {
+    "id": "kerrytown",
+    "campusId": "umich",
+    "name": "Kerrytown",
+    "shortName": "Kerrytown",
+    "category": "neighborhood",
+    "lat": 42.2842,
+    "lng": -83.7459,
+    "source": "OpenStreetMap Nominatim: Kerrytown, Ann Arbor, 2026-11-20",
+    "verifiedAt": "2026-11-20"
+  },
+  {
+    "id": "ross",
+    "campusId": "umich",
+    "name": "Ross School of Business area",
+    "shortName": "Ross",
+    "category": "building",
+    "lat": 42.2727,
+    "lng": -83.7375,
+    "source": "OpenStreetMap Nominatim: Ross School of Business Building, 701 Tappan Ave, 2026-11-20",
+    "verifiedAt": "2026-11-20"
+  },
+  {
+    "id": "duderstadt",
+    "campusId": "umich",
+    "name": "Duderstadt Center (North Campus late-night study)",
+    "shortName": "Duderstadt",
+    "category": "building",
+    "lat": 42.2912,
+    "lng": -83.7158,
+    "source": "OpenStreetMap Nominatim: Duderstadt Center, 2281 Bonisteel Blvd, 2026-11-20",
+    "verifiedAt": "2026-11-20"
+  }
 ]
