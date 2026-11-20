@@ -151,7 +151,9 @@ describe("demo path: the on-stage flip holds for the typed profile", () => {
   it("at seeded budgets some homes are open and several more wait only on Sam's budget", () => {
     for (const fourth of candidates) {
       const { ranked } = rank(demoProfile("bus", []), fourth);
-      expect(ranked.filter((r) => r.eligibility !== "blocked").length, fourth.displayName).toBeGreaterThanOrEqual(2);
+      // At least one open home is the "before" #1. (Haven 4BR used to be a second one only because its
+      // price was unknown; with the team sheet's $1,099/person it is honestly over Sam's budget.)
+      expect(ranked.filter((r) => r.eligibility !== "blocked").length, fourth.displayName).toBeGreaterThanOrEqual(1);
       const nearlyOpen = ranked.filter(
         (r) => r.eligibility === "blocked" && r.blockers.every((b) => b.kind === "budget" && b.memberId === SAM && (b.amount ?? Infinity) <= 100),
       );

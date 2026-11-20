@@ -1,1 +1,916 @@
-{}
+{
+  "geddes_3br_bilevel": [
+    {
+      "src": "/listings/geddes_3br_bilevel/01-kitchen.webp",
+      "type": "kitchen",
+      "attribution": "Photo: Hackberry Lane Management, used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/geddes_3br_bilevel/02-bedroom.webp",
+      "type": "bedroom",
+      "attribution": "Photo: Hackberry Lane Management, used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/geddes_3br_bilevel/03-bedroom.webp",
+      "type": "bedroom",
+      "attribution": "Photo: Hackberry Lane Management, used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/geddes_3br_bilevel/04-bathroom.webp",
+      "type": "bathroom",
+      "attribution": "Photo: Hackberry Lane Management, used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/geddes_3br_bilevel/05-half-bath.webp",
+      "type": "bathroom",
+      "attribution": "Photo: Hackberry Lane Management, used with permission",
+      "rights": "permission"
+    }
+  ],
+  "geddes_3br_ranch": [
+    {
+      "src": "/listings/geddes_3br_ranch/01-main-room.webp",
+      "type": "interior",
+      "attribution": "Photo: Hackberry Lane Management, used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/geddes_3br_ranch/02-bedroom.webp",
+      "type": "bedroom",
+      "attribution": "Photo: Hackberry Lane Management, used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/geddes_3br_ranch/03-room.webp",
+      "type": "interior",
+      "attribution": "Photo: Hackberry Lane Management, used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/geddes_3br_ranch/04-room-fridge.webp",
+      "type": "interior",
+      "attribution": "Photo: Hackberry Lane Management, used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/geddes_3br_ranch/05-bathroom.webp",
+      "type": "bathroom",
+      "attribution": "Photo: Hackberry Lane Management, used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/geddes_3br_ranch/06-hallway-washer.webp",
+      "type": "interior",
+      "attribution": "Photo: Hackberry Lane Management, used with permission",
+      "rights": "permission"
+    }
+  ],
+  "geddes_4br": [
+    {
+      "src": "/listings/geddes_4br/01-living.webp",
+      "type": "interior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/geddes_4br/02-living.webp",
+      "type": "interior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/geddes_4br/03-kitchen.webp",
+      "type": "kitchen",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/geddes_4br/04-bedroom.webp",
+      "type": "bedroom",
+      "attribution": "Photo: virtually staged, used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/geddes_4br/05-bathroom.webp",
+      "type": "bathroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/geddes_4br/06-amenity-study-room.webp",
+      "type": "amenity",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/geddes_4br/07-gym.webp",
+      "type": "amenity",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/geddes_4br/08-laundry.webp",
+      "type": "amenity",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    }
+  ],
+  "um_ashley_3br": [
+    {
+      "src": "/listings/um_ashley_3br/01-exterior.webp",
+      "type": "exterior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_ashley_3br/02-living.webp",
+      "type": "interior",
+      "attribution": "Photo: virtually staged, used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_ashley_3br/03-kitchen.webp",
+      "type": "kitchen",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_ashley_3br/04-dining.webp",
+      "type": "interior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_ashley_3br/05-bathroom.webp",
+      "type": "bathroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_ashley_3br/06-bedroom.webp",
+      "type": "bedroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    }
+  ],
+  "um_broadway_4br": [
+    {
+      "src": "/listings/um_broadway_4br/01-exterior.png",
+      "type": "exterior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_broadway_4br/02-exterior-side.webp",
+      "type": "exterior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_broadway_4br/03-kitchen.png",
+      "type": "kitchen",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_broadway_4br/04-bedroom.png",
+      "type": "bedroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_broadway_4br/05-stairs.webp",
+      "type": "interior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    }
+  ],
+  "um_courtyards_4br": [
+    {
+      "src": "/listings/um_courtyards_4br/01-exterior.webp",
+      "type": "exterior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_courtyards_4br/02-kitchen.webp",
+      "type": "kitchen",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_courtyards_4br/03-bedroom.webp",
+      "type": "bedroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_courtyards_4br/04-bedroom.webp",
+      "type": "bedroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_courtyards_4br/05-bathroom.webp",
+      "type": "bathroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_courtyards_4br/06-bathroom.webp",
+      "type": "bathroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_courtyards_4br/07-lounge.webp",
+      "type": "amenity",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_courtyards_4br/08-amenity-game-room.webp",
+      "type": "amenity",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_courtyards_4br/09-amenity-study-room.webp",
+      "type": "amenity",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    }
+  ],
+  "um_depot_4br": [
+    {
+      "src": "/listings/um_depot_4br/01-exterior.webp",
+      "type": "exterior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_depot_4br/02-living.webp",
+      "type": "interior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_depot_4br/03-dining.webp",
+      "type": "interior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_depot_4br/04-kitchen.webp",
+      "type": "kitchen",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_depot_4br/05-bedroom.webp",
+      "type": "bedroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_depot_4br/06-bathroom.webp",
+      "type": "bathroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_depot_4br/07-bathroom.webp",
+      "type": "bathroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    }
+  ],
+  "um_fair_4br": [
+    {
+      "src": "/listings/um_fair_4br/01-exterior.webp",
+      "type": "exterior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_fair_4br/02-living.webp",
+      "type": "interior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_fair_4br/03-kitchen.webp",
+      "type": "kitchen",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_fair_4br/04-hallway.webp",
+      "type": "interior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_fair_4br/05-room.webp",
+      "type": "interior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_fair_4br/06-bathroom.png",
+      "type": "bathroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_fair_4br/07-deck-outside.webp",
+      "type": "exterior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    }
+  ],
+  "um_forest_4br": [
+    {
+      "src": "/listings/um_forest_4br/01-exterior.webp",
+      "type": "exterior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_forest_4br/02-living.webp",
+      "type": "interior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_forest_4br/03-kitchen.webp",
+      "type": "kitchen",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_forest_4br/04-hallway.webp",
+      "type": "interior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_forest_4br/05-landing.webp",
+      "type": "interior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_forest_4br/06-bedroom.webp",
+      "type": "bedroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    }
+  ],
+  "um_foundry_4br": [
+    {
+      "src": "/listings/um_foundry_4br/01-living.webp",
+      "type": "interior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_foundry_4br/02-kitchen.webp",
+      "type": "kitchen",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_foundry_4br/03-bedroom.webp",
+      "type": "bedroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_foundry_4br/04-lounge.webp",
+      "type": "amenity",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_foundry_4br/05-gym.webp",
+      "type": "amenity",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_foundry_4br/06-rooftop-hot-tub.webp",
+      "type": "amenity",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    }
+  ],
+  "um_hub_studio": [
+    {
+      "src": "/listings/um_hub_studio/01-exterior.webp",
+      "type": "exterior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_hub_studio/02-living.webp",
+      "type": "interior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_hub_studio/03-living.png",
+      "type": "interior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_hub_studio/04-kitchen.png",
+      "type": "kitchen",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_hub_studio/05-bedroom.png",
+      "type": "bedroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_hub_studio/06-bedroom.webp",
+      "type": "bedroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_hub_studio/07-bathroom.png",
+      "type": "bathroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    }
+  ],
+  "um_landmark_4br": [
+    {
+      "src": "/listings/um_landmark_4br/01-exterior.webp",
+      "type": "exterior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_landmark_4br/02-living.webp",
+      "type": "interior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_landmark_4br/03-kitchen.webp",
+      "type": "kitchen",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_landmark_4br/04-bedroom.webp",
+      "type": "bedroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_landmark_4br/05-bedroom.webp",
+      "type": "bedroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_landmark_4br/06-bathroom.webp",
+      "type": "bathroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_landmark_4br/07-lounge.webp",
+      "type": "amenity",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_landmark_4br/08-gym.webp",
+      "type": "amenity",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    }
+  ],
+  "um_lawrence_4br": [
+    {
+      "src": "/listings/um_lawrence_4br/01-exterior.webp",
+      "type": "exterior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_lawrence_4br/02-kitchen.webp",
+      "type": "kitchen",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_lawrence_4br/03-bathroom.webp",
+      "type": "bathroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_lawrence_4br/04-bedroom.webp",
+      "type": "bedroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    }
+  ],
+  "um_mary_4br": [
+    {
+      "src": "/listings/um_mary_4br/01-exterior.webp",
+      "type": "exterior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_mary_4br/02-kitchen.webp",
+      "type": "kitchen",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_mary_4br/03-bedroom.webp",
+      "type": "bedroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_mary_4br/04-bedroom.webp",
+      "type": "bedroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_mary_4br/05-hallway.webp",
+      "type": "interior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    }
+  ],
+  "um_miller_4br": [
+    {
+      "src": "/listings/um_miller_4br/01-living.webp",
+      "type": "interior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_miller_4br/02-living.webp",
+      "type": "interior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_miller_4br/03-kitchen.webp",
+      "type": "kitchen",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_miller_4br/04-kitchen-dining.webp",
+      "type": "kitchen",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_miller_4br/05-bedroom.webp",
+      "type": "bedroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_miller_4br/06-bathroom.webp",
+      "type": "bathroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_miller_4br/07-yard-outside.webp",
+      "type": "exterior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    }
+  ],
+  "um_oldwest_1br": [
+    {
+      "src": "/listings/um_oldwest_1br/01-exterior.webp",
+      "type": "exterior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_oldwest_1br/02-living.webp",
+      "type": "interior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_oldwest_1br/03-bedroom.webp",
+      "type": "bedroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_oldwest_1br/04-bedroom.webp",
+      "type": "bedroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_oldwest_1br/05-yard-outside.webp",
+      "type": "exterior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    }
+  ],
+  "um_packard_5br": [
+    {
+      "src": "/listings/um_packard_5br/01-exterior.webp",
+      "type": "exterior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_packard_5br/02-living.webp",
+      "type": "interior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_packard_5br/03-kitchen.webp",
+      "type": "kitchen",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_packard_5br/04-dining.webp",
+      "type": "interior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_packard_5br/05-bedroom.webp",
+      "type": "bedroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_packard_5br/06-bedroom.webp",
+      "type": "bedroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_packard_5br/07-bathroom.webp",
+      "type": "bathroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_packard_5br/08-bathroom.webp",
+      "type": "bathroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    }
+  ],
+  "um_smain_4br": [
+    {
+      "src": "/listings/um_smain_4br/01-exterior.webp",
+      "type": "exterior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_smain_4br/02-living.webp",
+      "type": "interior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_smain_4br/03-kitchen.webp",
+      "type": "kitchen",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_smain_4br/04-bedroom.webp",
+      "type": "bedroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_smain_4br/05-bathroom.webp",
+      "type": "bathroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    }
+  ],
+  "um_sstate_2br": [
+    {
+      "src": "/listings/um_sstate_2br/01-exterior.webp",
+      "type": "exterior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_sstate_2br/02-living.webp",
+      "type": "interior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_sstate_2br/03-kitchen.webp",
+      "type": "kitchen",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_sstate_2br/04-dining.webp",
+      "type": "interior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_sstate_2br/05-bedroom.png",
+      "type": "bedroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_sstate_2br/06-bedroom.webp",
+      "type": "bedroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_sstate_2br/07-bathroom.webp",
+      "type": "bathroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_sstate_2br/08-bathroom.webp",
+      "type": "bathroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    }
+  ],
+  "um_ssv_4br": [
+    {
+      "src": "/listings/um_ssv_4br/01-living.webp",
+      "type": "interior",
+      "attribution": "Photo: virtually staged, used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_ssv_4br/02-dining.webp",
+      "type": "interior",
+      "attribution": "Photo: virtually staged, used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_ssv_4br/03-kitchen.webp",
+      "type": "kitchen",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_ssv_4br/04-bedroom.webp",
+      "type": "bedroom",
+      "attribution": "Photo: virtually staged, used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_ssv_4br/05-bathroom.webp",
+      "type": "bathroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_ssv_4br/06-bathroom.webp",
+      "type": "bathroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    }
+  ],
+  "um_trails_4br": [
+    {
+      "src": "/listings/um_trails_4br/01-exterior.webp",
+      "type": "exterior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_trails_4br/02-kitchen.webp",
+      "type": "kitchen",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_trails_4br/03-bedroom.webp",
+      "type": "bedroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_trails_4br/04-bedroom.webp",
+      "type": "bedroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_trails_4br/05-bathroom.webp",
+      "type": "bathroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_trails_4br/06-bathroom.webp",
+      "type": "bathroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_trails_4br/07-pool.webp",
+      "type": "amenity",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_trails_4br/08-lounge.webp",
+      "type": "amenity",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_trails_4br/09-gym.webp",
+      "type": "amenity",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    }
+  ],
+  "um_yard_4br": [
+    {
+      "src": "/listings/um_yard_4br/01-exterior-courtyard.webp",
+      "type": "exterior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_yard_4br/02-living.webp",
+      "type": "interior",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_yard_4br/03-kitchen.webp",
+      "type": "kitchen",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_yard_4br/04-kitchen.webp",
+      "type": "kitchen",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_yard_4br/05-bedroom.png",
+      "type": "bedroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_yard_4br/06-bathroom.webp",
+      "type": "bathroom",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_yard_4br/07-lounge.webp",
+      "type": "amenity",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    },
+    {
+      "src": "/listings/um_yard_4br/08-gym.webp",
+      "type": "amenity",
+      "attribution": "Photo: used with permission",
+      "rights": "permission"
+    }
+  ]
+}

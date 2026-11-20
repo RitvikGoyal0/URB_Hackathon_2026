@@ -1,0 +1,56 @@
+[
+  {
+    "file": "01-exterior.webp",
+    "type": "exterior",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "02-kitchen.webp",
+    "type": "kitchen",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "03-bedroom.webp",
+    "type": "bedroom",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "04-bedroom.webp",
+    "type": "bedroom",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "05-bathroom.webp",
+    "type": "bathroom",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "06-bathroom.webp",
+    "type": "bathroom",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "07-pool.webp",
+    "type": "amenity",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "08-lounge.webp",
+    "type": "amenity",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "09-gym.webp",
+    "type": "amenity",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  }
+]

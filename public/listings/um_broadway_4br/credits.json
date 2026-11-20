@@ -1,0 +1,32 @@
+[
+  {
+    "file": "01-exterior.png",
+    "type": "exterior",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "02-exterior-side.webp",
+    "type": "exterior",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "03-kitchen.png",
+    "type": "kitchen",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "04-bedroom.png",
+    "type": "bedroom",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "05-stairs.webp",
+    "type": "interior",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  }
+]

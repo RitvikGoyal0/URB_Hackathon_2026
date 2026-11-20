@@ -1,0 +1,50 @@
+[
+  {
+    "file": "01-living.webp",
+    "type": "interior",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "02-living.webp",
+    "type": "interior",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "03-kitchen.webp",
+    "type": "kitchen",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "04-bedroom.webp",
+    "type": "bedroom",
+    "attribution": "Photo: virtually staged, used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "05-bathroom.webp",
+    "type": "bathroom",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "06-amenity-study-room.webp",
+    "type": "amenity",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "07-gym.webp",
+    "type": "amenity",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "08-laundry.webp",
+    "type": "amenity",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  }
+]

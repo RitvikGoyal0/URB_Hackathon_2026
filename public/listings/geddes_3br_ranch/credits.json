@@ -1,0 +1,38 @@
+[
+  {
+    "file": "01-main-room.webp",
+    "type": "interior",
+    "attribution": "Photo: Hackberry Lane Management, used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "02-bedroom.webp",
+    "type": "bedroom",
+    "attribution": "Photo: Hackberry Lane Management, used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "03-room.webp",
+    "type": "interior",
+    "attribution": "Photo: Hackberry Lane Management, used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "04-room-fridge.webp",
+    "type": "interior",
+    "attribution": "Photo: Hackberry Lane Management, used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "05-bathroom.webp",
+    "type": "bathroom",
+    "attribution": "Photo: Hackberry Lane Management, used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "06-hallway-washer.webp",
+    "type": "interior",
+    "attribution": "Photo: Hackberry Lane Management, used with permission",
+    "rights": "permission"
+  }
+]

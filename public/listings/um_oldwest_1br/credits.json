@@ -1,0 +1,32 @@
+[
+  {
+    "file": "01-exterior.webp",
+    "type": "exterior",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "02-living.webp",
+    "type": "interior",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "03-bedroom.webp",
+    "type": "bedroom",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "04-bedroom.webp",
+    "type": "bedroom",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "05-yard-outside.webp",
+    "type": "exterior",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  }
+]

@@ -1,0 +1,50 @@
+[
+  {
+    "file": "01-exterior-courtyard.webp",
+    "type": "exterior",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "02-living.webp",
+    "type": "interior",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "03-kitchen.webp",
+    "type": "kitchen",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "04-kitchen.webp",
+    "type": "kitchen",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "05-bedroom.png",
+    "type": "bedroom",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "06-bathroom.webp",
+    "type": "bathroom",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "07-lounge.webp",
+    "type": "amenity",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "08-gym.webp",
+    "type": "amenity",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  }
+]

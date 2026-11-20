@@ -1,0 +1,38 @@
+[
+  {
+    "file": "01-living.webp",
+    "type": "interior",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "02-kitchen.webp",
+    "type": "kitchen",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "03-bedroom.webp",
+    "type": "bedroom",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "04-lounge.webp",
+    "type": "amenity",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "05-gym.webp",
+    "type": "amenity",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "06-rooftop-hot-tub.webp",
+    "type": "amenity",
+    "attribution": "Photo: used with permission",
+    "rights": "permission"
+  }
+]

@@ -169,15 +169,16 @@ Gemini runs server-side only (`@google/genai`), for two things:
 
 | Data | Count | Source |
 |---|---|---|
-| Haven on Geddes (Hackberry Lane) | 3 | [havenongeddes.com](https://www.havenongeddes.com/ann-arbor/haven-on-geddes/student/). The 3BR per-bed prices are provider-reported. **The 4BR whole-unit price isn't on the live page, so it shows "Pricing not verified"** and isn't used for affordability. |
+| Haven on Geddes (Hackberry Lane) | 3 | [havenongeddes.com](https://www.havenongeddes.com/ann-arbor/haven-on-geddes/student/). The 3BR per-bed prices are provider-reported. **The 4BR isn't on the live page**; its $4,396/mo comes from the team research sheet and is marked unverified. |
 | U-M Off-Campus Housing listings | 19 | [offcampushousing.umich.edu](https://offcampushousing.umich.edu/listing). Reported by third parties, with a link for each listing. 15 four-bedroom homes plus studio, 1, 2, 3 and 5 BR. |
+| Team research sheet | 22 | Our own price and amenity sheet (2026-11-20), checked against the listings above. Where they differ, the sheet wins unless the live listing proves it wrong: State Street Village and Landmark keep their listed prices. Sheet-only prices (Haven 4BR, 723 Packard, The Yard, 215/217 N Ashley) are marked unverified. Sheet amenities only fill in unknowns. |
 | Campus areas | 7 | Coordinates from OpenStreetMap Nominatim |
 | U-M buildings | 29 | Each building is checked once against OpenStreetMap. Buildings that couldn't be verified were left out. |
 | Commute matrix | 22 × 7 × 3 modes | OSRM table service at routing.openstreetmap.de (walk / bike / drive), built by `scripts/build-commute-matrix.ts` |
 | Resources | 7 | U-M Dean of Students and Logistics, Transportation & Parking pages, summarized in our own words with links |
 | Roommates | 9 personas | Fictional (`src/data/personas.json`); see the note at the top |
 
-**Photos.** Listing photos are never scraped or copied. Only photos the team took, or has written permission to use, go in `public/listings/<id>/`, with credits. Until a home has one, its card shows "Photo coming soon". Map tiles © OpenStreetMap contributors.
+**Photos.** Listing photos are never scraped or copied. Only photos the team took, or has written permission to use, go in `public/listings/<id>/`, with credits (all 22 homes, 145 photos; virtually staged rooms are captioned as such). They come in through a git-ignored `photo-inbox/` with a rights file and `npm run photos:import`. A home without photos shows "Photo coming soon". Map tiles © OpenStreetMap contributors.
 
 ---
 

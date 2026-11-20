@@ -1,0 +1,32 @@
+[
+  {
+    "file": "01-kitchen.webp",
+    "type": "kitchen",
+    "attribution": "Photo: Hackberry Lane Management, used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "02-bedroom.webp",
+    "type": "bedroom",
+    "attribution": "Photo: Hackberry Lane Management, used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "03-bedroom.webp",
+    "type": "bedroom",
+    "attribution": "Photo: Hackberry Lane Management, used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "04-bathroom.webp",
+    "type": "bathroom",
+    "attribution": "Photo: Hackberry Lane Management, used with permission",
+    "rights": "permission"
+  },
+  {
+    "file": "05-half-bath.webp",
+    "type": "bathroom",
+    "attribution": "Photo: Hackberry Lane Management, used with permission",
+    "rights": "permission"
+  }
+]
