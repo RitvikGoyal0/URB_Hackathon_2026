@@ -1,4 +1,5 @@
 "use client";
+import { ScenarioBanner } from "@/components/shared/scenario-banner";
 
 import Link from "next/link";
 import { ArrowLeft, Bookmark, BookmarkCheck, Check, CircleHelp, ExternalLink, FlaskConical, MapPin, ThumbsDown, ThumbsUp, Minus } from "lucide-react";
@@ -93,6 +94,8 @@ export function ListingDetail({ id }: { id: string }) {
       <Link href="/explore" className="inline-flex items-center gap-1.5 text-[13.5px] font-medium text-charcoal hover:text-ink">
         <ArrowLeft className="size-4" aria-hidden /> All homes
       </Link>
+
+      <ScenarioBanner changedInputs={g.changedInputs} className="mt-4" />
 
       {demo && (
         <div className="demo-stripes mt-4 flex items-center gap-2 rounded-2xl border border-[#e6b866] px-4 py-3 text-[13.5px] font-semibold text-[#7a4700]">

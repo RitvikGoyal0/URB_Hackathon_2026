@@ -1,4 +1,5 @@
 "use client";
+import { ScenarioBanner } from "@/components/shared/scenario-banner";
 
 import Link from "next/link";
 import { useState } from "react";
@@ -157,7 +158,7 @@ function InsightList({ title, icon: Icon, items, tone }: { title: string; icon: 
 }
 
 export function LobbyView() {
-  const { state, people, baseMembers, ranking } = useGroup();
+  const { state, people, baseMembers, ranking, changedInputs } = useGroup();
   const insights = deriveInsights(baseMembers);
   const top = ranking.find((r) => r.eligibility !== "blocked") ?? ranking[0];
   const topListing = top ? getListing(top.listingId) : undefined;
@@ -165,6 +166,7 @@ export function LobbyView() {
 
   return (
     <main className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 sm:py-14">
+      <ScenarioBanner changedInputs={changedInputs} className="mb-6" />
       <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <p className="text-[13px] font-medium text-teal">Your group · University of Michigan</p>

@@ -1,4 +1,5 @@
 "use client";
+import { ScenarioBanner } from "@/components/shared/scenario-banner";
 
 import Link from "next/link";
 import { useState } from "react";
@@ -184,7 +185,7 @@ function WatchCard({ item, votes }: { item: WatchItem; votes: Vote[] }) {
 }
 
 export function WatchlistView() {
-  const { state, rankById } = useGroup();
+  const { state, rankById, changedInputs } = useGroup();
   const votes = useAllVotes();
   const items = [...state.watchlist].sort((a, b) => (rankById.get(a.listingId)?.rank ?? 999) - (rankById.get(b.listingId)?.rank ?? 999));
   return (
@@ -192,6 +193,7 @@ export function WatchlistView() {
       <PageIntro title="Watchlist">
         Homes your group saved. Everyone votes, and the consensus updates as votes come in.
       </PageIntro>
+      <ScenarioBanner changedInputs={changedInputs} className="mb-4" />
       {items.length === 0 ? (
         <div className="rounded-[28px] border border-dashed border-line bg-white p-10 text-center">
           <Bookmark className="mx-auto size-6 text-muted-foreground" aria-hidden />
