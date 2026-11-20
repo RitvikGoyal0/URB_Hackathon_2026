@@ -3,7 +3,7 @@
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import Link from "next/link";
-import { useEffect, useMemo } from "react";
+import { Component, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { MapContainer, Marker, Popup, TileLayer, Tooltip, useMap } from "react-leaflet";
 import { commuteMatrix } from "@/lib/data";
 import type { CampusDestination, Community, Listing, RankedResult } from "@/lib/types";
@@ -59,7 +59,7 @@ function FlyTo({ target }: { target: [number, number] | null }) {
   return null;
 }
 
-export default function ExploreMap({
+function ExploreMapInner({
   items,
   destinations,
   selectedId,
@@ -140,4 +140,54 @@ export default function ExploreMap({
       })}
     </MapContainer>
   );
+}
+
+type MapProps = Parameters<typeof ExploreMapInner>[0];
+
+/**
+ * Next 16 (cacheComponents) keeps visited routes alive in a hidden <Activity> and re-runs their
+ * effects when you navigate back. react-leaflet then re-initialises Leaflet on the old container
+ * ("Map container is being reused by another instance") and the whole route crashed.
+ * Fix: the map only renders while this component's effect is live, and every activation gets a
+ * fresh key → a brand-new container element and Leaflet instance. The boundary below catches any
+ * remaining Leaflet error, retries once with a fresh instance, and otherwise degrades to a message
+ * so the list (and the page) always keeps working.
+ */
+export default function ExploreMap(props: MapProps) {
+  const generation = useRef(0);
+  const [mountKey, setMountKey] = useState<number | null>(null);
+  useEffect(() => {
+    generation.current += 1;
+    setMountKey(generation.current);
+    return () => setMountKey(null);
+  }, []);
+  if (mountKey === null) return <MapPlaceholder text="Loading map…" />;
+  return (
+    <MapErrorBoundary key={mountKey}>
+      {(attempt) => <ExploreMapInner key={`${mountKey}-${attempt}`} {...props} />}
+    </MapErrorBoundary>
+  );
+}
+
+function MapPlaceholder({ text }: { text: string }) {
+  return (
+    <div className="flex h-full w-full items-center justify-center bg-[#e8ebe4] px-6 text-center text-[13px] text-muted-foreground">
+      {text}
+    </div>
+  );
+}
+
+class MapErrorBoundary extends Component<{ children: (attempt: number) => ReactNode }, { attempt: number; failed: boolean }> {
+  state = { attempt: 0, failed: false };
+  static getDerivedStateFromError() {
+    return null;
+  }
+  componentDidCatch(error: unknown) {
+    console.warn("[map] recovered from Leaflet error:", error instanceof Error ? error.message : error);
+    this.setState((s) => (s.attempt < 1 ? { attempt: s.attempt + 1, failed: false } : { attempt: s.attempt, failed: true }));
+  }
+  render() {
+    if (this.state.failed) return <MapPlaceholder text="The map couldn't load. The list still works." />;
+    return this.props.children(this.state.attempt);
+  }
 }
