@@ -1,165 +1,142 @@
 /**
- * End-to-end demo path (spec §11) without a browser:
- * demo sentence → cached parse → onboarding follow-ups → confirm → this-or-that → ranking → what-if.
- * Asserts the on-stage "flip" holds for the profile the presenter actually creates,
- * across every travel-mode answer and this-or-that combination they might click.
+ * The stage walkthrough (docs/demo-walkthrough.md), end to end on the REAL catalog:
+ * the exact on-stage inputs → Alex's profile → roommate suggestions → rankings at every stage →
+ * the What-if flip. If a data or engine change moves any of these, this test fails, and the
+ * walkthrough doc must be updated with it (`npx tsx scripts/demo-dump.ts` prints the new numbers).
  */
 import { describe, expect, it } from "vitest";
 import { lookupCachedParse } from "../ai/cache";
-import { commuteMatrix, defaultLivePersona, destinations, FRIEND_IDS, getBuilding, listings, students } from "../data";
-import { diffRankings, explainListing, filterForLobby, rankListings } from "../engine";
-import {
-  addDestination,
-  applyThisOrThatAnswer,
-  buildFollowUps,
-  confirmAll,
-  effectiveProfile,
-  neutralProfile,
-  parseToProfile,
-  selectThisOrThat,
-  setTravelMode,
-  type ThisOrThatAnswer,
-} from "../onboarding";
-import type { MemberProfile, Place, TravelMode } from "../types";
+import { destinations, FRIEND_IDS, getDestination, listings, personas, students } from "../data";
+import { diffRankings, explainListing, filterForLobby, rankRoommates } from "../engine";
+import { DEMO_ANSWERS, DEMO_SENTENCE, buildDemoProfile } from "../demo-profile";
+import { EXAMPLE_PROMPTS, buildFollowUps, selectThisOrThat, unconfirmedCount } from "../onboarding";
+import { rankFor } from "@/hooks/use-group";
+import type { Lobby, MemberProfile } from "../types";
 
-const DEMO =
-  "I'm an engineering student at Michigan. I'm on North Campus most weekdays, have evening club meetings, don't have a car, enjoy cooking with friends, and want housing under $1,150 a month.";
-/** State Street Village: blocked only by Sam's budget until it rises (see demo-flip.test.ts). */
-const Y = "um_ssv_4br";
 const SAM = "member_c";
-
-const wilson = getBuilding("wilson_center")!;
-const mracing: Place = {
-  id: "place_mracing",
-  name: "MRacing",
-  kind: "custom",
-  location: { source: "building", refId: wilson.id, label: wilson.name, lat: wilson.lat, lng: wilson.lng },
-  visitsPerWeek: 3,
-  importance: 3,
-  mode: "bus",
-};
-
-function demoProfile(mode: TravelMode, answers: ThisOrThatAnswer[], confirm = true): MemberProfile {
-  const parse = lookupCachedParse(DEMO)!;
-  let p = parseToProfile(parse, neutralProfile(defaultLivePersona, "Maya"));
-  for (const f of buildFollowUps(parse, { budgetProvided: false })) {
-    if (f.kind === "place" && f.suggestedDestinationId) p = addDestination(p, f.suggestedDestinationId, 2, f.placeText);
-  }
-  // No travel-mode question: the demo sentence ("bus" or "walk") defaults to walk; the student can change it.
-  p = setTravelMode(p, mode);
-  if (confirm) p = confirmAll(p);
-  // Stage script §12.2: About you → MRacing → "Where is it?" Wilson Center → 3×/wk → Bus → High.
-  p = { ...p, places: [mracing] };
-  const { ask } = selectThisOrThat(parse);
-  ask.forEach((q, i) => (p = applyThisOrThatAnswer(p, q, answers[i] ?? "skip")));
-  return effectiveProfile(p);
-}
-
-const friends = FRIEND_IDS.map((id) => students.find((s) => s.id === id)!);
-const candidates = students.filter((s) => !FRIEND_IDS.includes(s.id));
+const FAIR = "um_fair_4br";
+const SSV = "um_ssv_4br";
+const lobby = { targetSize: 4 } as Lobby;
 const pool = filterForLobby(listings, 4);
-/** 4-person lobby: the typed profile + Jordan + Sam + the invited candidate. */
-function rank(live: MemberProfile, fourth: MemberProfile, samBudget?: number) {
-  const members = [live, ...friends, fourth].map((m) => (m.id === SAM && samBudget ? { ...m, budgetMax: samBudget } : m));
-  return { members, ranked: rankListings(pool, members, commuteMatrix, destinations, { groupSize: 4 }) };
-}
 
-const sam = friends.find((m) => m.id === SAM)!;
-const ANSWER_SETS: ThisOrThatAnswer[][] = [
-  [],
-  ["a", "a", "a", "a", "a"],
-  ["b", "b", "b", "b", "b"],
-  ["either", "either", "either", "either", "either"],
-  ["a", "b", "a", "b", "a"],
-  ["b", "a", "b", "a", "b"],
-];
+const alex = buildDemoProfile();
+const [jordan, sam] = FRIEND_IDS.map((id) => students.find((s) => s.id === id)!);
+const suggestions = rankRoommates(
+  alex,
+  students.filter((s) => s.roommateStatus === "looking" && !FRIEND_IDS.includes(s.id)),
+  (id) => getDestination(id)?.shortName,
+);
+const riley = suggestions[0].member;
+const group = [alex, jordan, sam, riley];
+const withSam = (ms: MemberProfile[], budget: number) => ms.map((m) => (m.id === SAM ? { ...m, budgetMax: budget } : m));
 
-describe("demo path: onboarding builds the expected profile", () => {
-  it("the only follow-up is the club question (no travel-mode question); cooking question is skipped", () => {
-    const parse = lookupCachedParse(DEMO)!;
-    const f = buildFollowUps(parse, { budgetProvided: false });
-    expect(f.map((x) => x.kind)).toEqual(["place"]);
-    expect(parseToProfile(parse, neutralProfile(defaultLivePersona, "Maya")).travelMode).toBe("walk");
+describe("walkthrough step 2: the typed profile", () => {
+  it("the demo sentence is the first example chip and is answered from the cache", () => {
+    expect(EXAMPLE_PROMPTS[0].text).toBe(DEMO_SENTENCE);
+    expect(lookupCachedParse(DEMO_SENTENCE)).not.toBeNull();
+  });
+
+  it("Check it asks no follow-up questions; Quick picks asks exactly three", () => {
+    const parse = lookupCachedParse(DEMO_SENTENCE)!;
+    expect(buildFollowUps(parse, { budgetProvided: false })).toEqual([]);
     const { ask, skipped } = selectThisOrThat(parse);
-    expect(skipped.map((s) => s.q.id)).toContain("cooking_convenience");
-    expect(ask.length).toBeGreaterThanOrEqual(2);
+    expect(ask.map((q) => q.id)).toEqual(["closer_space", "rent_amenities", "private_cheaper"]);
+    expect(skipped.map((s) => s.q.id)).toEqual(["quiet_social", "cooking_convenience"]);
+    expect(Object.keys(DEMO_ANSWERS)).toEqual(ask.map((q) => q.id));
   });
 
-  it("confirmed profile has North Campus 4/wk, Central 2/wk, $1,150, no car, high cooking", () => {
-    const p = demoProfile("bus", []);
-    expect(p.destinations.find((d) => d.destinationId === "north_campus")?.visitsPerWeek).toBe(4);
-    expect(p.destinations.find((d) => d.destinationId === "central_campus")?.visitsPerWeek).toBe(2);
-    expect(p.budgetMax).toBe(1150);
-    expect(p.hasCar).toBe(false);
-    expect(p.lifestyle.cooking).toBe("high");
+  it("builds Alex exactly", () => {
+    expect(unconfirmedCount(alex)).toBe(0);
+    expect(alex).toMatchObject({
+      displayName: "Alex",
+      budgetMax: 1100,
+      travelMode: "bike",
+      hasCar: false,
+      lifestyle: { noise: "quiet", cooking: "high", guests: "sometimes" },
+      requirements: { privateBedroom: false, parking: false, inUnitLaundry: false },
+      desiredAmenities: ["largeKitchen", "dishwasher", "inUnitLaundry"],
+      major: "Aerospace Engineering",
+      organizations: ["MRacing"],
+      roommateStatus: "looking",
+    });
+    expect(alex.destinations.map((d) => [d.destinationId, d.visitsPerWeek])).toEqual([
+      ["north_campus", 4],
+      ["central_campus", 2],
+    ]);
+    expect(alex.places?.map((p) => [p.name, p.location.refId, p.visitsPerWeek, p.mode ?? alex.travelMode, p.importance])).toEqual([["MRacing", "wilson_center", 3, "bike", 3]]);
+    const w = alex.weights;
+    expect([w.affordability, w.commute, w.amenities, w.lifestyle, w.space].map((x) => Math.round(x * 100))).toEqual([30, 20, 15, 15, 20]);
   });
 
-  it("unconfirmed AI fields are not used: budget falls back to neutral, AI destinations dropped", () => {
-    const p = demoProfile("bus", [], false);
-    expect(p.budgetMax).toBe(1000);
-    expect(p.destinations.some((d) => d.destinationId === "north_campus")).toBe(false);
-    // user-answered follow-up (club → Central) is confirmed and kept
-    expect(p.destinations.some((d) => d.destinationId === "central_campus")).toBe(true);
+  it("the seeded default persona (before onboarding) scores the same as typed Alex", () => {
+    const seed = personas.find((p) => p.isLiveUser)!;
+    const pick = (m: MemberProfile) => ({
+      displayName: m.displayName,
+      budgetMax: m.budgetMax,
+      travelMode: m.travelMode,
+      destinations: m.destinations,
+      lifestyle: m.lifestyle,
+      requirements: m.requirements,
+      desiredAmenities: m.desiredAmenities,
+      major: m.major,
+      organizations: m.organizations,
+      places: m.places,
+    });
+    expect(pick(seed)).toEqual(pick(alex));
+    for (const d of Object.keys(alex.weights) as (keyof typeof alex.weights)[]) expect(seed.weights[d]).toBeCloseTo(alex.weights[d], 6);
   });
 });
 
-describe("demo path: the on-stage flip holds for the typed profile", () => {
-  for (const mode of ["bus", "walk"] as TravelMode[]) {
-    for (const answers of ANSWER_SETS) {
-      it.each(candidates.map((c) => [c.displayName, c] as const))(`mode=${mode} answers=[${answers.join(",") || "none"}] + %s`, (_name, fourth) => {
-        const live = demoProfile(mode, answers);
-        const before = rank(live, fourth);
-        const X = before.ranked[0];
-        expect(X.eligibility).not.toBe("blocked");
-        const onlySam = (id: string) => {
-          const r = before.ranked.find((x) => x.listingId === id)!;
-          return r.eligibility === "blocked" && r.blockers.every((b) => b.kind === "budget" && b.memberId === SAM);
-        };
-        expect(onlySam(Y)).toBe(true);
-
-        for (const bump of [100, 150, 200, 250]) {
-          const after = rank(live, fourth, sam.budgetMax + bump);
-          // The typed profile's weights come from this-or-that, so the winner may be State Street
-          // Village or another real home Sam's budget blocked; either tells the same story.
-          const top = after.ranked[0].listingId;
-          expect(top, `bump +$${bump}`).not.toBe(X.listingId);
-          expect(onlySam(top), `${top} was blocked only by Sam`).toBe(true);
-          const diff = diffRankings(before.ranked, after.ranked, {
-            changedInputs: [`Sam's budget $${sam.budgetMax} → $${sam.budgetMax + bump}`],
-            listings,
-            members: after.members,
-          });
-          expect(diff.becameEligible).toContain(top);
-          expect(diff.newTop).toBe(top);
-          const text = diff.sentences.join(" ");
-          expect(text).toMatch(/became affordable for Sam/);
-          expect(text).not.toMatch(/NaN|undefined|null|Infinity/);
-        }
-      });
-    }
-  }
-
-  it("explanations for every listing are clean for the demo group", () => {
-    const live = demoProfile("bus", []);
-    const { members, ranked } = rank(live, candidates[0]);
-    for (const r of ranked) {
-      const l = listings.find((x) => x.id === r.listingId)!;
-      const e = explainListing(r, l, members, destinations);
-      const all = [e.summary, ...e.strengths, e.compromise ?? "", ...Object.values(e.perMember).flat()].join(" ");
-      expect(all, r.listingId).not.toMatch(/NaN|undefined|Infinity|\$-/);
-    }
+describe("walkthrough step 5: roommate suggestions", () => {
+  it("Riley is a Great match, far ahead, for the reasons on the card", () => {
+    expect(riley.displayName).toBe("Riley");
+    expect(suggestions[0].compat).toMatchObject({ score: 95, label: "Great match", reasons: ["Both on North Campus most weeks", "Both want a quiet home"] });
+    expect(suggestions.map((s) => s.member.displayName)).toEqual(["Riley", "Priya", "Dana", "Theo", "Elena", "Marcus"]);
+    expect(suggestions[0].compat.score - suggestions[1].compat.score).toBeGreaterThanOrEqual(25);
   });
 
-  it("at seeded budgets some homes are open and several more wait only on Sam's budget", () => {
-    for (const fourth of candidates) {
-      const { ranked } = rank(demoProfile("bus", []), fourth);
-      // At least one open home is the "before" #1. (Haven 4BR used to be a second one only because its
-      // price was unknown; with the team sheet's $1,099/person it is honestly over Sam's budget.)
-      expect(ranked.filter((r) => r.eligibility !== "blocked").length, fourth.displayName).toBeGreaterThanOrEqual(1);
-      const nearlyOpen = ranked.filter(
-        (r) => r.eligibility === "blocked" && r.blockers.every((b) => b.kind === "budget" && b.memberId === SAM && (b.amount ?? Infinity) <= 100),
-      );
-      expect(nearlyOpen.length, fourth.displayName).toBeGreaterThanOrEqual(3);
-    }
+  it("Jordan and Sam are the friends, and they differ from Alex", () => {
+    expect([jordan.displayName, sam.displayName]).toEqual(["Jordan", "Sam"]);
+    expect(jordan).toMatchObject({ travelMode: "walk", budgetMax: 1200, lifestyle: { noise: "social" } });
+    expect(sam).toMatchObject({ travelMode: "bike", budgetMax: 850, budgetIsHardCap: true });
+  });
+});
+
+describe("walkthrough: rankings at each stage", () => {
+  it("solo search: 217 N Ashley St is #1", () => {
+    expect(rankFor(listings, [alex], null)[0].listingId).toBe("um_ashley_3br");
+  });
+
+  it("lobby with Jordan and Sam: Fair St #1, State Street Village #2 blocked only by Sam ($35)", () => {
+    const r = rankFor(pool, [alex, jordan, sam], lobby);
+    expect(r.slice(0, 2).map((x) => x.listingId)).toEqual([FAIR, SSV]);
+    expect(r[1].blockers).toEqual([expect.objectContaining({ kind: "budget", memberId: SAM, amount: 35 })]);
+  });
+
+  it("Riley joins: Fair St stays #1, Jordan is the least satisfied there", () => {
+    const r = rankFor(pool, group, lobby);
+    expect(r.slice(0, 3).map((x) => x.listingId)).toEqual([FAIR, SSV, "um_smain_4br"]);
+    expect(r[0].eligibility).not.toBe("blocked");
+    expect(r[0].groupScore).toBe(68.8);
+    expect(r[0].leastSatisfiedMemberId).toBe(jordan.id);
+    const e = explainListing(r[0], listings.find((l) => l.id === FAIR)!, group, destinations);
+    expect(e.compromise).toBe("Main drawback: a 39-minute walk to Central Campus for Jordan.");
+  });
+
+  it("What if: Sam $850 → $950 makes State Street Village #1, and says why", () => {
+    const before = rankFor(pool, group, lobby);
+    const after = withSam(group, 950);
+    const ranked = rankFor(pool, after, lobby);
+    expect(ranked.slice(0, 2).map((x) => x.listingId)).toEqual([SSV, "um_mary_4br"]);
+    expect(ranked[0].groupScore).toBe(75.6);
+    const d = diffRankings(before, ranked, { changedInputs: ["Sam's budget $850 → $950"], listings, members: after });
+    expect(d.previousTop).toBe(FAIR);
+    expect(d.newTop).toBe(SSV);
+    expect(d.sentences).toContain("State Street Village, 4BR Apartment became affordable for Sam, and it fits Jordan better on amenities (67 vs 33).");
+  });
+
+  it("the flip doesn't depend on hitting $950 exactly on the slider ($900–$1,100 all work; $875 doesn't)", () => {
+    expect(rankFor(pool, withSam(group, 875), lobby)[0].listingId).toBe(FAIR);
+    for (let b = 900; b <= 1100; b += 25) expect(rankFor(pool, withSam(group, b), lobby)[0].listingId, `$${b}`).toBe(SSV);
   });
 });

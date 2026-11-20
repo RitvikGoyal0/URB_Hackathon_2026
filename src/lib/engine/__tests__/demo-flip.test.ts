@@ -1,6 +1,6 @@
 /**
  * Stage flip (V3 §5.10), on the REAL catalog.
- * 4-person lobby: Maya + Jordan + Sam + whichever candidate the presenter invites.
+ * 4-person lobby: Alex + Jordan + Sam + whichever candidate the presenter invites.
  * Before: #1 is some eligible home X. State Street Village (Y, $885/room) is blocked ONLY by
  * Sam's $850 budget. Raising Sam's budget by any amount from $100 to $250 (slider step $25)
  * makes Y #1, and "What changed?" says why. Bus times come from the distance estimator, so
@@ -14,9 +14,9 @@ import type { MemberProfile, TravelMode } from "@/lib/types";
 const SAM_ID = "member_c";
 const Y = "um_ssv_4br";
 const BUMPS = [100, 125, 150, 175, 200, 225, 250];
-const MODES: TravelMode[] = ["bus", "walk"];
+const MODES: TravelMode[] = ["bike", "bus", "walk"];
 
-const maya = personas.find((p) => p.isLiveUser)!;
+const alex = personas.find((p) => p.isLiveUser)!;
 const [jordan, sam] = FRIEND_IDS.map((id) => students.find((s) => s.id === id)!);
 const candidates = students.filter((s) => !FRIEND_IDS.includes(s.id));
 const pool = filterForLobby(listings, 4);
@@ -33,8 +33,8 @@ describe("stage flip: real home becomes #1 when Sam's budget rises", () => {
 
   for (const mode of MODES) {
     for (const c of candidates) {
-      it(`Maya by ${mode} + Jordan + Sam + ${c.displayName}`, () => {
-        const members = [{ ...maya, travelMode: mode }, jordan, sam, c];
+      it(`Alex by ${mode} + Jordan + Sam + ${c.displayName}`, () => {
+        const members = [{ ...alex, travelMode: mode }, jordan, sam, c];
         const before = rank(members);
         const X = before[0];
         expect(X.listingId).not.toBe(Y);

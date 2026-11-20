@@ -1,14 +1,14 @@
 [
   {
     "id": "member_a",
-    "displayName": "Maya",
+    "displayName": "Alex",
     "isLiveUser": true,
-    "program": "Engineering",
-    "bio": "On North Campus most weekdays, evening club meetings, no car, loves cooking with friends.",
+    "program": "Aerospace Engineering",
+    "bio": "Aerospace engineering student on North Campus most days, MRacing at the Wilson Center, bikes everywhere, cooks a lot and likes a quiet home.",
     "color": "teal",
-    "budgetMax": 1150,
+    "budgetMax": 1100,
     "budgetIsHardCap": false,
-    "travelMode": "bus",
+    "travelMode": "bike",
     "hasCar": false,
     "destinations": [
       {
@@ -39,13 +39,13 @@
     ],
     "weights": {
       "affordability": 0.3,
-      "commute": 0.25,
-      "amenities": 0.2,
+      "commute": 0.2,
+      "amenities": 0.15,
       "lifestyle": 0.15,
-      "space": 0.1
+      "space": 0.2
     },
     "fieldMeta": {},
-    "major": "Engineering",
+    "major": "Aerospace Engineering",
     "organizations": [
       "MRacing"
     ],
@@ -62,8 +62,7 @@
           "lng": -83.71062
         },
         "visitsPerWeek": 3,
-        "importance": 3,
-        "mode": "bus"
+        "importance": 3
       }
     ]
   },
@@ -182,11 +181,11 @@
     "displayName": "Riley",
     "isLiveUser": false,
     "program": "Aerospace Engineering",
-    "bio": "Aerospace engineer on North Campus most days; studies late and needs a quiet private room.",
+    "bio": "Aerospace engineering, on the MRacing aero team at the Wilson Center. Bikes to North Campus, cooks most nights, needs a quiet place to study.",
     "color": "sky",
-    "budgetMax": 1250,
+    "budgetMax": 1150,
     "budgetIsHardCap": false,
-    "travelMode": "bus",
+    "travelMode": "bike",
     "hasCar": false,
     "destinations": [
       {
@@ -206,24 +205,24 @@
       "guests": "sometimes"
     },
     "requirements": {
-      "privateBedroom": true,
+      "privateBedroom": false,
       "parking": false,
       "inUnitLaundry": false
     },
     "desiredAmenities": [
       "largeKitchen",
       "dishwasher",
-      "quietBuilding"
+      "inUnitLaundry"
     ],
     "weights": {
-      "affordability": 0.25,
-      "commute": 0.3,
+      "affordability": 0.3,
+      "commute": 0.2,
       "amenities": 0.15,
-      "lifestyle": 0.2,
-      "space": 0.1
+      "lifestyle": 0.15,
+      "space": 0.2
     },
     "fieldMeta": {},
-    "major": "Engineering",
+    "major": "Aerospace Engineering",
     "organizations": [
       "MRacing"
     ],
@@ -232,7 +231,23 @@
       "email": "rileyhtl@umich.edu",
       "phone": "7345550163",
       "consentAt": "2026-11-01T12:00:00.000Z"
-    }
+    },
+    "places": [
+      {
+        "id": "place_riley_mracing",
+        "name": "MRacing",
+        "kind": "custom",
+        "location": {
+          "source": "building",
+          "refId": "wilson_center",
+          "label": "Wilson Student Team Project Center",
+          "lat": 42.29331,
+          "lng": -83.71062
+        },
+        "visitsPerWeek": 3,
+        "importance": 3
+      }
+    ]
   },
   {
     "id": "member_e",

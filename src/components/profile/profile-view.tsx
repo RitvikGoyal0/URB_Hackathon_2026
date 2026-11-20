@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { actions, selectLiveProfile, useAppState, useHydrated } from "@/lib/store";
+import { defaultLivePersona } from "@/lib/data";
 import type { MemberProfile } from "@/lib/types";
 import { PageIntro, Note } from "@/components/shared/bits";
 import { ProfileEditor } from "./profile-editor";
@@ -47,7 +48,7 @@ function Editor({ initial, onboarded }: { initial: MemberProfile; onboarded: boo
             className="h-10 rounded-full px-5"
             disabled={!dirty}
             onClick={() => {
-              actions.setLiveProfile({ ...draft, displayName: draft.displayName.trim() || "Maya" });
+              actions.setLiveProfile({ ...draft, displayName: draft.displayName.trim() || defaultLivePersona.displayName });
               toast.success("Profile saved. Rankings updated.");
             }}
           >

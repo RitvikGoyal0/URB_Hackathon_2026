@@ -1,51 +1,80 @@
 /**
- * The stage profile for the hidden /demo page (V3 §10, §12). Built on the server from the cached
- * demo parse (no network call), then the "Roommate search" and "About you" steps: actively looking, Engineering, MRacing at the Wilson
- * Center, 3×/wk by bus, high importance. Every detail is confirmed, as if the presenter had
- * reviewed it. This-or-that is skipped (default weights).
+ * The stage profile ("Alex"), built exactly the way the presenter builds it on stage
+ * (docs/demo-walkthrough.md), from the cached demo parse (no network call):
+ *
+ *   1. Your week: name "Alex", the "North Campus aerospace engineer" example sentence → Read my week.
+ *   2. Check it: no follow-up questions → Confirm all.
+ *   3. Roommate search: Actively looking, major "Aerospace Engineering", club "MRacing",
+ *      email, consent box.
+ *   4. About you: "Where is MRacing?" → Wilson Student Team Project Center, 3×/wk, Bike, High.
+ *   5. Quick picks: More space at home → Lower rent → A room of my own (the quiet/social and
+ *      cooking questions are skipped because the sentence answered them).
+ *
+ * The hidden /demo page's "Load demo profile" uses this, and the walkthrough tests lock the result.
  */
 import { defaultLivePersona, getBuilding } from "./data";
 import { lookupCachedParse } from "./ai/cache";
-import { addDestination, buildFollowUps, confirmAll, effectiveProfile, neutralProfile, parseToProfile, setTravelMode } from "./onboarding";
+import {
+  EXAMPLE_PROMPTS,
+  applyThisOrThatAnswer,
+  buildFollowUps,
+  confirmAll,
+  effectiveProfile,
+  neutralProfile,
+  parseToProfile,
+  selectThisOrThat,
+  setTravelMode,
+  type ThisOrThat,
+  type ThisOrThatAnswer,
+} from "./onboarding";
 import type { MemberProfile, Place, TravelMode } from "./types";
 
-export const DEMO_SENTENCE =
-  "I'm an engineering student at Michigan. I'm on North Campus most weekdays, have evening club meetings, don't have a car, enjoy cooking with friends, and want housing under $1,150 a month.";
+/** The first example chip on the "Your week" step. */
+export const DEMO_SENTENCE = EXAMPLE_PROMPTS[0].text;
+export const DEMO_NAME = "Alex";
+export const DEMO_MAJOR = "Aerospace Engineering";
+export const DEMO_CLUB = "MRacing";
+
+/** Quick-pick answers, by question. Questions the sentence already answered are skipped. */
+export const DEMO_ANSWERS: Partial<Record<ThisOrThat["id"], ThisOrThatAnswer>> = {
+  closer_space: "b", // More space at home
+  rent_amenities: "a", // Lower rent
+  private_cheaper: "a", // A room of my own
+};
 
 /** Placeholder contact for the stage profile (consent already given). */
-export const DEMO_CONTACT = { email: "mayahtl@umich.edu", phone: "7345550100", consentAt: "2026-11-20T09:00:00.000Z" } as const;
+export const DEMO_CONTACT = { email: "alexhtl@umich.edu", phone: "7345550100", consentAt: "2026-11-20T09:00:00.000Z" } as const;
 
 export function mracingPlace(): Place {
   const wilson = getBuilding("wilson_center");
   if (!wilson) throw new Error("wilson_center missing from buildings.umich.json");
   return {
     id: "place_mracing",
-    name: "MRacing",
+    name: DEMO_CLUB,
     kind: "custom",
     location: { source: "building", refId: wilson.id, label: wilson.name, lat: wilson.lat, lng: wilson.lng },
     visitsPerWeek: 3,
     importance: 3,
-    mode: "bus",
+    // Bike is picked in the wizard, but it equals the profile's mode, so the app stores no override.
   };
 }
 
-/** `mode` overrides the default the parse gives (walk for the demo sentence). */
+/** Alex as the app stores it after onboarding. `mode` overrides the travel mode (for what-if tests). */
 export function buildDemoProfile(mode?: TravelMode): MemberProfile {
   const parse = lookupCachedParse(DEMO_SENTENCE);
   if (!parse) throw new Error("The demo sentence is missing from demo-parse-cache.json");
-  let p = parseToProfile(parse, neutralProfile(defaultLivePersona, "Maya"));
-  for (const f of buildFollowUps(parse, { budgetProvided: false })) {
-    if (f.kind === "place" && f.suggestedDestinationId) p = addDestination(p, f.suggestedDestinationId, 2, f.placeText);
-  }
-  if (mode) p = setTravelMode(p, mode);
+  if (buildFollowUps(parse, { budgetProvided: false }).length > 0) throw new Error("The demo sentence should need no follow-up questions");
+  let p = parseToProfile(parse, neutralProfile(defaultLivePersona, DEMO_NAME));
   p = confirmAll(p);
+  if (mode) p = setTravelMode(p, mode);
   p = {
     ...p,
     roommateStatus: "looking",
     contact: { ...DEMO_CONTACT },
-    major: "Engineering",
-    organizations: ["MRacing"],
+    major: DEMO_MAJOR,
+    organizations: [DEMO_CLUB],
     places: [mracingPlace()],
   };
+  for (const q of selectThisOrThat(parse).ask) p = applyThisOrThatAnswer(p, q, DEMO_ANSWERS[q.id] ?? "skip");
   return effectiveProfile(p);
 }

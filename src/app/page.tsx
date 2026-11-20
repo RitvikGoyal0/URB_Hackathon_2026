@@ -35,7 +35,7 @@ const STEPS = [
 ];
 
 export default function Home() {
-  // Example 4-person lobby: Maya, her friends Jordan and Sam, and Riley (her closest roommate match).
+  // Example 4-person lobby: Alex, their friends Jordan and Sam, and Riley (their closest roommate match).
   const riley = getStudent("member_d");
   const members = [defaultLivePersona, ...friends, ...(riley ? [riley] : [])];
   const ranked = rankListings(filterForLobby(listings, members.length), members, commuteMatrix, destinations, { groupSize: members.length });

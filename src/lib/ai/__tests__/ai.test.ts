@@ -4,8 +4,7 @@ import { lookupCachedParse } from "../cache";
 import { sanitizeParse } from "../sanitize";
 import type { ProfileParse } from "../../types";
 
-const DEMO =
-  "I'm an engineering student at Michigan. I'm on North Campus most weekdays, have evening club meetings, don't have a car, enjoy cooking with friends, and want housing under $1,150 a month.";
+import { DEMO_SENTENCE as DEMO } from "../../demo-profile";
 
 describe("normalize + cache", () => {
   it("normalizes whitespace and case", () => {
@@ -16,15 +15,31 @@ describe("normalize + cache", () => {
     expect(lookupCachedParse(DEMO)).not.toBeNull();
     expect(lookupCachedParse(`  ${DEMO.toUpperCase()}  `)).not.toBeNull();
   });
-  it("demo parse matches spec §8.3", () => {
+  it("demo parse: North 4×/wk + Central 2×/wk, $1,100, bike, quiet, cooks a lot; nothing left to ask", () => {
     const p = lookupCachedParse(DEMO)!;
-    expect(p.destinations.map((d) => [d.destinationId, d.visitsPerWeek])).toEqual([["north_campus", 4]]);
-    expect(p.unmappedPlaces[0]).toMatchObject({ suggestedDestinationId: "central_campus", question: "Where do your club meetings happen?" });
+    expect(p.destinations.map((d) => [d.destinationId, d.visitsPerWeek])).toEqual([
+      ["north_campus", 4],
+      ["central_campus", 2],
+    ]);
+    expect(p.unmappedPlaces).toEqual([]);
+    expect(p.missing).toEqual([]);
     expect(p.hasCar?.value).toBe(false);
-    expect(p.travelMode).toBeUndefined();
-    expect(p.travelModeOptions).toEqual(["bus", "walk"]);
+    expect(p.travelMode?.value).toBe("bike");
+    expect(p.lifestyle.noise?.value).toBe("quiet");
     expect(p.lifestyle.cooking?.value).toBe("high");
-    expect(p.budgetMax?.value).toBe(1150);
+    expect(p.budgetMax?.value).toBe(1100);
+    expect(p.desiredAmenities.map((a) => a.value)).toEqual(["largeKitchen", "dishwasher", "inUnitLaundry"]);
+    // every quote really is in the sentence
+    const quotes = [
+      ...p.destinations.map((d) => d.sourceText),
+      p.budgetMax!.sourceText,
+      p.travelMode!.sourceText,
+      p.hasCar!.sourceText,
+      p.lifestyle.noise!.sourceText,
+      p.lifestyle.cooking!.sourceText,
+      ...p.desiredAmenities.map((a) => a.sourceText),
+    ];
+    for (const q of quotes) expect(DEMO).toContain(q);
   });
   it("other text misses the cache", () => {
     expect(lookupCachedParse("I like dogs")).toBeNull();

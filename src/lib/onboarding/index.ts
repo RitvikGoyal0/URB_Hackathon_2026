@@ -47,8 +47,9 @@ export type FieldKey =
 /** Example chips for the onboarding textarea. The first is the exact §8.3 demo sentence. */
 export const EXAMPLE_PROMPTS: { label: string; text: string }[] = [
   {
-    label: "North Campus engineer",
-    text: "I'm an engineering student at Michigan. I'm on North Campus most weekdays, have evening club meetings, don't have a car, enjoy cooking with friends, and want housing under $1,150 a month.",
+    // The stage demo sentence (cached in demo-parse-cache.json, so it parses instantly and the same every time).
+    label: "North Campus aerospace engineer",
+    text: "I'm an aerospace engineering student. I'm on North Campus four days a week and Central Campus twice a week. I bike everywhere and don't have a car. I cook a lot, so I want a big kitchen, a dishwasher and in-unit laundry. I need a quiet place to live, and my budget is $1,100 a month.",
   },
   {
     label: "Med campus, bikes everywhere",

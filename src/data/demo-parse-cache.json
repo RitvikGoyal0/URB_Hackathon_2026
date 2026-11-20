@@ -1,56 +1,72 @@
 {
-  "note": "Demo cache (spec §8.3). Keyed by sha256 of normalized text (trim, collapse whitespace, lowercase). Regenerate textHash with: npx tsx -e \"import('./src/lib/ai/normalize.ts').then(m=>console.log(m.hashProfileText(process.argv[1])))\" \"<text>\"",
-  "entries": [
-    {
-      "text": "I'm an engineering student at Michigan. I'm on North Campus most weekdays, have evening club meetings, don't have a car, enjoy cooking with friends, and want housing under $1,150 a month.",
-      "textHash": "da49f07690e215c1b40afc71340743a3510dfeda6a5f361f18d094b28dd3aaf8",
-      "parse": {
-        "destinations": [
-          {
-            "destinationId": "north_campus",
-            "visitsPerWeek": 4,
-            "sourceText": "on North Campus most weekdays",
-            "confidence": 0.95
-          }
-        ],
-        "budgetMax": {
-          "value": 1150,
-          "sourceText": "want housing under $1,150 a month",
-          "confidence": 0.95
-        },
-        "hasCar": {
-          "value": false,
-          "sourceText": "don't have a car",
-          "confidence": 0.95
-        },
-        "lifestyle": {
-          "cooking": {
-            "value": "high",
-            "sourceText": "enjoy cooking with friends",
-            "confidence": 0.85
-          }
-        },
-        "requirements": {},
-        "desiredAmenities": [
-          {
-            "value": "largeKitchen",
-            "sourceText": "enjoy cooking with friends",
-            "confidence": 0.7
-          }
-        ],
-        "unmappedPlaces": [
-          {
-            "text": "evening club meetings",
-            "suggestedDestinationId": "central_campus",
-            "question": "Where do your club meetings happen?"
-          }
-        ],
-        "missing": [],
-        "travelModeOptions": [
-          "bus",
-          "walk"
-        ]
-      }
-    }
-  ]
+ "note": "Demo cache (spec §8.3). Keyed by sha256 of normalized text (trim, collapse whitespace, lowercase). Regenerate textHash with: npx tsx -e \"import('./src/lib/ai/normalize.ts').then(m=>console.log(m.hashProfileText(process.argv[1])))\" \"<text>\"",
+ "entries": [
+  {
+   "text": "I'm an aerospace engineering student. I'm on North Campus four days a week and Central Campus twice a week. I bike everywhere and don't have a car. I cook a lot, so I want a big kitchen, a dishwasher and in-unit laundry. I need a quiet place to live, and my budget is $1,100 a month.",
+   "textHash": "c5e8aaaf808e9b1d8f6c5868986a6a490ab098b6b32d974163ff56206089f75c",
+   "parse": {
+    "destinations": [
+     {
+      "destinationId": "north_campus",
+      "visitsPerWeek": 4,
+      "sourceText": "on North Campus four days a week",
+      "confidence": 0.95
+     },
+     {
+      "destinationId": "central_campus",
+      "visitsPerWeek": 2,
+      "sourceText": "Central Campus twice a week",
+      "confidence": 0.95
+     }
+    ],
+    "budgetMax": {
+     "value": 1100,
+     "sourceText": "my budget is $1,100 a month",
+     "confidence": 0.95
+    },
+    "travelMode": {
+     "value": "bike",
+     "sourceText": "I bike everywhere",
+     "confidence": 0.95
+    },
+    "hasCar": {
+     "value": false,
+     "sourceText": "don't have a car",
+     "confidence": 0.95
+    },
+    "lifestyle": {
+     "noise": {
+      "value": "quiet",
+      "sourceText": "I need a quiet place to live",
+      "confidence": 0.9
+     },
+     "cooking": {
+      "value": "high",
+      "sourceText": "I cook a lot",
+      "confidence": 0.9
+     }
+    },
+    "requirements": {},
+    "desiredAmenities": [
+     {
+      "value": "largeKitchen",
+      "sourceText": "a big kitchen",
+      "confidence": 0.85
+     },
+     {
+      "value": "dishwasher",
+      "sourceText": "a dishwasher",
+      "confidence": 0.9
+     },
+     {
+      "value": "inUnitLaundry",
+      "sourceText": "in-unit laundry",
+      "confidence": 0.9
+     }
+    ],
+    "unmappedPlaces": [],
+    "missing": []
+   }
+  }
+ ]
 }

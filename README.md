@@ -48,33 +48,17 @@ npm run build && npm start
 
 ## Demo (about 5 minutes)
 
-0. **Offstage:** open `/demo` (hidden, not linked, not indexed) and click **Reset demo** twice to confirm. **Load demo profile** skips onboarding if time is short. The invite delay can be set to 0, 3 or 5 s.
-1. `/` → **Find My Fit** → **Michigan**.
-2. **Profile:**
-   - Type the demo sentence. The parse is instant (cached). There's no travel-mode question; it defaults to walking.
-   - Confirm the details.
-   - **Roommate search:** Actively looking → Engineering, add MRacing → a umich.edu email or phone → tick the consent box.
-   - **About you:** "Where is MRacing?" → Wilson Center → 3×/wk → Bus → High.
-   - Optionally upload a Wolverine Access schedule screenshot ("How do I get this?" shows the steps).
-   - Two this-or-that questions, then the dashboard.
-3. **Create a lobby:** "Engineering House", 4 people.
-4. **Invite friends** Jordan and Sam. They show "Invited · pending", then "Joined". The invite-link box above them copies a (cosmetic) link to send.
-5. **Roommates:** "Students you might get along with" (everyone here is actively looking). **Contact** shows their email and phone. Invite the top card; it joins.
-6. **Find Homes Together:**
-   - Explore ranks only 4-bedroom homes, for the four of you.
-   - Cards are photo-first, with a per-room price and "avg for you" commute times.
-   - Blocked homes stay in the list, marked in red.
-7. **Open the top home:**
-   - Photos, per-room price, group match and the trade-offs.
-   - One compact card per roommate, with their average commute.
-   - The official source link.
-   - **Back to all homes** keeps the tab and scroll position.
-8. Vote **Interested**. Voting also saves the home to Saved. The summary reads "1 of 4 interested · 3 waiting", and each person's vote is an icon.
-9. **What if…:** raise Sam's budget by $100–$250. The Before / After / Why card shows a real home that only Sam's budget was blocking becoming #1, "because it became affordable for Sam". Reset.
+The full click-by-click script, with the expected home and score at every step, is in **[docs/demo-walkthrough.md](docs/demo-walkthrough.md)**. In short:
 
-The flip is locked in by tests, on the real catalog:
-- `src/lib/engine/__tests__/demo-flip.test.ts`: State Street Village with every possible 4th roommate, by bus and on foot.
-- `src/lib/__tests__/demo-path.test.ts`: the profile the presenter actually types, across every travel-mode and this-or-that answer. Depending on the weights, the winner is State Street Village or another real home that was blocked only by Sam's budget, such as 602 Mary Ct.
+1. **Offstage:** `/demo` → **Reset demo** (or **Load demo profile** to skip onboarding).
+2. **Profile as "Alex":** click the **North Campus aerospace engineer** example chip (cached, instant) → Confirm all → Actively looking, Aerospace Engineering, MRacing, umich.edu email → "Where is MRacing?" Wilson Center, a few times a week, Bike, High → More space / Lower rent / A room of my own.
+3. **Lobby** "Engineering House" (4) → invite **Jordan** and **Sam** → Explore: **1805 Fair St** is #1, State Street Village is blocked by Sam's budget ($35 over).
+4. **Roommates:** **Riley** is a *Great match · 95* → Contact → Invite. Fair St stays #1 (Jordan is the least satisfied there).
+5. **What if budgets changed?** Sam $850 → **$950**: **State Street Village** becomes #1, "because it became affordable for Sam".
+
+The walkthrough is locked by tests on the real catalog:
+- `src/lib/__tests__/demo-path.test.ts`: the exact inputs → Alex's profile → Riley as the top match → the ranking at every step → the flip (any Sam budget from $900 to $1,100).
+- `src/lib/engine/__tests__/demo-flip.test.ts`: State Street Village flips to #1 with every possible 4th roommate, by bike, bus or on foot.
 
 ---
 

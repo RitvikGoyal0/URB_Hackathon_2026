@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Check, Pencil, Plus, Quote, Trash2, Minus } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { destinations as allDestinations, getDestination } from "@/lib/data";
+import { defaultLivePersona, destinations as allDestinations, getDestination } from "@/lib/data";
 import {
   NEUTRAL_BUDGET,
   addDestination,
@@ -283,7 +283,7 @@ export function ProfileEditor({
               value={profile.displayName}
               maxLength={24}
               onChange={(e) => onChange({ ...profile, displayName: e.target.value || " " })}
-              onBlur={(e) => !e.target.value.trim() && onChange({ ...profile, displayName: "Maya" })}
+              onBlur={(e) => !e.target.value.trim() && onChange({ ...profile, displayName: defaultLivePersona.displayName })}
             />
           </div>
           <AboutFields profile={profile} onChange={onChange} onAskPlace={setPlaceStart} />
