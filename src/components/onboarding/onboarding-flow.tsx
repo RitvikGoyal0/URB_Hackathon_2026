@@ -27,6 +27,7 @@ import {
 import { actions } from "@/lib/store";
 import type { MemberProfile, ParseResponse, ProfileParse } from "@/lib/types";
 import { AboutFields, ProfileEditor, WeightBars } from "@/components/profile/profile-editor";
+import { ScheduleSection } from "@/components/profile/schedule-section";
 import { PlacesSection, type PlaceSuggestion } from "@/components/places/place-wizard";
 import { MODE_LABEL } from "@/components/shared/format";
 
@@ -575,6 +576,15 @@ function AboutAndPlaces({ profile, onChange }: { profile: MemberProfile; onChang
         <p className="mt-1 text-[13px] leading-relaxed text-muted-foreground">A club, a job, a gym. Pick where it is yourself; we never guess a location.</p>
         <div className="mt-3.5">
           <PlacesSection profile={profile} onChange={onChange} start={start} />
+        </div>
+      </section>
+      <section className="rounded-[26px] border border-line bg-paper/60 p-4 sm:p-5">
+        <h3 className="text-[17px] font-semibold text-ink">
+          Upload your schedule <span className="text-[13px] font-normal text-muted-foreground">(optional)</span>
+        </h3>
+        <p className="mt-1 text-[13px] leading-relaxed text-muted-foreground">A screenshot from Wolverine Access works. You&apos;ll check every class before it&apos;s used.</p>
+        <div className="mt-3.5">
+          <ScheduleSection profile={profile} onChange={onChange} />
         </div>
       </section>
     </div>

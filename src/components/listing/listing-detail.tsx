@@ -6,7 +6,7 @@ import { AlertTriangle, ArrowLeft, Bath, BedDouble, Bookmark, BookmarkCheck, Cal
 import { toast } from "sonner";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { LIVE_MEMBER_ID, destinations, getCommunity, getListing } from "@/lib/data";
+import { LIVE_MEMBER_ID, destinations, getCommunity, getListing, getListingPhotos } from "@/lib/data";
 import { SUBJECTIVE_FEATURES, explainListing } from "@/lib/engine";
 import { exploreHref } from "@/lib/explore-query";
 import { actions } from "@/lib/store";
@@ -14,10 +14,10 @@ import { useAllVotes, useGroup } from "@/hooks/use-group";
 import type { FeatureKey, Listing, RankedResult } from "@/lib/types";
 import { dedupeWarnings } from "@/components/shared/bits";
 import { ScoreRing } from "@/components/shared/score-ring";
-import { ListingPhoto } from "@/components/shared/listing-photo";
 import { ScenarioBanner } from "@/components/shared/scenario-banner";
 import { FEATURE_KEYS, FEATURE_LABEL, blockerLine, groupFitLabel, longDate } from "@/components/shared/format";
 import { PriceLine, ringMembersFor } from "@/components/explore/listing-card";
+import { Gallery } from "./gallery";
 import { MemberRow } from "./member-row";
 import { ScoreFormula } from "./score-formula";
 import { VotePanel } from "./vote-panel";
@@ -103,7 +103,7 @@ export function ListingDetail({ id }: { id: string }) {
 
       {/* 1. Top */}
       <div className="mt-3 grid gap-6 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] lg:items-start">
-        <ListingPhoto src={listing.images[0]} alt={listing.name} className="aspect-[16/10] w-full rounded-[24px]" sizes="(min-width: 1024px) 55vw, 100vw" priority />
+        <Gallery photos={getListingPhotos(listing.id)} name={listing.name} />
 
         <div className="min-w-0">
           <p className="text-[13px] font-medium text-teal">

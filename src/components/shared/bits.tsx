@@ -49,13 +49,19 @@ export function MemberAvatar({
   size = "md",
   className,
 }: {
-  member: Pick<MemberProfile, "displayName" | "color">;
+  member: Pick<MemberProfile, "displayName" | "color"> & { photo?: MemberProfile["photo"] };
   index?: number;
-  size?: "xs" | "sm" | "md" | "lg";
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
   className?: string;
 }) {
   const c = memberColor(member, index);
-  const dims = { xs: "size-5 text-[10px]", sm: "size-7 text-xs", md: "size-10 text-sm", lg: "size-14 text-lg" }[size];
+  const dims = { xs: "size-5 text-[10px]", sm: "size-7 text-xs", md: "size-10 text-sm", lg: "size-14 text-lg", xl: "size-20 text-2xl" }[size];
+  if (member.photo?.dataUrl) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element -- a small local data URL; next/image adds nothing here
+      <img src={member.photo.dataUrl} alt="" aria-hidden className={cn("shrink-0 rounded-full object-cover ring-2 ring-white", dims, className)} />
+    );
+  }
   return (
     <span
       className={cn("inline-flex shrink-0 items-center justify-center rounded-full font-semibold text-white ring-2 ring-white", c.bg, dims, className)}

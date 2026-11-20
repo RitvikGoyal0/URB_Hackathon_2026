@@ -200,17 +200,19 @@ export const destination = z.object({
 export const weekday = z.enum(["mon", "tue", "wed", "thu", "fri", "sat", "sun"]);
 const hhmm = z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/);
 
+const placeLocation = z.object({
+  source: z.enum(["building", "pin", "area"]),
+  refId: z.string().optional(),
+  label: z.string(),
+  lat: z.number().min(-90).max(90),
+  lng: z.number().min(-180).max(180),
+});
+
 export const place = z.object({
   id: z.string(),
   name: z.string().min(1),
   kind: z.enum(["custom", "class"]),
-  location: z.object({
-    source: z.enum(["building", "pin", "area"]),
-    refId: z.string().optional(),
-    label: z.string(),
-    lat: z.number().min(-90).max(90),
-    lng: z.number().min(-180).max(180),
-  }),
+  location: placeLocation,
   visitsPerWeek: z.number().nonnegative().max(21),
   importance: z.union([z.literal(1), z.literal(2), z.literal(3)]),
   mode: travelMode.optional(),
@@ -222,6 +224,7 @@ export const scheduleClass = z.object({
   start: hhmm,
   end: hhmm,
   building: z.string().optional(),
+  location: placeLocation.optional(),
   placeId: z.string().optional(),
   confirmed: z.boolean(),
 }) satisfies z.ZodType<T.ScheduleClass>;
@@ -247,7 +250,14 @@ export const memberProfile = z.object({
   organizations: z.array(z.string()).optional(),
   photo: z.object({ dataUrl: z.string().startsWith("data:image/"), updatedAt: z.string() }).nullable().optional(),
   places: z.array(place).optional(),
-  schedule: z.object({ classes: z.array(scheduleClass), confirmedAt: z.string().optional() }).nullable().optional(),
+  schedule: z
+    .object({
+      classes: z.array(scheduleClass),
+      confirmedAt: z.string().optional(),
+      image: z.object({ dataUrl: z.string().startsWith("data:image/"), updatedAt: z.string() }).nullable().optional(),
+    })
+    .nullable()
+    .optional(),
 }) satisfies z.ZodType<T.MemberProfile>;
 
 export const voteValue = z.enum(["interested", "maybe", "pass"]);

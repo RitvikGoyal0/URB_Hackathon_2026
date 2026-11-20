@@ -23,6 +23,8 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { DIM_LABEL, FEATURE_KEYS, FEATURE_LABEL, MODE_LABEL, money } from "@/components/shared/format";
 import { Segmented, ToggleChip } from "./segmented";
+import { PhotoField } from "./photo-field";
+import { ScheduleSection } from "./schedule-section";
 import { PlacesSection, type PlaceSuggestion } from "@/components/places/place-wizard";
 import { searchBuildings } from "@/lib/places";
 
@@ -161,7 +163,9 @@ export function AboutFields({
   };
   return (
     <div className="grid gap-2.5 rounded-2xl border border-line bg-white px-4 py-3.5">
-      <label htmlFor="pe-major" className="text-[12.5px] font-medium text-muted-foreground">
+      <span className="text-[12.5px] font-medium text-muted-foreground">Photo</span>
+      <PhotoField profile={profile} onChange={onChange} />
+      <label htmlFor="pe-major" className="mt-1 text-[12.5px] font-medium text-muted-foreground">
         Major
       </label>
       <Input
@@ -287,6 +291,12 @@ export function ProfileEditor({
       {showPlaces && (
         <Section title="Places you go often" hint="Clubs, jobs, a gym, a friend's place. Each one counts toward your commute, more for places you go often and care about.">
           <PlacesSection profile={profile} onChange={onChange} start={placeStart} />
+        </Section>
+      )}
+
+      {showPlaces && (
+        <Section title="Schedule" hint="Upload a screenshot of your class schedule or type it in. Each class building you confirm counts as trips: the first class of the day, or one after a 2-hour gap.">
+          <ScheduleSection profile={profile} onChange={onChange} />
         </Section>
       )}
 

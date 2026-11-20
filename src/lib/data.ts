@@ -10,6 +10,7 @@ import listingsJson from "@/data/listings.json";
 import personasJson from "@/data/personas.json";
 import resourcesJson from "@/data/resources.umich.json";
 import commuteMatrixJson from "@/data/commute-matrix.json";
+import listingPhotosJson from "@/data/listing-photos.json";
 import type {
   Building,
   CampusDestination,
@@ -26,7 +27,16 @@ export const destinations = destinationsJson as CampusDestination[];
 /** Known U-M buildings for "Where is it?" and schedule matching (V3 §6). */
 export const buildings = buildingsJson as Building[];
 export const communities = communitiesJson as Community[];
-export const listings = listingsJson as unknown as Listing[];
+/** Team photos (scripts/photo-manifest.ts → listing-photos.json); the only source of listing images. */
+export interface ListingPhotoCredit {
+  src: string;
+  type: string;
+  attribution: string;
+  rights: "team-owned" | "permission";
+}
+const photoManifest = listingPhotosJson as Record<string, ListingPhotoCredit[]>;
+export const getListingPhotos = (id: string): ListingPhotoCredit[] => photoManifest[id] ?? [];
+export const listings = (listingsJson as unknown as Listing[]).map((l) => ({ ...l, images: getListingPhotos(l.id).map((p) => p.src) }));
 export const personas = personasJson as unknown as MemberProfile[];
 export const resources = resourcesJson as ResourceLink[];
 const communityCoords = new Map((communitiesJson as Community[]).map((c) => [c.id, { lat: c.lat, lng: c.lng }]));

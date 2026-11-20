@@ -18,7 +18,8 @@ The app never scrapes or copies listing photos. Every image must be one **a team
    - `type`: `exterior`, `interior`, `kitchen`, `bedroom`, `bathroom` or `amenity`
    - `rights`: `team-owned` (we took it) or `permission` (keep the written OK, e.g. the email, in the team drive)
    - `attribution` is shown as a small caption under the photo.
-4. Commit the folder. A file without a `credits.json` entry is not shown.
+4. Run `npm run photos`. It reads every `credits.json`, writes `src/data/listing-photos.json` (the list the app uses), and prints any entry it skipped and why (missing file, wrong rights, over 2 MB, …). `npm run check` fails if you forget this step.
+5. Commit the folder and `src/data/listing-photos.json`. A file without a `credits.json` entry is not shown.
 
 Please don’t:
 - save images from offcampushousing.umich.edu, Zillow, apartments.com or a property’s website without written permission

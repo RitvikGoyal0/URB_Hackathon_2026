@@ -11,7 +11,8 @@
     "test:watch": "vitest",
     "build:commute": "tsx scripts/build-commute-matrix.ts",
     "typecheck": "tsc --noEmit",
-    "check": "npm run typecheck && npm run lint && npm test"
+    "check": "npm run typecheck && npm run lint && npm test",
+    "photos": "tsx scripts/photo-manifest.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",

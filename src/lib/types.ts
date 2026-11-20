@@ -220,7 +220,7 @@ export interface MemberProfile {
   photo?: { dataUrl: string; updatedAt: string } | null;
   /** places beyond the 7 campus areas (known buildings, pins, class buildings); student-located only */
   places?: Place[];
-  schedule?: { classes: ScheduleClass[]; confirmedAt?: string } | null;
+  schedule?: { classes: ScheduleClass[]; confirmedAt?: string; image?: { dataUrl: string; updatedAt: string } | null } | null;
 }
 
 export type Weekday = "mon" | "tue" | "wed" | "thu" | "fri" | "sat" | "sun";
@@ -243,6 +243,8 @@ export interface ScheduleClass {
   start: string;
   end: string;
   building?: string;
+  /** where the class is, picked/confirmed by the student (known building or campus area) */
+  location?: Place["location"];
   placeId?: Id;
   confirmed: boolean;
 }
