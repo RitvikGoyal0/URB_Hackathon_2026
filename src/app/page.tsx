@@ -7,6 +7,7 @@ import { MemberAvatar, ListingSourceBadge } from "@/components/shared/bits";
 import { ListingPhoto } from "@/components/shared/listing-photo";
 import { fmtScore, groupFitLabel, memberColor, money } from "@/components/shared/format";
 import { cn } from "@/lib/utils";
+import { TAGLINE } from "@/components/shared/brand";
 import { commuteMatrix, defaultLivePersona, destinations, friends, getListing, getStudent, listings, universities } from "@/lib/data";
 import { filterForLobby, rankListings } from "@/lib/engine";
 
@@ -51,10 +52,10 @@ export default function Home() {
     <main>
       <section className="relative overflow-hidden">
         <div className="paper-grain pointer-events-none absolute inset-0 opacity-60" aria-hidden />
-        <div className="relative mx-auto grid max-w-7xl gap-12 px-4 pt-14 pb-16 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:pt-20 lg:pb-24">
+        <div className="relative mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)] gap-12 px-4 pt-14 pb-16 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:pt-20 lg:pb-24">
           <div>
             <h1 className="max-w-[14ch] text-[3.1rem] leading-[0.98] font-semibold tracking-[-0.035em] text-ink sm:text-[4.4rem]">
-              Find your people. Find your place.
+              {TAGLINE}
             </h1>
             <p className="mt-6 max-w-[46ch] text-[17px] leading-relaxed text-charcoal/85">
               Listing sites filter by rent and bedrooms. This scores every Ann Arbor home against each roommate&apos;s actual week,
@@ -105,10 +106,16 @@ export default function Home() {
                     );
                   })}
                 </ul>
-                <p className="mt-4 text-[12.5px] leading-relaxed text-muted-foreground">
-                  {groupFitLabel(top.groupScore)} for everyone
-                  {top.perMember[0]?.perPersonRent != null ? `, at ${money(top.perMember[0].perPersonRent)} per person` : ""}
-                </p>
+                <div className="mt-4 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 rounded-2xl bg-teal-soft px-4 py-3">
+                  <span className="text-[14px] font-semibold text-ink">
+                    {groupFitLabel(top.groupScore)} for all {members.length} of you
+                  </span>
+                  {top.perMember[0]?.perPersonRent != null && (
+                    <span className="text-[13px] text-charcoal/80">
+                      <span className="font-display text-[20px] font-semibold text-ink tabular-nums">{money(top.perMember[0].perPersonRent)}</span> per person
+                    </span>
+                  )}
+                </div>
               </div>
             </Link>
           )}

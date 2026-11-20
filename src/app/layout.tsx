@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Suspense } from "react";
 import { SiteFooter, SiteHeader, SiteHeaderFallback } from "@/components/app-shell/site-header";
 import { AppProviders } from "@/components/app-shell/app-providers";
+import { BRAND, TAGLINE } from "@/components/shared/brand";
 import "./globals.css";
 
 const display = Bricolage_Grotesque({
@@ -25,8 +26,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Rentezvous · Find your people. Find your place.",
-    template: "%s · Rentezvous",
+    default: `${BRAND} · ${TAGLINE}`,
+    template: `%s · ${BRAND}`,
   },
   description:
     "A housing decision tool for groups of four: scores Ann Arbor listings for each roommate's real week, explains the trade-offs and lets the group vote.",
@@ -46,7 +47,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           </AppProviders>
         </TooltipProvider>
         <Toaster theme="light" position="bottom-center" richColors={false} />
-        {process.env.NODE_ENV === "development" && <Agentation appName="Rentezvous" endpoint={process.env.NEXT_PUBLIC_AGENTATION_ENDPOINT} />}
+        {process.env.NODE_ENV === "development" && <Agentation appName={BRAND} endpoint={process.env.NEXT_PUBLIC_AGENTATION_ENDPOINT} />}
       </body>
     </html>
   );

@@ -14,7 +14,7 @@ import {
   DropdownMenuGroup,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { BRAND } from "@/components/shared/brand";
+import { BRAND, LogoMark } from "@/components/shared/brand";
 import { LobbySwitcher } from "./lobby-switcher";
 
 const NAV = [
@@ -29,11 +29,7 @@ export function Logo({ className }: { className?: string }) {
   return (
     <Link href="/" className={cn("group flex items-center gap-2.5 rounded-lg", className)} aria-label={`${BRAND} home`}>
       <span className="relative inline-flex size-8 items-center justify-center rounded-[10px] bg-ink">
-        <svg viewBox="0 0 24 24" className="size-5" aria-hidden>
-          <path d="M4 11.5 12 5l8 6.5V19a1 1 0 0 1-1 1h-4.5v-5h-5v5H5a1 1 0 0 1-1-1z" fill="none" stroke="#f5f6f2" strokeWidth="1.8" strokeLinejoin="round" />
-          <circle cx="9" cy="10.5" r="1.3" fill="#14a37f" />
-          <circle cx="15" cy="10.5" r="1.3" fill="#e8a33d" />
-        </svg>
+        <LogoMark className="size-5" />
       </span>
       <span className="font-display text-[17px] font-semibold tracking-tight text-ink">{BRAND}</span>
     </Link>
