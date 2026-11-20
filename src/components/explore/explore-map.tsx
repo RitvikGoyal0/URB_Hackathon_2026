@@ -54,8 +54,17 @@ function FlyTo({ target }: { target: [number, number] | null }) {
   const lng = target?.[1];
   useEffect(() => {
     if (lat === undefined || lng === undefined) return;
+    // A hidden map (list view, or Explore kept alive in <Activity>) has no size: Leaflet's bounds
+    // and flyTo maths turn into NaN and throw. Nothing to show there, so don't move it.
+    const size = map.getSize();
+    if (!size.x || !size.y || !map.getContainer().isConnected) return;
     // Only move the map when the selected home is off-screen, so hovering cards doesn't make it jump.
-    if (!map.getBounds().pad(-0.1).contains([lat, lng])) map.flyTo([lat, lng], Math.max(map.getZoom(), 14), { duration: 0.6 });
+    if (map.getBounds().pad(-0.1).contains([lat, lng])) return;
+    try {
+      map.flyTo([lat, lng], Math.max(map.getZoom(), 14), { duration: 0.6 });
+    } catch {
+      map.setView([lat, lng], Math.max(map.getZoom(), 14), { animate: false });
+    }
   }, [map, lat, lng]);
   return null;
 }
