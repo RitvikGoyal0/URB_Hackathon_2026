@@ -47,14 +47,17 @@ describe("walkthrough step 2: the typed profile", () => {
 
   it("builds Alex exactly", () => {
     expect(unconfirmedCount(alex)).toBe(0);
+    expect(alex.fieldMeta["requirements.privateBedroom"]).toMatchObject({ sourceType: "user", confirmed: true });
+    expect(alex.fieldMeta["desiredAmenities.ac"]).toMatchObject({ sourceType: "user", confirmed: true });
     expect(alex).toMatchObject({
       displayName: "Alex",
       budgetMax: 1100,
       travelMode: "bike",
       hasCar: false,
       lifestyle: { noise: "quiet", cooking: "high", guests: "sometimes" },
-      requirements: { privateBedroom: false, parking: false, inUnitLaundry: false },
-      desiredAmenities: ["largeKitchen", "dishwasher", "inUnitLaundry"],
+      // privateBedroom and ac are the two details added by hand on Check it
+      requirements: { privateBedroom: true, parking: false, inUnitLaundry: false },
+      desiredAmenities: ["largeKitchen", "dishwasher", "inUnitLaundry", "ac"],
       major: "Aerospace Engineering",
       organizations: ["MRacing"],
       roommateStatus: "looking",
@@ -107,7 +110,7 @@ describe("walkthrough step 5: roommate suggestions", () => {
   it("Riley is a Great match, far ahead, for the reasons on the card", () => {
     expect(riley.displayName).toBe("Riley");
     expect(suggestions[0].compat).toMatchObject({ score: 95, label: "Great match", reasons: ["Both on North Campus most weeks", "Both want a quiet home"] });
-    expect(suggestions.map((s) => s.member.displayName)).toEqual(["Riley", "Priya", "Dana", "Theo", "Elena", "Marcus"]);
+    expect(suggestions.map((s) => s.member.displayName)).toEqual(["Riley", "Dana", "Priya", "Theo", "Elena", "Marcus"]);
     expect(suggestions[0].compat.score - suggestions[1].compat.score).toBeGreaterThanOrEqual(25);
   });
 
@@ -119,8 +122,8 @@ describe("walkthrough step 5: roommate suggestions", () => {
 });
 
 describe("walkthrough: rankings at each stage", () => {
-  it("solo search: 217 N Ashley St is #1", () => {
-    expect(rankFor(listings, [alex], null)[0].listingId).toBe("um_ashley_3br");
+  it("solo search: 1417 Broadway is #1 (private bedrooms confirmed, A/C)", () => {
+    expect(rankFor(listings, [alex], null)[0].listingId).toBe("um_broadway_4br");
   });
 
   it("lobby with Jordan and Sam: Fair St #1, State Street Village #2 blocked only by Sam ($35)", () => {
@@ -133,7 +136,7 @@ describe("walkthrough: rankings at each stage", () => {
     const r = rankFor(pool, group, lobby);
     expect(r.slice(0, 3).map((x) => x.listingId)).toEqual([FAIR, SSV, "um_smain_4br"]);
     expect(r[0].eligibility).not.toBe("blocked");
-    expect(r[0].groupScore).toBe(68.9);
+    expect(r[0].groupScore).toBe(67.8);
     expect(r[0].leastSatisfiedMemberId).toBe(jordan.id);
     const e = explainListing(r[0], listings.find((l) => l.id === FAIR)!, group, destinations);
     expect(e.compromise).toBe("Main drawback: a 39-minute walk to Central Campus for Jordan.");
@@ -143,8 +146,8 @@ describe("walkthrough: rankings at each stage", () => {
     const before = rankFor(pool, group, lobby);
     const after = withSam(group, 950);
     const ranked = rankFor(pool, after, lobby);
-    expect(ranked.slice(0, 2).map((x) => x.listingId)).toEqual([SSV, "um_mary_4br"]);
-    expect(ranked[0].groupScore).toBe(75.7);
+    expect(ranked.slice(0, 2).map((x) => x.listingId)).toEqual([SSV, "um_smain_4br"]);
+    expect(ranked[0].groupScore).toBe(74.6);
     const d = diffRankings(before, ranked, { changedInputs: ["Sam's budget $850 → $950"], listings, members: after });
     expect(d.previousTop).toBe(FAIR);
     expect(d.newTop).toBe(SSV);

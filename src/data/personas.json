@@ -28,14 +28,15 @@
       "guests": "sometimes"
     },
     "requirements": {
-      "privateBedroom": false,
+      "privateBedroom": true,
       "parking": false,
       "inUnitLaundry": false
     },
     "desiredAmenities": [
       "largeKitchen",
       "dishwasher",
-      "inUnitLaundry"
+      "inUnitLaundry",
+      "ac"
     ],
     "weights": {
       "affordability": 0.3,
@@ -378,14 +379,15 @@
       "guests": "sometimes"
     },
     "requirements": {
-      "privateBedroom": false,
+      "privateBedroom": true,
       "parking": false,
       "inUnitLaundry": false
     },
     "desiredAmenities": [
       "largeKitchen",
       "dishwasher",
-      "inUnitLaundry"
+      "inUnitLaundry",
+      "ac"
     ],
     "weights": {
       "affordability": 0.3,

@@ -3,7 +3,8 @@
  * (docs/demo-walkthrough.md), from the cached demo parse (no network call):
  *
  *   1. Your week: name "Alex", the "North Campus aerospace engineer" example sentence → Read my week.
- *   2. Check it: no follow-up questions → Confirm all.
+ *   2. Check it: no follow-up questions. Must-haves → turn on "A private bedroom"; Nice-to-haves →
+ *      tap "Air conditioning" (both things the sentence didn't say) → Confirm all.
  *   3. Roommate search: Actively looking, major "Aerospace Engineering", club "MRacing",
  *      email, consent box.
  *   4. About you: "Where is MRacing?" → Wilson Student Team Project Center, 3×/wk, Bike, High.
@@ -21,6 +22,7 @@ import {
   applyThisOrThatAnswer,
   buildFollowUps,
   confirmAll,
+  markEdited,
   effectiveProfile,
   neutralProfile,
   parseToProfile,
@@ -75,6 +77,9 @@ export function buildDemoProfile(mode?: TravelMode): MemberProfile {
   if (!parse) throw new Error("The demo sentence is missing from demo-parse-cache.json");
   if (buildFollowUps(parse, { budgetProvided: false }).length > 0) throw new Error("The demo sentence should need no follow-up questions");
   let p = parseToProfile(parse, neutralProfile(defaultLivePersona, DEMO_NAME));
+  // Check it: the two details added by hand (as the editor does: each edit is marked as the student's own)
+  p = markEdited({ ...p, requirements: { ...p.requirements, privateBedroom: true } }, "requirements.privateBedroom");
+  p = markEdited({ ...p, desiredAmenities: [...p.desiredAmenities, "ac"] }, "desiredAmenities.ac");
   p = confirmAll(p);
   if (mode) p = setTravelMode(p, mode);
   p = {

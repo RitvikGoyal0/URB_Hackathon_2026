@@ -51,7 +51,7 @@ npm run build && npm start
 The full click-by-click script, with the expected home and score at every step, is in **[docs/demo-walkthrough.md](docs/demo-walkthrough.md)**. In short:
 
 1. **Offstage:** `/demo` → **Reset demo** (or **Load demo profile** to skip onboarding).
-2. **Profile as "Alex":** click the **North Campus aerospace engineer** example chip (cached, instant) → Confirm all → Actively looking, Aerospace Engineering, MRacing, umich.edu email → "Where is MRacing?" Wilson Center, a few times a week, Bike, High → upload `public/demo/alex-schedule.png` (also on `/demo`; recognised without an AI call), Yes + "This is right" for all 6 classes → More space / Lower rent / A room of my own.
+2. **Profile as "Alex":** click the **North Campus aerospace engineer** example chip (cached, instant) → on Check it turn on **A private bedroom** and tap **Air conditioning** → Confirm all → Actively looking, Aerospace Engineering, MRacing, umich.edu email → "Where is MRacing?" Wilson Center, a few times a week, Bike, High → upload `public/demo/alex-schedule.png` (also on `/demo`; recognised without an AI call), Yes + "This is right" for all 6 classes → More space / Lower rent / A room of my own.
 3. **Lobby** "Engineering House" (4) → invite **Jordan** and **Sam** → Explore: **1805 Fair St** is #1, State Street Village is blocked by Sam's budget ($35 over).
 4. **Roommates:** **Riley** is a *Great match · 95* → Contact → Invite. Fair St stays #1 (Jordan is the least satisfied there).
 5. **What if budgets changed?** Sam $850 → **$950**: **State Street Village** becomes #1, "because it became affordable for Sam".
