@@ -18,6 +18,7 @@ import {
 } from "@/lib/onboarding";
 import type { FeatureKey, FieldMeta, Lifestyle, MemberProfile, Requirements, TravelMode } from "@/lib/types";
 import { DIMS } from "@/lib/types";
+import { DEFAULT_WEIGHTS, PRIORITY_LEVELS, prioritiesFor, setPriority } from "@/lib/engine";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
@@ -101,7 +102,7 @@ function FieldRow({
       )}
     >
       <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
-        <div className="min-w-0 flex-1">
+        <div className="min-w-0 grow basis-40">
           <div className="text-[12.5px] font-medium text-muted-foreground">{label}</div>
           {!showEditor && <div className="mt-0.5 text-[15px] font-semibold text-ink">{display}</div>}
         </div>
@@ -229,10 +230,10 @@ export function AboutFields({
 
 function Section({ title, hint, children }: { title: string; hint?: string; children: React.ReactNode }) {
   return (
-    <section className="rounded-[26px] border border-line bg-paper/60 p-4 sm:p-5">
+    <section className="min-w-0 rounded-[26px] border border-line bg-paper/60 p-4 sm:p-5">
       <h3 className="text-[17px] font-semibold text-ink">{title}</h3>
       {hint && <p className="mt-1 text-[13px] leading-relaxed text-muted-foreground">{hint}</p>}
-      <div className="mt-3.5 grid gap-2.5">{children}</div>
+      <div className="mt-3.5 grid grid-cols-[minmax(0,1fr)] gap-2.5">{children}</div>
     </section>
   );
 }
@@ -256,7 +257,7 @@ export function ProfileEditor({
   const [placeStart, setPlaceStart] = useState<{ name: string; suggestion?: PlaceSuggestion } | null>(null);
 
   return (
-    <div className="grid gap-4">
+    <div className="grid grid-cols-[minmax(0,1fr)] gap-4">
       {pending > 0 && (
         <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-ink px-4 py-3 text-paper">
           <p className="text-[14px]">
@@ -365,7 +366,7 @@ export function ProfileEditor({
               id="pe-add-dest"
               value={addId}
               onChange={(e) => setAddId(e.target.value)}
-              className="h-9 rounded-full border border-line bg-white px-3 text-[13.5px] text-ink focus-visible:ring-3 focus-visible:ring-teal/40 focus-visible:outline-none"
+              className="h-9 max-w-full min-w-0 rounded-full border border-line bg-white px-3 text-[13.5px] text-ink focus-visible:ring-3 focus-visible:ring-teal/40 focus-visible:outline-none"
             >
               <option value="">Add a place…</option>
               {missingDests.map((d) => (
@@ -553,9 +554,67 @@ export function ProfileEditor({
           })}
       </Section>
 
-      <Section title="What matters most to you" hint="Starts from the default mix; each this-or-that answer moves 5 points between two categories.">
-        <WeightBars weights={profile.weights} />
+      <Section title="Customize your priorities" hint="How much each one counts when homes are ranked for you.">
+        <PrioritiesEditor profile={profile} onChange={onChange} />
       </Section>
+    </div>
+  );
+}
+
+function PrioritiesEditor({ profile, onChange }: { profile: MemberProfile; onChange: (p: MemberProfile) => void }) {
+  const levels = prioritiesFor(profile.weights, profile.priorities);
+  const isDefault = DIMS.every((d) => Math.abs(profile.weights[d] - DEFAULT_WEIGHTS[d]) < 1e-6);
+  return (
+    <div className="grid grid-cols-[minmax(0,1fr)] gap-2.5">
+      {DIMS.map((d) => (
+        <div key={d} className="@container rounded-2xl border border-line bg-white px-4 py-3">
+          <p id={`pr-${d}`} className="text-[14px] font-medium text-ink">
+            {DIM_LABEL[d]}
+          </p>
+          <div role="radiogroup" aria-labelledby={`pr-${d}`} className="mt-2 grid grid-cols-2 gap-1 rounded-2xl bg-secondary p-1 @min-[26rem]:grid-cols-4">
+            {PRIORITY_LEVELS.map((lv) => {
+              const active = levels[d] === lv.value;
+              return (
+                <button
+                  key={lv.value}
+                  type="button"
+                  role="radio"
+                  aria-checked={active}
+                  onClick={() => {
+                    if (active) return;
+                    const next = setPriority(profile.weights, profile.priorities, d, lv.value);
+                    onChange({ ...profile, ...next });
+                  }}
+                  className={cn(
+                    "rounded-xl px-2 py-1.5 text-[12.5px] leading-tight font-medium transition-colors focus-visible:ring-3 focus-visible:ring-teal/40 focus-visible:outline-none",
+                    active ? "bg-ink text-paper shadow-sm" : "text-charcoal/75 hover:text-ink",
+                  )}
+                >
+                  {lv.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+      <details className="group rounded-2xl border border-line bg-white px-4 py-3">
+        <summary className="cursor-pointer text-[13.5px] font-medium text-ink">Advanced: exact weights</summary>
+        <p className="mt-2 text-[12.5px] leading-relaxed text-muted-foreground">
+          Your this-or-that answers set the starting mix. Picking a level above sets all five from the levels shown.
+        </p>
+        <div className="mt-2.5">
+          <WeightBars weights={profile.weights} />
+        </div>
+        <Button
+          size="sm"
+          variant="outline"
+          className="mt-3 rounded-full"
+          disabled={isDefault}
+          onClick={() => onChange({ ...profile, weights: { ...DEFAULT_WEIGHTS }, priorities: undefined })}
+        >
+          Reset to the default mix
+        </Button>
+      </details>
     </div>
   );
 }

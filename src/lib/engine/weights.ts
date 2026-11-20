@@ -1,4 +1,4 @@
-import type { Dim, Weights } from "../types";
+import type { Dim, Priorities, PriorityLevel, Weights } from "../types";
 import { DIMS } from "../types";
 
 /** Spec §7.5 defaults. */
@@ -34,4 +34,44 @@ export function applyThisOrThat(w: Weights, choose: Dim | "either" | "skip", ove
   next[choose] += shift;
   next[over] -= shift;
   return normalizeWeights(next);
+}
+
+/** V3 §5.8: Very important / Important / Somewhat / Flexible → 4 / 3 / 2 / 1. */
+export const PRIORITY_LEVELS: { value: PriorityLevel; label: string }[] = [
+  { value: 4, label: "Very important" },
+  { value: 3, label: "Important" },
+  { value: 2, label: "Somewhat" },
+  { value: 1, label: "Flexible" },
+];
+
+/** Levels normalized to sum to 1. */
+export function weightsFromPriorities(p: Priorities): Weights {
+  return normalizeWeights(Object.fromEntries(DIMS.map((d) => [d, p[d]])) as Weights);
+}
+
+const sameWeights = (a: Weights, b: Weights) => DIMS.every((d) => Math.abs(a[d] - b[d]) < 1e-6);
+
+/**
+ * The levels to show for a profile. If the student picked levels and the weights still match
+ * them, those levels. Otherwise (defaults, this-or-that) the nearest level for each weight,
+ * relative to the largest: the largest is always "Very important".
+ */
+export function prioritiesFor(weights: Weights, stored?: Priorities): Priorities {
+  if (stored && sameWeights(weightsFromPriorities(stored), normalizeWeights(weights))) return { ...stored };
+  const w = normalizeWeights(weights);
+  const max = Math.max(...DIMS.map((d) => w[d]));
+  return Object.fromEntries(
+    DIMS.map((d) => [d, Math.min(4, Math.max(1, Math.round((w[d] / max) * 4))) as PriorityLevel]),
+  ) as Priorities;
+}
+
+/** One row changed: every row takes the level it shows, and the weights follow the levels. */
+export function setPriority(
+  weights: Weights,
+  stored: Priorities | undefined,
+  dim: Dim,
+  level: PriorityLevel,
+): { weights: Weights; priorities: Priorities } {
+  const priorities = { ...prioritiesFor(weights, stored), [dim]: level };
+  return { weights: weightsFromPriorities(priorities), priorities };
 }

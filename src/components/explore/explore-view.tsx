@@ -198,7 +198,7 @@ export function ExploreView() {
       <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
         <p className="text-[13px] text-muted-foreground">
           Showing {visible.length} of {modeRows.length} {mode === "haven" ? "Haven floor plans" : "homes"}
-          {blockedCount > 0 && ` · ${blockedCount} blocked (still ranked, dimmed)`}
+          {blockedCount > 0 && ` · ${blockedCount} blocked (still ranked, marked in red)`}
           {g.hasScenario && " · what-if budgets applied"}
         </p>
         <div className="inline-flex rounded-full bg-secondary p-1 lg:hidden" role="tablist" aria-label="List or map">

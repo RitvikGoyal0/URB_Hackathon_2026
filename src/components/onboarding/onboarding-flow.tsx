@@ -145,7 +145,7 @@ export function OnboardingFlow() {
           const idx = STEPS.findIndex((x) => x.id === step);
           const state = i < idx ? "done" : i === idx ? "current" : "todo";
           return (
-            <li key={s.id} className="flex flex-1 items-center gap-2">
+            <li key={s.id} className="flex min-w-0 flex-1 items-center gap-2">
               <span
                 className={cn(
                   "inline-flex size-7 shrink-0 items-center justify-center rounded-full text-[12.5px] font-semibold",
@@ -157,7 +157,7 @@ export function OnboardingFlow() {
               >
                 {state === "done" ? <Check className="size-3.5" aria-hidden /> : i + 1}
               </span>
-              <span className={cn("text-[13px] font-medium", state === "todo" ? "text-muted-foreground" : "text-ink")}>{s.label}</span>
+              <span className={cn("min-w-0 truncate text-[13px] font-medium", state === "todo" ? "text-muted-foreground" : "text-ink", state !== "current" && "max-[379px]:sr-only")}>{s.label}</span>
               {i < STEPS.length - 1 && <span className="mx-1 hidden h-px flex-1 bg-line sm:block" aria-hidden />}
             </li>
           );

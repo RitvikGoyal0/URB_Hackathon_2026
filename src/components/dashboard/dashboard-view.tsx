@@ -61,7 +61,7 @@ export function DashboardView() {
         </p>
       )}
 
-      <div className="mt-8 grid gap-4 lg:grid-cols-[1.25fr_1fr]">
+      <div className="mt-8 grid grid-cols-[minmax(0,1fr)] gap-4 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)]">
         <Panel
           title="Your housing group"
           action={
@@ -149,12 +149,12 @@ export function DashboardView() {
         {homes.length === 0 ? (
           <p className="text-[14px] text-muted-foreground">No {groupSize}-bedroom homes in the catalog yet.</p>
         ) : (
-          <div className="grid gap-3 md:grid-cols-3">
+          <div className="grid grid-cols-[minmax(0,1fr)] gap-3 md:grid-cols-3">
             {homes.map((r) => {
               const l = getListing(r.listingId)!;
               const rent = r.perMember[0]?.perPersonRent ?? null;
               return (
-                <Link key={r.listingId} href={`/listing/${r.listingId}`} className="flex items-center gap-4 rounded-2xl border border-line p-4 transition-colors hover:border-ink/25">
+                <Link key={r.listingId} href={`/listing/${r.listingId}`} className="flex min-w-0 items-center gap-4 rounded-2xl border border-line p-4 transition-colors hover:border-ink/25">
                   <ScoreRing score={r.groupScore} size={56} stroke={6} dimmed={r.eligibility === "blocked"} />
                   <span className="min-w-0">
                     <span className="block truncate text-[15px] font-semibold text-ink">{l.name}</span>
@@ -169,7 +169,7 @@ export function DashboardView() {
         )}
       </Panel>
 
-      <div className="mt-4 grid gap-4 lg:grid-cols-[1.6fr_1fr]">
+      <div className="mt-4 grid grid-cols-[minmax(0,1fr)] gap-4 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
         <Panel
           title="Suggested roommates"
           action={

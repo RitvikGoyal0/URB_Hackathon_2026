@@ -309,7 +309,7 @@ export function PlacesSection({
   return (
     <div>
       {places.length > 0 && (
-        <ul className="grid gap-2">
+        <ul className="grid grid-cols-[minmax(0,1fr)] gap-2">
           {places.map((p) => (
             <li key={p.id} className="flex items-center gap-3 rounded-2xl border border-line bg-white px-4 py-3">
               <MapPin className="size-4 shrink-0 text-teal" aria-hidden />

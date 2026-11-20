@@ -172,6 +172,15 @@ export const weights = dimRecord.refine(
   { message: "weights must sum to 1" },
 ) satisfies z.ZodType<T.Weights>;
 
+const priorityLevel = z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]);
+export const priorities = z.object({
+  affordability: priorityLevel,
+  commute: priorityLevel,
+  amenities: priorityLevel,
+  lifestyle: priorityLevel,
+  space: priorityLevel,
+}) satisfies z.ZodType<T.Priorities>;
+
 export const lifestyle = z.object({
   noise: z.enum(["quiet", "social", "either"]),
   cooking: z.enum(["high", "medium", "low"]),
@@ -245,6 +254,7 @@ export const memberProfile = z.object({
   requirements,
   desiredAmenities: z.array(featureKey),
   weights,
+  priorities: priorities.optional(),
   fieldMeta: z.record(z.string(), fieldMeta),
   major: z.string().optional(),
   organizations: z.array(z.string()).optional(),

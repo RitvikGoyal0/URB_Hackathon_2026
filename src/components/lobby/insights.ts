@@ -113,7 +113,8 @@ export function deriveInsights(members: MemberProfile[]): GroupInsights {
       if (m.requirements[k]) nonNegotiables.push(`${m.displayName} needs ${REQ_PHRASE[k]}`);
     }
   }
-  const binding = members.reduce<MemberProfile | null>((lo, m) => (!lo || m.budgetMax < lo.budgetMax ? m : lo), null);
+  // Only a group has a limiting budget; alone in a lobby, nobody "sets the group limit".
+  const binding = members.length < 2 ? null : members.reduce<MemberProfile | null>((lo, m) => (!lo || m.budgetMax < lo.budgetMax ? m : lo), null);
   if (binding) {
     nonNegotiables.push(
       `${binding.displayName}'s ${money(binding.budgetMax)} ${binding.budgetIsHardCap ? "cap" : "budget"} is the binding constraint`,

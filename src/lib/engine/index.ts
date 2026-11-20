@@ -6,7 +6,7 @@ export { rankListings, filterForLobby, applyEvidenceRule, roomsIn, SUBJECTIVE_FE
 export { perPersonRent } from "./rent";
 export { explainListing } from "./explain";
 export { diffRankings } from "./diff";
-export { DEFAULT_WEIGHTS, applyThisOrThat, normalizeWeights } from "./weights";
+export { DEFAULT_WEIGHTS, PRIORITY_LEVELS, applyThisOrThat, normalizeWeights, prioritiesFor, setPriority, weightsFromPriorities } from "./weights";
 export { consensus, type ConsensusLabel } from "./consensus";
 export { compatibility, rankRoommates, compatLabel, type Compat } from "./compat";
 export { scheduleTrips, tripsPerPlace, parseTime, TRIP_GAP_MIN } from "./schedule";

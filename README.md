@@ -1,10 +1,14 @@
 # Hack the Lease
 
-**Find your people. Find your place.**
+**Find roommates who fit your lifestyle and homes that fit your group.**
 
-A housing decision tool for a group of four University of Michigan students. Each person describes their week in plain English. The app turns that into a confirmed profile, scores 20 Ann Arbor listings for every member and for the group, names who is compromising and by how much, and re-ranks live when a budget changes. Then the group votes.
+A housing decision tool for University of Michigan students. A student describes their week in plain English, and the app turns that into a profile they confirm. They then create a housing group (a "lobby"), invite friends, and find compatible roommates. Real Ann Arbor listings are scored for every member and for the group. The app shows who is compromising and by how much, and how the ranking changes if a budget changes. Then the group votes.
 
-Built for Hack the Lease 2026 (Nov 20, 2026). Scope and rules come from [`hack-the-lease-mvp-spec.md`](hack-the-lease-mvp-spec.md).
+Built for Hack the Lease 2026 (Nov 20, 2026). The V3 scope and rules are in [`.plans/v3-refinement-spec.md`](.plans/v3-refinement-spec.md). The original MVP spec is [`hack-the-lease-mvp-spec.md`](hack-the-lease-mvp-spec.md).
+
+Live: https://hack-the-lease-seven.vercel.app
+
+> **The students are fictional.** Jordan, Sam, Riley and the other roommates are invented personas, and the app shows no demo tags, at the team's request. The presenter says so on stage. **Every listing is real.**
 
 ---
 
@@ -18,7 +22,7 @@ cp .env.example .env.local   # then add GEMINI_API_KEY
 npm run dev                  # http://localhost:3000
 ```
 
-Demo-laptop backup (no network needed except for live Gemini; the demo sentence is cached):
+Demo-laptop backup. No network is needed except for live Gemini, and the demo sentence is cached:
 
 ```bash
 npm run build && npm start
@@ -28,139 +32,171 @@ npm run build && npm start
 |---|---|
 | `npm run dev` | Dev server (Turbopack) |
 | `npm run build` / `npm start` | Production build / serve |
-| `npm test` | Vitest: engine, AI guardrails, end-to-end demo path |
-| `npm run check` | Typecheck + lint + tests (run before every commit) |
-| `npm run build:commute` | Rebuild the OSRM commute matrix (network; not needed to run the app) |
+| `npm test` | Vitest: engine, store, AI guardrails, routes, end-to-end demo path |
+| `npm run check` | Typecheck + lint + tests (run before every push) |
+| `npm run photos` | Validate team listing photos and regenerate `src/data/listing-photos.json` ([docs/listing-photos.md](docs/listing-photos.md)) |
+| `npm run build:commute` | Rebuild the OSRM commute matrix (uses the network; not needed to run the app) |
 
 ### Environment variables
 
 | Variable | Required | Where | Purpose |
 |---|---|---|---|
-| `GEMINI_API_KEY` | For live parsing | Server only (`/api/profile/parse`) | Parses free-text profiles. Never sent to the client. Without it, the exact demo sentence still works from the cache, and any other text lands on the manual form. |
-| `NEXT_PUBLIC_AGENTATION_ENDPOINT` | No | Dev only | Sends [agentation](https://agentation.com) toolbar annotations to the local MCP server in `.mcp.json` (`http://localhost:4747`). Not rendered in production. |
+| `GEMINI_API_KEY` | For live parsing | Server only | Parses the free-text profile (`/api/profile/parse`) and reads schedule screenshots (`/api/schedule/parse`). Never sent to the client. Without it, the exact demo sentence still works from the cache, other text goes to the manual form, and schedules can be typed in by hand. |
+| `NEXT_PUBLIC_AGENTATION_ENDPOINT` | No | Dev only | Sends [agentation](https://agentation.com) toolbar annotations to the local MCP server in `.mcp.json`. Not rendered in production. |
 
 ---
 
-## Demo (5 minutes)
+## Demo (about 5 minutes)
 
-1. `/` → **Find My Fit** → pick Michigan (Alabama, Miami and Virginia Tech go to "coming soon").
-2. Click the **North Campus engineer** example → **Read my week**. The parse is instant (cached). Confirm the quote chips, answer "club meetings → Central Campus" and "Bus", then two this-or-thats.
-3. **Lobby:** four roommates. "Sam's $1,000 cap is the binding constraint", "Riley needs a private bedroom".
-4. **Explore → Haven tab:** Haven on Geddes with sourced amenities and the official link.
-5. **All Housing:** 20 ranked homes with source badges. Open #1, **Packard Street House (Demo)**, to see per-member scores and the formula.
-6. **What if…:** drag Sam's budget up $100–250. **Northside Commons (Demo)** becomes eligible and jumps to #1. "What changed?" says it *became affordable for Sam, and it is much closer to North Campus for Maya*. Reset.
-7. **Watchlist:** Jordan, Sam and Riley have voted. Cast Maya's vote and the consensus updates and survives a reload.
+0. **Offstage:** open `/demo` (hidden, not linked, not indexed) and click **Reset demo** twice to confirm. **Load demo profile** skips onboarding if time is short. The invite delay can be set to 0, 3 or 5 s.
+1. `/` → **Find My Fit** → **Michigan**.
+2. **Profile:**
+   - Type the demo sentence. The parse is instant (cached).
+   - Confirm the details.
+   - **About you:** Engineering. MRacing → "Where is it?" → Wilson Center → 3×/wk → Bus → High.
+   - Optionally upload a schedule screenshot.
+   - Two this-or-that questions, then the dashboard.
+3. **Create a lobby:** "Engineering House", 4 people.
+4. **Invite friends** Jordan and Sam. They show "Invited · pending", then "Joined".
+5. **Roommates:** "Students you might get along with". Invite the top card; it joins.
+6. **Find Homes Together:**
+   - Explore ranks only 4-bedroom homes, for the four of you.
+   - Cards are photo-first, with a per-room price and "avg for you" commute times.
+   - Blocked homes stay in the list, marked in red.
+7. **Open the top home:**
+   - Photos, per-room price, group match and the trade-offs.
+   - One compact card per roommate, with their average commute.
+   - The official source link.
+   - **Back to all homes** keeps the filters and scroll position.
+8. **Save** it and vote **Interested**. The summary reads "1 of 4 interested · 3 waiting".
+9. **What if…:** raise Sam's budget by $100–$250. The Before / After / Why card shows a real home that only Sam's budget was blocking becoming #1, "because it became affordable for Sam". Reset.
 
-The flip is asserted by tests (`src/lib/engine/__tests__/demo-flip.test.ts`, `src/lib/__tests__/demo-path.test.ts`), including for the profile the presenter types, across every travel-mode and this-or-that answer.
+The flip is locked in by tests, on the real catalog:
+- `src/lib/engine/__tests__/demo-flip.test.ts`: State Street Village with every possible 4th roommate, by bus and on foot.
+- `src/lib/__tests__/demo-path.test.ts`: the profile the presenter actually types, across every travel-mode and this-or-that answer. Depending on the weights, the winner is State Street Village or another real home that was blocked only by Sam's budget, such as 602 Mary Ct.
 
 ---
 
 ## How scoring works
 
-All scoring is deterministic and lives in `src/lib/engine/` (pure functions, no React, no LLM).
+All scoring is deterministic and lives in `src/lib/engine/`: pure functions, no React, no LLM. Every tunable number is in `constants.ts`. In the app, the method sits in one collapsed **"How we score"** section on the listing page, and nowhere else shows formulas.
 
-**Rent per person**
-- `per_unit`: (rent + unit fees) ÷ group size.
-- `per_bedroom` / `per_person`: rent + per-person fees. **Never divided by group size.**
-- Unknown rent or basis → `null` ("Contact for pricing"). **Unknown rent is never $0.**
+**Who is scored.** You plus the *joined* members of the active lobby. Invited members aren't scored until they join. With no lobby you search solo.
 
-**Hard checks.** Blocked homes stay in the list, sorted below the ones that work and flagged in red.
-- Over a member's budget → "Exceeds Sam's budget by $X/mo".
-- A required feature that is `false` → blocker. If it's unknown → warning. **Unknown never satisfies a requirement.**
-- Too few bedrooms for someone who needs a private room → blocker. Unknown occupancy → warning.
+**Which homes.** In a lobby, only homes with exactly as many bedrooms as the lobby's size. Solo shows every size.
+
+**Rent per person (per room)**
+- Whole-unit rent: rent ÷ bedrooms. A studio is the whole rent.
+- Per-bed or per-person rent: used as listed, plus per-person fees.
+- Unknown rent shows as "Pricing not verified", and affordability isn't scored. **Unknown rent is never $0.**
+
+**Hard checks.** Blocked homes stay in the list, sorted below the ones that work, with a red line:
+- Over a member's budget → "Over Sam's budget by $X".
+- A required feature that is `false` → blocker. If it is unknown → warning. **Unknown never satisfies a requirement.**
+- Too few bedrooms for someone who needs a private room → blocker.
 
 **Subscores (0–100)**
 
 | Dimension | Rule |
 |---|---|
 | Affordability | 100 at ≤ 80% of budget, linear to 50 at 100%, 0 over budget |
-| Commute | 100 at ≤ 10 min, linear to 0 at ≥ 40 min, weighted by visits/week × importance, using the member's own mode. Bus isn't routed: walk time is used, and minutes past 20 count at 50% ("Bus likely; check U-M Magic Bus") |
-| Amenities | Share of wanted amenities present. Unknown counts as not met and is listed |
+| Commute | 100 at ≤ 10 min, linear to 0 at ≥ 40 min. Weighted by visits/week × importance, using each place's own travel mode |
+| Amenities | Share of wanted amenities the source confirms. Unknown counts as not met and is listed |
 | Lifestyle | Quiet ↔ quiet building, social ↔ social spaces, heavy cooks ↔ large kitchen |
 | Space | Private bedroom, baths per person (≥ 0.75 is full marks), sq ft per person |
 
-A subscore without data is `null`. Its weight is shared across the others, and the card shows "Scored on 4 of 5 categories".
+- **Subjective features need evidence.** A quiet building, large kitchen or social spaces count only if the listing's source says so. The app shows that wording as a quote. Otherwise the feature is unknown: never scored as met, and never used in lifestyle rules.
+- A subscore without data is `null`. Its weight is shared across the others.
 
-**Weights.** Defaults are 30 / 25 / 20 / 15 / 10 (affordability / commute / amenities / lifestyle / space). Each this-or-that answer moves 5 points between the two dimensions it contrasts, then the weights are renormalized.
+**Travel times** (no paid APIs, no runtime calls):
+- **Walk, bike and drive** to the 7 campus areas: routed ahead of time with OSRM and committed (`commute-matrix.json`).
+- **Bus, and every mode to custom places, buildings and classes:** estimated from distance (`estimate.ts`), always labelled "est.":
+
+  ```
+  road_km = straight-line km × 1.35
+  walk    = road_km at 4.8 km/h
+  bike    = road_km at 14 km/h + 1 min
+  drive   = road_km at 30 km/h + 4 min parking
+  bus     = 5 min to/from stops + 5 min wait + road_km at 18 km/h
+  ```
+
+  - When walking beats the bus, the app says "Walking is faster".
+  - A test checks the estimator against the routed OSRM times. For each area, the median error must be within ±35%, and at least 90% of trips must fall inside that range.
+- **Average commute** = Σ(minutes × visits) ÷ Σ(visits), one way.
+
+**Weights.** The defaults are 30 / 25 / 20 / 15 / 10 (affordability / commute / amenities / lifestyle / space).
+- Each this-or-that answer moves 5 points between the two dimensions it contrasts.
+- On the profile page, **Customize your priorities** sets the five weights directly. Very important / Important / Somewhat / Flexible map to 4 / 3 / 2 / 1, then the weights are normalized.
 
 **Member score** = Σ (effective weight × subscore)
 
-**Group score** = **0.75 × mean(member scores) + 0.25 × min(member scores)**
+**Group score** = **0.75 × mean(member scores) + 0.25 × min(member scores)**. The 25% on the least-satisfied member keeps one person from being outvoted by the average.
 
-The 25% on the least-satisfied member keeps one person from being outvoted by the average. Both parts are shown everywhere.
+**Sort order.** Eligible → eligible with unknowns → blocked. Within a tier, by group score, then by listing id, so the same input always gives the same output.
 
-**Sort order.** Eligible → eligible with unknowns → blocked. Within a tier, sort by group score, then by listing id, so the same input always gives the same output.
+**Roommate similarity** (`compat.ts`):
+- A weighted mix of budget overlap, places, lifestyle, priorities, travel, must-haves, amenities, and major and clubs.
+- The two biggest contributors become the reasons, e.g. "Both in MRacing".
+- Labels: Great match (≥ 80), Good match (≥ 65), Some overlap (≥ 50).
+- The score is symmetric and deterministic. Nobody is hard-coded as the top match.
 
-**Explanations and "What changed?"** come from templates filled from the score data (`explain.ts`, `diff.ts`). No narrative is hard-coded and no LLM writes them.
+**Schedule trips.** A class counts as a trip from home if it's the first class of the day, or comes after a gap of **2 hours or more**. Back-to-back classes don't add trips.
 
-**Consensus** (4 members):
-- Fewer than 2 votes → Awaiting Reviews
-- 4 interested → Everyone Interested
-- ≥ 3 interested and 0 pass → Strong Interest
-- ≥ 2 pass, or ≥ 1 interested and ≥ 2 pass → Significant Disagreement
-- Both interested and pass present → Mixed Opinions
-- Otherwise → Under Consideration
+**Explanations, "Why" and "What changed?"** are templates filled from the score data (`explain.ts`, `diff.ts`). No LLM writes them.
 
-Votes show interest only, never availability.
-
-### Tests
-
-There are 159 tests in `src/**/__tests__`:
-- Rent basis, blockers, coverage, the group formula, explanations, diff text, consensus and weights.
-- The demo flip on real data, and the full onboarding → ranking → what-if path.
-- Property tests over 300 seeded random groups. They check that scores stay in range, the formulas reproduce, sorting is consistent, results are deterministic, inputs are never mutated, budgets and rent move scores in the right direction, and explanations never print NaN/undefined.
-- Edge cases: empty and solo groups, studios, corrupt rent data, zero-visit destinations and more.
-- AI guardrails: an invented budget is dropped, unknown places are moved to follow-up questions, and the cache normalizes the demo sentence.
+**Votes.** Interested / Maybe / Pass, separately for each lobby. The listing shows "N of M interested" and "Waiting for roommates' votes". New lobbies start with no votes; no votes are simulated. Votes show interest only, never availability.
 
 ---
 
 ## AI: what Gemini does (and doesn't)
 
-Gemini is used **only** to parse the free-text profile (`POST /api/profile/parse`, server-side, `@google/genai`).
-- The output is a JSON schema generated from Zod, validated, and retried once. The deadline is 8 seconds, with a model fallback list.
-- **Guardrails** (`src/lib/ai/sanitize.ts`):
-  - A budget is kept only if the number appears in the text.
-  - Places not in the destination registry become follow-up questions.
-  - Every field carries its source quote and confidence.
-- **Nothing the AI suggests is used until the user confirms it.** Unconfirmed fields fall back to neutral defaults.
-- The exact demo sentence is answered from `src/data/demo-parse-cache.json` (keyed by a hash of the normalized text). If Gemini fails, the user lands on the manual edit form with an error toast.
+Gemini runs server-side only (`@google/genai`), for two things:
+
+1. **Profile parse** (`POST /api/profile/parse`):
+   - The output must match a JSON schema generated from Zod. It is validated and retried once, with an 8 s deadline and a fallback list of models.
+   - **Guardrails** (`src/lib/ai/sanitize.ts`): a budget is kept only if that number appears in the text. Places that aren't known become follow-up questions. Every field carries its source quote.
+   - The exact demo sentence is answered from `src/data/demo-parse-cache.json`.
+2. **Schedule screenshot** (`POST /api/schedule/parse`):
+   - Accepts JPEG, PNG or WebP up to 8 MB, and reads at most 30 classes.
+   - Several models are raced, with a 15 s deadline.
+   - Every row goes to a review table. The student confirms each class, and either confirms the building match or picks the building themselves.
+
+**Nothing the AI suggests is used until the student confirms it.** The AI may suggest a building or area for a place, but **it never sets a location**: the student picks one or drops a pin, or the place isn't saved.
 
 ---
 
-## Data sources (all observed 2026-11-20)
+## Data sources (observed 2026-11-20)
 
 | Data | Count | Source |
 |---|---|---|
-| Haven on Geddes (Hackberry Lane) | 3 | [havenongeddes.com](https://www.havenongeddes.com/ann-arbor/haven-on-geddes/student/). The 3BR per-bed prices are provider-reported. **The 4BR whole-unit $4,396/mo (≈ $1,099/person) comes from the project brief and is labelled *unverified* in the app.** On re-check, the live page showed only 3BR layouts. |
-| U-M Off-Campus Housing listings | 13 | [offcampushousing.umich.edu](https://offcampushousing.umich.edu/listing). Third-party reported, with a link per listing. One has no published price and shows "Contact for pricing". |
-| Synthetic demo listings | 4 | Fictional gap-fillers, striped **DEMO — fictional** everywhere (Packard Street House, Northside Commons, Kerrytown Row, Stadium Townhomes) |
-| Campus destinations | 7 | Coordinates from OpenStreetMap Nominatim |
-| Commute matrix | 20 × 7 × 3 modes | OSRM table service at routing.openstreetmap.de (walk / bike / drive), precomputed by `scripts/build-commute-matrix.ts` and committed. The app never calls a routing API at runtime. |
-| Resources | 7 | U-M Dean of Students "Beyond the Diag" and Logistics, Transportation & Parking pages, summarized in our own words with links |
-| Roommates and votes | 3 + seeds | Fictional personas (`src/data/personas.json`, `votes.seed.json`) |
+| Haven on Geddes (Hackberry Lane) | 3 | [havenongeddes.com](https://www.havenongeddes.com/ann-arbor/haven-on-geddes/student/). The 3BR per-bed prices are provider-reported. **The 4BR whole-unit price isn't on the live page, so it shows "Pricing not verified"** and isn't used for affordability. |
+| U-M Off-Campus Housing listings | 19 | [offcampushousing.umich.edu](https://offcampushousing.umich.edu/listing). Reported by third parties, with a link for each listing. 15 four-bedroom homes plus studio, 1, 2, 3 and 5 BR. |
+| Campus areas | 7 | Coordinates from OpenStreetMap Nominatim |
+| U-M buildings | 29 | Each building is checked once against OpenStreetMap. Buildings that couldn't be verified were left out. |
+| Commute matrix | 22 × 7 × 3 modes | OSRM table service at routing.openstreetmap.de (walk / bike / drive), built by `scripts/build-commute-matrix.ts` |
+| Resources | 7 | U-M Dean of Students and Logistics, Transportation & Parking pages, summarized in our own words with links |
+| Roommates | 9 personas | Fictional (`src/data/personas.json`); see the note at the top |
 
-Listing photos are not copied; cards use representative illustrations and link to the official page. Map tiles © OpenStreetMap contributors.
+**Photos.** Listing photos are never scraped or copied. Only photos the team took, or has written permission to use, go in `public/listings/<id>/`, with credits. Until a home has one, its card shows "Photo coming soon". Map tiles © OpenStreetMap contributors.
 
 ---
 
 ## Privacy and fairness
 
-- There are no demographic fields anywhere in the schema. Clubs are stored only as a destination, not as identity.
-- Everything the user enters stays in this browser's `localStorage` (`htl:app-state:v1`, validated with Zod on load). **Profile → Delete my profile** clears it.
-- Roommates see budget *ranges* and places, not exact schedules.
-- There is no ranking boost for Haven; any visual prominence is labelled separately from the score.
+- There are no demographic fields anywhere in the schema.
+- Everything stays in this browser's `localStorage` (`htl:app-state:v1`, version 2, validated with Zod on load). That includes lobbies, invites, votes, places, priorities, the profile photo and the schedule. Nothing is sent to a server except the text or image you ask Gemini to parse.
+- Profile photos are resized to 256 px before they're saved. **Profile → Delete my profile** clears everything.
+- Haven gets no ranking boost.
 - Resources are informational, not legal advice.
 
 ---
 
 ## Known limitations
 
-- Listings are a **curated snapshot from 2026-11-20**, not live inventory or availability.
-- **Bus trips are not routed.** Bus riders are scored on walking time with a 50% discount past 20 minutes.
-- **Single live user.** The three roommates and their votes are seeded; there is no auth or multi-user backend.
-- **Four listings are synthetic** (clearly labelled), added to fill gaps in real inventory.
-- Demo budgets were rebalanced to real Ann Arbor rents ($888+/person), so that most real listings aren't blocked outright.
-- Occupancy legality is not verified. Scores are heuristic fit indicators, not probabilities.
+- The listings are a **curated snapshot from 2026-11-20**, not live inventory or availability.
+- **Bus times are estimates** from distance, not schedules. Check the Magic Bus app.
+- **Single live user.** There is no auth or multi-user backend. Roommates are simulated in your browser, and their invites resolve after a short delay.
+- Occupancy legality isn't verified. Scores are heuristic fit indicators, not probabilities.
 - Only Michigan is live. Alabama, Miami and Virginia Tech are "coming soon".
 - Not affiliated with the University of Michigan or Hackberry Lane.
 
@@ -170,20 +206,23 @@ Listing photos are not copied; cards use representative illustrations and link t
 
 ```
 src/
-  app/                 routes: /, /campus, /onboarding, /lobby, /explore, /listing/[id],
-                       /watchlist, /resources, /profile, /api/profile/parse
-  components/          UI by feature (explore, listing, onboarding, lobby, watchlist, …)
-  hooks/use-group.ts   live profile + seeded roommates → ranking (with what-if budgets)
+  app/                 /, /campus, /onboarding, /dashboard, /explore, /listing/[id],
+                       /lobbies/[id], /roommates, /watchlist (Saved), /profile, /resources,
+                       /demo (hidden), /api/profile/parse, /api/schedule/parse
+  components/          UI by feature (dashboard, explore, listing, lobby, roommates, places, profile, …)
+  hooks/use-group.ts   live profile + joined lobby members → ranking (with what-if budgets)
   lib/
-    types.ts           frozen data contract
-    schemas.ts         Zod mirrors (seed validation, AI output, localStorage)
-    engine/            rent, hard checks, subscores, group score, explain, diff, consensus
-    ai/                Gemini client, prompt, sanitizer, demo cache
+    types.ts           data contract
+    schemas.ts         Zod mirrors (seed validation, AI output, localStorage v2)
+    engine/            rent, hard checks, subscores, estimator, schedule trips, similarity,
+                       group score, explain, diff, consensus
+    ai/                Gemini clients, prompts, sanitizer, demo cache
     onboarding/        parse → profile, follow-ups, this-or-that
-    store.ts           localStorage store (useSyncExternalStore)
-  data/                seed JSON (listings, destinations, personas, votes, commute matrix)
-scripts/               build-commute-matrix.ts
-docs/                  judging rubric
+    schedule-import.ts screenshot rows → review → class places
+    store.ts           localStorage store (useSyncExternalStore, v1 → v2 migration)
+  data/                seed JSON (listings, campus areas, buildings, personas, commute matrix, photo manifest)
+scripts/               build-commute-matrix.ts, photo-manifest.ts
+docs/                  listing photo checklist, judging rubric
 ```
 
 Stack: Next.js 16 (App Router), React 19, TypeScript, Tailwind 4, shadcn/ui (Base UI), Leaflet + OpenStreetMap, Zod 4, Motion, Vitest, `@google/genai`.

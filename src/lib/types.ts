@@ -175,6 +175,9 @@ export type Dim = "affordability" | "commute" | "amenities" | "lifestyle" | "spa
 export const DIMS: Dim[] = ["affordability", "commute", "amenities", "lifestyle", "space"];
 
 export type Weights = Record<Dim, number>;
+/** Profile → "Customize your priorities" (V3 §5.8, §7.8): 4 = Very important … 1 = Flexible. */
+export type PriorityLevel = 1 | 2 | 3 | 4;
+export type Priorities = Record<Dim, PriorityLevel>;
 
 export interface Lifestyle {
   noise: "quiet" | "social" | "either";
@@ -213,6 +216,8 @@ export interface MemberProfile {
   desiredAmenities: FeatureKey[];
   /** sums to 1 */
   weights: Weights;
+  /** The levels last picked by hand; present only while `weights` still equals weightsFromPriorities(priorities). */
+  priorities?: Priorities;
   /** keyed by field path, e.g. "budgetMax", "destinations.north_campus" */
   fieldMeta: Record<string, FieldMeta>;
   major?: string;
