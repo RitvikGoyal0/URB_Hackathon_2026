@@ -1,6 +1,6 @@
 /** Product wordmark. Single place to rename. */
 export const BRAND = "Rentezvous";
-export const TAGLINE = "Where your group meets its home.";
+export const TAGLINE = "Good places. Better company.";
 
 /**
  * Four roommates, one in each member colour, meeting under one roof.

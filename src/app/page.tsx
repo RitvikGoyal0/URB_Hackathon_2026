@@ -54,12 +54,18 @@ export default function Home() {
         <div className="paper-grain pointer-events-none absolute inset-0 opacity-60" aria-hidden />
         <div className="relative mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)] gap-12 px-4 pt-14 pb-16 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:pt-20 lg:pb-24">
           <div>
-            <h1 className="max-w-[14ch] text-[3.1rem] leading-[0.98] font-semibold tracking-[-0.035em] text-ink sm:text-[4.4rem]">
-              {TAGLINE}
+            <h1 className="max-w-[16ch] text-[3.1rem] leading-[0.98] font-semibold tracking-[-0.035em] text-ink sm:text-[4.4rem]">
+              {/* One phrase per line: "Good places." / "Better company." */}
+              {TAGLINE.split(/(?<=\.) /).map((phrase) => (
+                <span key={phrase} className="block">
+                  {phrase}
+                </span>
+              ))}
             </h1>
-            <p className="mt-6 max-w-[46ch] text-[17px] leading-relaxed text-charcoal/85">
-              Listing sites filter by rent and bedrooms. This scores every Ann Arbor home against each roommate&apos;s actual week,
-              shows who is compromising and by how much, and lets your group decide together.
+            <p className="mt-6 max-w-[50ch] text-[17px] leading-relaxed text-charcoal/85">
+              Listing sites match you on rent and bedrooms. Roommates fall out over everything else: noise, late-night guests,
+              who cooks and who never does. Rentezvous matches you on how you actually live, then scores every Ann Arbor home
+              against each person&apos;s week, so your group sees who&apos;s compromising and decides together.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href="/campus" className={cn(buttonVariants(), "h-12 rounded-full px-6 text-[15px]")}>
