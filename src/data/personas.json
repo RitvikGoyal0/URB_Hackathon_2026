@@ -44,13 +44,17 @@
       "lifestyle": 0.15,
       "space": 0.1
     },
-    "fieldMeta": {}
+    "fieldMeta": {},
+    "major": "Engineering",
+    "organizations": [
+      "MRacing"
+    ]
   },
   {
     "id": "member_b",
     "displayName": "Jordan",
     "isLiveUser": false,
-    "program": "Club officer",
+    "program": "Political Science",
     "bio": "Runs a student club and hosts dinners most weekends.",
     "color": "amber",
     "budgetMax": 1200,
@@ -91,13 +95,17 @@
       "lifestyle": 0.2,
       "space": 0.1
     },
-    "fieldMeta": {}
+    "fieldMeta": {},
+    "major": "Political Science",
+    "organizations": [
+      "Michigan Debate"
+    ]
   },
   {
     "id": "member_c",
     "displayName": "Sam",
     "isLiveUser": false,
-    "program": "Budget first",
+    "program": "Public Health",
     "bio": "Rent comes first; happy to bike further for a cheaper place.",
     "color": "violet",
     "budgetMax": 1000,
@@ -136,18 +144,71 @@
       "lifestyle": 0.1,
       "space": 0.15
     },
-    "fieldMeta": {}
+    "fieldMeta": {},
+    "major": "Public Health",
+    "organizations": []
   },
   {
     "id": "member_d",
     "displayName": "Riley",
     "isLiveUser": false,
-    "program": "Grad-school prep",
-    "bio": "Studies late, needs a quiet private room.",
+    "program": "Aerospace Engineering",
+    "bio": "Aerospace engineer on North Campus most days; studies late and needs a quiet private room.",
     "color": "sky",
-    "budgetMax": 1400,
+    "budgetMax": 1250,
     "budgetIsHardCap": false,
-    "travelMode": "walk",
+    "travelMode": "bus",
+    "hasCar": false,
+    "destinations": [
+      {
+        "destinationId": "north_campus",
+        "visitsPerWeek": 4,
+        "importance": 3
+      },
+      {
+        "destinationId": "central_campus",
+        "visitsPerWeek": 2,
+        "importance": 2
+      }
+    ],
+    "lifestyle": {
+      "noise": "quiet",
+      "cooking": "high",
+      "guests": "sometimes"
+    },
+    "requirements": {
+      "privateBedroom": true,
+      "parking": false,
+      "inUnitLaundry": false
+    },
+    "desiredAmenities": [
+      "largeKitchen",
+      "dishwasher",
+      "quietBuilding"
+    ],
+    "weights": {
+      "affordability": 0.25,
+      "commute": 0.3,
+      "amenities": 0.15,
+      "lifestyle": 0.2,
+      "space": 0.1
+    },
+    "fieldMeta": {},
+    "major": "Engineering",
+    "organizations": [
+      "MRacing"
+    ]
+  },
+  {
+    "id": "member_e",
+    "displayName": "Priya",
+    "isLiveUser": false,
+    "program": "Computer Science",
+    "bio": "CS major split between Central and North; likes a lively kitchen.",
+    "color": "rose",
+    "budgetMax": 1100,
+    "budgetIsHardCap": false,
+    "travelMode": "bus",
     "hasCar": false,
     "destinations": [
       {
@@ -156,15 +217,204 @@
         "importance": 3
       },
       {
-        "destinationId": "duderstadt",
+        "destinationId": "north_campus",
         "visitsPerWeek": 2,
         "importance": 2
       }
     ],
     "lifestyle": {
-      "noise": "quiet",
+      "noise": "either",
+      "cooking": "medium",
+      "guests": "sometimes"
+    },
+    "requirements": {
+      "privateBedroom": false,
+      "parking": false,
+      "inUnitLaundry": true
+    },
+    "desiredAmenities": [
+      "inUnitLaundry",
+      "dishwasher"
+    ],
+    "weights": {
+      "affordability": 0.3,
+      "commute": 0.25,
+      "amenities": 0.2,
+      "lifestyle": 0.15,
+      "space": 0.1
+    },
+    "fieldMeta": {},
+    "major": "Computer Science",
+    "organizations": [
+      "Women in Computing"
+    ]
+  },
+  {
+    "id": "member_f",
+    "displayName": "Marcus",
+    "isLiveUser": false,
+    "program": "Business (Ross)",
+    "bio": "Ross student who hosts often and wants parking for weekend trips home.",
+    "color": "indigo",
+    "budgetMax": 1500,
+    "budgetIsHardCap": false,
+    "travelMode": "drive",
+    "hasCar": true,
+    "destinations": [
+      {
+        "destinationId": "ross",
+        "visitsPerWeek": 5,
+        "importance": 3
+      },
+      {
+        "destinationId": "central_campus",
+        "visitsPerWeek": 1,
+        "importance": 1
+      }
+    ],
+    "lifestyle": {
+      "noise": "social",
       "cooking": "low",
+      "guests": "often"
+    },
+    "requirements": {
+      "privateBedroom": true,
+      "parking": true,
+      "inUnitLaundry": false
+    },
+    "desiredAmenities": [
+      "parking",
+      "socialAmenities",
+      "ac"
+    ],
+    "weights": {
+      "affordability": 0.15,
+      "commute": 0.2,
+      "amenities": 0.25,
+      "lifestyle": 0.2,
+      "space": 0.2
+    },
+    "fieldMeta": {},
+    "major": "Business",
+    "organizations": [
+      "Ross Finance Club"
+    ]
+  },
+  {
+    "id": "member_g",
+    "displayName": "Elena",
+    "isLiveUser": false,
+    "program": "Nursing",
+    "bio": "Nursing student with early clinical shifts at the medical campus.",
+    "color": "lime",
+    "budgetMax": 950,
+    "budgetIsHardCap": true,
+    "travelMode": "bus",
+    "hasCar": false,
+    "destinations": [
+      {
+        "destinationId": "medical_campus",
+        "visitsPerWeek": 5,
+        "importance": 3
+      }
+    ],
+    "lifestyle": {
+      "noise": "quiet",
+      "cooking": "medium",
       "guests": "rare"
+    },
+    "requirements": {
+      "privateBedroom": false,
+      "parking": false,
+      "inUnitLaundry": true
+    },
+    "desiredAmenities": [
+      "inUnitLaundry"
+    ],
+    "weights": {
+      "affordability": 0.4,
+      "commute": 0.3,
+      "amenities": 0.1,
+      "lifestyle": 0.1,
+      "space": 0.1
+    },
+    "fieldMeta": {},
+    "major": "Nursing",
+    "organizations": [
+      "Nursing Council"
+    ]
+  },
+  {
+    "id": "member_h",
+    "displayName": "Theo",
+    "isLiveUser": false,
+    "program": "Mechanical Engineering",
+    "bio": "Builds things at the team shops on North Campus; bikes everywhere.",
+    "color": "orange",
+    "budgetMax": 1050,
+    "budgetIsHardCap": false,
+    "travelMode": "bike",
+    "hasCar": false,
+    "destinations": [
+      {
+        "destinationId": "north_campus",
+        "visitsPerWeek": 5,
+        "importance": 3
+      }
+    ],
+    "lifestyle": {
+      "noise": "either",
+      "cooking": "low",
+      "guests": "sometimes"
+    },
+    "requirements": {
+      "privateBedroom": false,
+      "parking": false,
+      "inUnitLaundry": false
+    },
+    "desiredAmenities": [
+      "dishwasher"
+    ],
+    "weights": {
+      "affordability": 0.35,
+      "commute": 0.3,
+      "amenities": 0.1,
+      "lifestyle": 0.1,
+      "space": 0.15
+    },
+    "fieldMeta": {},
+    "major": "Engineering",
+    "organizations": [
+      "Solar Car"
+    ]
+  },
+  {
+    "id": "member_i",
+    "displayName": "Dana",
+    "isLiveUser": false,
+    "program": "Music (SMTD)",
+    "bio": "Music student practicing on North Campus; cooks most nights.",
+    "color": "sky",
+    "budgetMax": 1200,
+    "budgetIsHardCap": false,
+    "travelMode": "bus",
+    "hasCar": false,
+    "destinations": [
+      {
+        "destinationId": "north_campus",
+        "visitsPerWeek": 4,
+        "importance": 3
+      },
+      {
+        "destinationId": "central_campus",
+        "visitsPerWeek": 1,
+        "importance": 1
+      }
+    ],
+    "lifestyle": {
+      "noise": "quiet",
+      "cooking": "high",
+      "guests": "sometimes"
     },
     "requirements": {
       "privateBedroom": true,
@@ -172,16 +422,20 @@
       "inUnitLaundry": false
     },
     "desiredAmenities": [
-      "quietBuilding",
-      "ac"
+      "largeKitchen",
+      "quietBuilding"
     ],
     "weights": {
-      "affordability": 0.2,
+      "affordability": 0.25,
       "commute": 0.25,
       "amenities": 0.15,
-      "lifestyle": 0.2,
-      "space": 0.2
+      "lifestyle": 0.25,
+      "space": 0.1
     },
-    "fieldMeta": {}
+    "fieldMeta": {},
+    "major": "Music",
+    "organizations": [
+      "Michigan Marching Band"
+    ]
   }
 ]

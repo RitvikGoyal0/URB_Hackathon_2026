@@ -3,7 +3,9 @@ import { Bricolage_Grotesque, Instrument_Sans, Geist_Mono } from "next/font/goog
 import { Agentation } from "agentation";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { SiteFooter, SiteHeader } from "@/components/app-shell/site-header";
+import { Suspense } from "react";
+import { SiteFooter, SiteHeader, SiteHeaderFallback } from "@/components/app-shell/site-header";
+import { AppProviders } from "@/components/app-shell/app-providers";
 import "./globals.css";
 
 const display = Bricolage_Grotesque({
@@ -35,9 +37,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" className={`${display.variable} ${body.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
         <TooltipProvider delay={150}>
-          <SiteHeader />
-          <div className="flex flex-1 flex-col">{children}</div>
-          <SiteFooter />
+          <AppProviders>
+            <Suspense fallback={<SiteHeaderFallback />}>
+              <SiteHeader />
+            </Suspense>
+            <div className="flex flex-1 flex-col">{children}</div>
+            <SiteFooter />
+          </AppProviders>
         </TooltipProvider>
         <Toaster theme="light" position="bottom-center" richColors={false} />
         {process.env.NODE_ENV === "development" && <Agentation appName="Hack the Lease" endpoint={process.env.NEXT_PUBLIC_AGENTATION_ENDPOINT} />}

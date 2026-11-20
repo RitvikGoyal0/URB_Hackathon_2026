@@ -130,7 +130,7 @@ export function OnboardingFlow() {
         ? `Profile saved. ${pending} unconfirmed detail${pending === 1 ? "" : "s"} won't count until you confirm them in Profile.`
         : "Profile saved. Meet your group.",
     );
-    router.push("/lobby");
+    router.push("/dashboard");
   }
 
   const openFollowUps = followUps.filter((f) => !answered[f.id]);

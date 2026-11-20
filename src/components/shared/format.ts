@@ -91,6 +91,10 @@ const MEMBER_COLORS: Record<string, { bg: string; soft: string; text: string; he
   amber: { bg: "bg-[#c47a06]", soft: "bg-[#fbedd3]", text: "text-[#9a5c00]", hex: "#c47a06" },
   violet: { bg: "bg-[#6d55c0]", soft: "bg-[#ebe6fa]", text: "text-[#5841a8]", hex: "#6d55c0" },
   sky: { bg: "bg-[#2381b8]", soft: "bg-[#dff0fa]", text: "text-[#1c6a98]", hex: "#2381b8" },
+  rose: { bg: "bg-[#c2416b]", soft: "bg-[#fbe3eb]", text: "text-[#a3345a]", hex: "#c2416b" },
+  indigo: { bg: "bg-[#4152b8]", soft: "bg-[#e4e7fa]", text: "text-[#34449e]", hex: "#4152b8" },
+  lime: { bg: "bg-[#4f7d1f]", soft: "bg-[#e7f1d9]", text: "text-[#3f6618]", hex: "#4f7d1f" },
+  orange: { bg: "bg-[#c2551f]", soft: "bg-[#fbe5d8]", text: "text-[#9c4419]", hex: "#c2551f" },
 };
 const FALLBACK_ORDER = ["teal", "amber", "violet", "sky"];
 export function memberColor(m: Pick<MemberProfile, "color">, index = 0) {

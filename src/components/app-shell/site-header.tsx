@@ -15,12 +15,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { BRAND } from "@/components/shared/brand";
+import { LobbySwitcher } from "./lobby-switcher";
 
 const NAV = [
-  { href: "/lobby", label: "Dashboard" },
+  { href: "/dashboard", label: "Dashboard" },
   { href: "/explore", label: "Explore" },
-  { href: "/watchlist", label: "Watchlist" },
-  { href: "/resources", label: "Resources" },
+  { href: "/roommates", label: "Roommates" },
+  { href: "/watchlist", label: "Saved" },
   { href: "/profile", label: "Profile" },
 ];
 
@@ -59,7 +60,7 @@ function CampusSwitcher() {
             <DropdownMenuItem
               key={u.id}
               className="justify-between gap-3 py-2"
-              onClick={() => router.push(u.status === "active" ? "/lobby" : `/campus/coming-soon?u=${u.slug}`)}
+              onClick={() => router.push(u.status === "active" ? "/dashboard" : `/campus/coming-soon?u=${u.slug}`)}
             >
               <span className="flex flex-col">
                 <span className="font-medium text-ink">{u.name}</span>
@@ -80,13 +81,17 @@ function CampusSwitcher() {
 export function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`) || (href === "/explore" && pathname.startsWith("/listing"));
+  const isActive = (href: string) =>
+    pathname === href ||
+    pathname.startsWith(`${href}/`) ||
+    (href === "/explore" && pathname.startsWith("/listing")) ||
+    (href === "/dashboard" && pathname.startsWith("/lobbies"));
   return (
     <header className="sticky top-0 z-40 border-b border-line/80 bg-paper/90 backdrop-blur supports-backdrop-filter:bg-paper/75">
       <div className="mx-auto flex h-16 max-w-7xl items-center gap-3 px-4 sm:px-6">
         <Logo />
         <div className="hidden md:block">
-          <CampusSwitcher />
+          <LobbySwitcher />
         </div>
         <nav className="ml-auto hidden items-center gap-1 md:flex" aria-label="Main">
           {NAV.map((n) => (
@@ -115,7 +120,8 @@ export function SiteHeader() {
       </div>
       {open && (
         <div className="border-t border-line bg-paper px-4 pt-3 pb-5 md:hidden">
-          <div className="mb-3">
+          <div className="mb-3 flex flex-wrap gap-2">
+            <LobbySwitcher />
             <CampusSwitcher />
           </div>
           <nav className="grid gap-1" aria-label="Main mobile">
@@ -135,6 +141,17 @@ export function SiteHeader() {
           </nav>
         </div>
       )}
+    </header>
+  );
+}
+
+/** Static header frame used while the pathname streams in (dynamic routes like /lobbies/[id]). */
+export function SiteHeaderFallback() {
+  return (
+    <header className="sticky top-0 z-40 border-b border-line/80 bg-paper/90 backdrop-blur supports-backdrop-filter:bg-paper/75">
+      <div className="mx-auto flex h-16 max-w-7xl items-center gap-3 px-4 sm:px-6">
+        <Logo />
+      </div>
     </header>
   );
 }

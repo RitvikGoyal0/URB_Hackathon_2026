@@ -53,3 +53,7 @@ const studentMap = byId(students);
 export const getStudent = (id: string) => studentMap.get(id);
 /** Default live persona ("Maya") used before onboarding or as demo fallback. */
 export const defaultLivePersona = personas.find((p) => p.isLiveUser)!;
+
+/** Students who are already the live user's friends (V3 §1: Jordan and Sam). */
+export const FRIEND_IDS: readonly string[] = ["member_b", "member_c"];
+export const friends = FRIEND_IDS.map((id) => studentMap.get(id)).filter((m): m is MemberProfile => !!m);

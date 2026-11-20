@@ -1,22 +1,19 @@
 "use client";
-import { ScenarioBanner } from "@/components/shared/scenario-banner";
 
 import Link from "next/link";
 import { useState } from "react";
-import { ArrowRight, Check, Heart, Lock, Pencil, Scale, Shuffle } from "lucide-react";
+import { Check, Heart, Pencil } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { getDestination, getListing } from "@/lib/data";
+import { getDestination } from "@/lib/data";
 import { readiness, unconfirmedCount } from "@/lib/onboarding";
 import { actions } from "@/lib/store";
-import { useGroup } from "@/hooks/use-group";
 import type { MemberProfile } from "@/lib/types";
 import { MemberAvatar } from "@/components/shared/bits";
-import { MODE_LABEL, budgetBucket, fmtScore, memberColor, money } from "@/components/shared/format";
-import { deriveInsights } from "./insights";
+import { MODE_LABEL, budgetBucket, memberColor, money } from "@/components/shared/format";
 
-function GroupName({ name, lobbyId }: { name: string; lobbyId: string | null }) {
+export function GroupName({ name, lobbyId }: { name: string; lobbyId: string | null }) {
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(name);
   if (editing) {
@@ -63,7 +60,7 @@ function GroupName({ name, lobbyId }: { name: string; lobbyId: string | null }) 
   );
 }
 
-function MemberCard({ m, index, onboarded, isBinding }: { m: MemberProfile; index: number; onboarded: boolean; isBinding: boolean }) {
+export function MemberCard({ m, index, onboarded, isBinding }: { m: MemberProfile; index: number; onboarded: boolean; isBinding: boolean }) {
   const ready = readiness(m);
   const pending = unconfirmedCount(m);
   const c = memberColor(m, index);
@@ -129,7 +126,7 @@ function MemberCard({ m, index, onboarded, isBinding }: { m: MemberProfile; inde
   );
 }
 
-function InsightList({ title, icon: Icon, items, tone }: { title: string; icon: typeof Heart; items: string[]; tone: "teal" | "amber" | "ink" }) {
+export function InsightList({ title, icon: Icon, items, tone }: { title: string; icon: typeof Heart; items: string[]; tone: "teal" | "amber" | "ink" }) {
   if (items.length === 0) return null;
   return (
     <section className="rounded-[26px] border border-line bg-white p-5">
@@ -157,60 +154,3 @@ function InsightList({ title, icon: Icon, items, tone }: { title: string; icon: 
   );
 }
 
-export function LobbyView() {
-  const { state, lobby, people, baseMembers, ranking, changedInputs } = useGroup();
-  const insights = deriveInsights(baseMembers);
-  const top = ranking.find((r) => r.eligibility !== "blocked") ?? ranking[0];
-  const topListing = top ? getListing(top.listingId) : undefined;
-  const onboarded = state.liveProfile !== null;
-
-  return (
-    <main className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 sm:py-14">
-      <ScenarioBanner changedInputs={changedInputs} className="mb-6" />
-      <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-        <div>
-          <p className="text-[13px] font-medium text-teal">Your group · University of Michigan</p>
-          <div className="mt-2">
-            <GroupName key={lobby?.name ?? "solo"} name={lobby?.name ?? "Solo search"} lobbyId={lobby?.id ?? null} />
-          </div>
-          <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-muted-foreground">
-            Four people, four different weeks. Here&apos;s where you line up and where someone will have to compromise.
-          </p>
-        </div>
-        <Link href="/explore" className={cn(buttonVariants(), "h-12 self-start rounded-full px-6 text-[15px] lg:self-auto")}>
-          Find Homes Together <ArrowRight className="size-4" aria-hidden />
-        </Link>
-      </div>
-
-      <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {people.map((m, i) => (
-          <MemberCard key={m.id} m={m} index={i} onboarded={onboarded} isBinding={insights.bindingMemberId === m.id} />
-        ))}
-      </div>
-
-      <div className="mt-6 grid gap-4 lg:grid-cols-3">
-        <InsightList title="Shared priorities" icon={Heart} items={insights.shared} tone="teal" />
-        <InsightList title="Differences" icon={Shuffle} items={insights.differences} tone="amber" />
-        <InsightList title="Non-negotiables" icon={Lock} items={insights.nonNegotiables} tone="ink" />
-      </div>
-
-      {top && topListing && (
-        <Link
-          href={`/listing/${topListing.id}`}
-          className="mt-6 flex flex-col gap-3 rounded-[26px] bg-ink p-6 text-paper transition-colors hover:bg-[#1b2b4d] sm:flex-row sm:items-center sm:justify-between"
-        >
-          <div className="flex items-center gap-3">
-            <Scale className="size-5 text-emerald" aria-hidden />
-            <div>
-              <p className="text-[13px] text-paper/70">Best fit for the whole group right now</p>
-              <p className="font-display text-xl font-semibold">{topListing.name}</p>
-            </div>
-          </div>
-          <p className="text-[14px] text-paper/80">
-            Average fit {fmtScore(top.mean)} · Least-satisfied member {fmtScore(top.min)}
-          </p>
-        </Link>
-      )}
-    </main>
-  );
-}
