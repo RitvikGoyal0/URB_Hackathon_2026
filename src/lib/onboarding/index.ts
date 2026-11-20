@@ -85,6 +85,12 @@ export function neutralProfile(base: MemberProfile, displayName?: string): Membe
     desiredAmenities: [],
     weights: { ...DEFAULT_WEIGHTS },
     fieldMeta: {},
+    // About-you details and places belong to the student, never to the template persona.
+    major: undefined,
+    organizations: [],
+    places: [],
+    photo: undefined,
+    schedule: null,
   };
 }
 

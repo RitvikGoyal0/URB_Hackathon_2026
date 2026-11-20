@@ -2,6 +2,7 @@
 
 import { Bus } from "lucide-react";
 import { getDestination } from "@/lib/data";
+import { ESTIMATE_NOTE, averageCommute } from "@/lib/engine";
 import type { Blocker, MemberProfile, MemberResult, Warning } from "@/lib/types";
 import { DIMS } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -43,6 +44,7 @@ export function MemberRow({
   isLeast: boolean;
 }) {
   // Explanation lines that only restate a subscore (already shown under its bar) or a blocker (shown as a chip) are skipped.
+  const avg = averageCommute(pm.commutes);
   const extraLines = lines.filter((l) => !/^(Overall fit|Affordability|Commute|Amenities|Lifestyle|Space|Blocker)\b/.test(l));
   return (
     <article className={cn("rounded-[24px] border bg-white p-4 sm:p-5", isLeast ? "border-amber/50" : "border-line")}>
@@ -78,16 +80,33 @@ export function MemberRow({
       </ul>
 
       {pm.commutes.length > 0 && (
-        <div className="mt-4 flex flex-wrap gap-1.5">
-          {pm.commutes.map((c) => (
-            <span key={c.destinationId} className="inline-flex items-center gap-1 rounded-full bg-paper px-2.5 py-1 text-[12px] text-charcoal">
-              {c.mode === "bus" && <Bus className="size-3" aria-hidden />}
-              {getDestination(c.destinationId)?.shortName ?? c.destinationId}:{" "}
-              {c.minutes === null ? "no route" : `${Math.round(c.minutes)} min ${c.mode === "bus" ? "walk" : MODE_LABEL[c.mode].toLowerCase()}`}
-              {c.estimated && <span className="text-muted-foreground"> (est. straight-line)</span>}
-              {c.note && <span className="text-[#8a5300]"> · {c.note}</span>}
-            </span>
-          ))}
+        <div className="mt-4">
+          {avg.minutes !== null && (
+            <p className="text-[13px] text-charcoal">
+              <span className="font-semibold text-ink">
+                {avg.estimated ? "~" : ""}
+                {avg.minutes} min
+              </span>{" "}
+              average trip, one way
+              {avg.counted < avg.total && <span className="text-muted-foreground"> · based on {avg.counted} of {avg.total} places</span>}
+            </p>
+          )}
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            {pm.commutes.map((c) => (
+              <span key={c.destinationId} className="inline-flex items-center gap-1 rounded-full bg-paper px-2.5 py-1 text-[12px] text-charcoal">
+                {c.mode === "bus" && <Bus className="size-3" aria-hidden />}
+                {c.name ?? getDestination(c.destinationId)?.shortName ?? c.destinationId}:{" "}
+                {c.minutes === null ? "no travel time" : `${Math.round(c.minutes)} min ${MODE_LABEL[c.mode].toLowerCase()}`}
+                {c.estimated && (
+                  <span className="text-muted-foreground" title={ESTIMATE_NOTE}>
+                    {" "}
+                    est.
+                  </span>
+                )}
+                {c.note && <span className="text-[#8a5300]"> · {c.note}</span>}
+              </span>
+            ))}
+          </div>
         </div>
       )}
 

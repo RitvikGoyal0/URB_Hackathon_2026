@@ -23,6 +23,8 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { DIM_LABEL, FEATURE_KEYS, FEATURE_LABEL, MODE_LABEL, money } from "@/components/shared/format";
 import { Segmented, ToggleChip } from "./segmented";
+import { PlacesSection, type PlaceSuggestion } from "@/components/places/place-wizard";
+import { searchBuildings } from "@/lib/places";
 
 const NOISE_OPTS: { value: Lifestyle["noise"]; label: string }[] = [
   { value: "quiet", label: "Quiet" },
@@ -136,6 +138,91 @@ function FieldRow({
   );
 }
 
+/** Major + organizations. A new organization asks "Do you go to X regularly?" → place cards. */
+export function AboutFields({
+  profile,
+  onChange,
+  onAskPlace,
+}: {
+  profile: MemberProfile;
+  onChange: (p: MemberProfile) => void;
+  onAskPlace: (s: { name: string; suggestion?: PlaceSuggestion }) => void;
+}) {
+  const [org, setOrg] = useState("");
+  const [ask, setAsk] = useState<string | null>(null);
+  const orgs = profile.organizations ?? [];
+  const addOrg = () => {
+    const name = org.trim().slice(0, 40);
+    if (!name) return;
+    setOrg("");
+    if (orgs.some((o) => o.toLowerCase() === name.toLowerCase())) return;
+    onChange({ ...profile, organizations: [...orgs, name] });
+    if (!(profile.places ?? []).some((p) => p.name.toLowerCase() === name.toLowerCase())) setAsk(name);
+  };
+  return (
+    <div className="grid gap-2.5 rounded-2xl border border-line bg-white px-4 py-3.5">
+      <label htmlFor="pe-major" className="text-[12.5px] font-medium text-muted-foreground">
+        Major
+      </label>
+      <Input
+        id="pe-major"
+        className="h-10 max-w-xs rounded-xl bg-white text-[15px]"
+        placeholder="e.g. Mechanical Engineering"
+        value={profile.major ?? ""}
+        maxLength={60}
+        onChange={(e) => onChange({ ...profile, major: e.target.value })}
+      />
+      <span className="mt-1 text-[12.5px] font-medium text-muted-foreground">Clubs, teams and organizations</span>
+      <div className="flex flex-wrap items-center gap-2">
+        {orgs.map((o) => (
+          <span key={o} className="inline-flex items-center gap-1 rounded-full bg-teal-soft py-1 pr-1 pl-3 text-[13px] text-teal">
+            {o}
+            <button
+              type="button"
+              aria-label={`Remove ${o}`}
+              className="inline-flex size-5 items-center justify-center rounded-full hover:bg-teal/15"
+              onClick={() => onChange({ ...profile, organizations: orgs.filter((x) => x !== o) })}
+            >
+              <Minus className="size-3" aria-hidden />
+            </button>
+          </span>
+        ))}
+        <form
+          className="flex items-center gap-1.5"
+          onSubmit={(e) => {
+            e.preventDefault();
+            addOrg();
+          }}
+        >
+          <Input aria-label="Add an organization" placeholder="e.g. MRacing" value={org} onChange={(e) => setOrg(e.target.value)} className="h-8 w-40 rounded-full bg-white text-[13px]" />
+          <Button type="submit" size="sm" variant="outline" className="rounded-full" disabled={!org.trim()}>
+            <Plus aria-hidden /> Add
+          </Button>
+        </form>
+      </div>
+      {ask && (
+        <div className="mt-1 flex flex-wrap items-center gap-2 rounded-2xl bg-paper px-3.5 py-3">
+          <span className="text-[14px] font-medium text-ink">Do you go to {ask} regularly?</span>
+          <Button
+            size="sm"
+            className="rounded-full"
+            onClick={() => {
+              const b = searchBuildings(ask, 1)[0];
+              onAskPlace({ name: ask, suggestion: b ? { buildingId: b.id } : undefined });
+              setAsk(null);
+            }}
+          >
+            Yes, add it
+          </Button>
+          <Button size="sm" variant="ghost" className="rounded-full" onClick={() => setAsk(null)}>
+            No
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function Section({ title, hint, children }: { title: string; hint?: string; children: React.ReactNode }) {
   return (
     <section className="rounded-[26px] border border-line bg-paper/60 p-4 sm:p-5">
@@ -150,16 +237,19 @@ export function ProfileEditor({
   profile,
   onChange,
   showName = true,
+  showPlaces = true,
 }: {
   profile: MemberProfile;
   onChange: (p: MemberProfile) => void;
   showName?: boolean;
+  showPlaces?: boolean;
 }) {
   const meta = profile.fieldMeta;
   const edit = (key: FieldKey, next: MemberProfile) => onChange(markEdited(next, key));
   const pending = unconfirmedCount(profile);
   const missingDests = allDestinations.filter((d) => !profile.destinations.some((x) => x.destinationId === d.id));
   const [addId, setAddId] = useState("");
+  const [placeStart, setPlaceStart] = useState<{ name: string; suggestion?: PlaceSuggestion } | null>(null);
 
   return (
     <div className="grid gap-4">
@@ -190,10 +280,17 @@ export function ProfileEditor({
               onBlur={(e) => !e.target.value.trim() && onChange({ ...profile, displayName: "Maya" })}
             />
           </div>
+          <AboutFields profile={profile} onChange={onChange} onAskPlace={setPlaceStart} />
         </Section>
       )}
 
-      <Section title="Schedule & Destinations" hint="Where you go each week. Commute scores use these places, weighted by how often you go.">
+      {showPlaces && (
+        <Section title="Places you go often" hint="Clubs, jobs, a gym, a friend's place. Each one counts toward your commute, weighted by how often you go and how much it matters.">
+          <PlacesSection profile={profile} onChange={onChange} start={placeStart} />
+        </Section>
+      )}
+
+      <Section title="Campus areas each week" hint="Where you go each week. Commute scores use these places, weighted by how often you go.">
         {profile.destinations.length === 0 && (
           <p className="rounded-2xl border border-dashed border-line bg-white px-4 py-3 text-[13.5px] text-muted-foreground">
             No places yet. Add where you spend your weekdays so we can score commutes.
@@ -320,7 +417,7 @@ export function ProfileEditor({
         )}
       </Section>
 
-      <Section title="Getting Around" hint="Bus trips aren't routed. For bus riders we score walking time and point out Magic Bus options on long walks.">
+      <Section title="Getting Around" hint="Bus times are estimated from distance: about 5 min to and from stops, 5 min waiting, then the ride. When walking is faster, we use the walk.">
         <FieldRow
           label="Usual way to campus"
           meta={meta.travelMode}

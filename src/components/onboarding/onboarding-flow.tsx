@@ -26,10 +26,11 @@ import {
 } from "@/lib/onboarding";
 import { actions } from "@/lib/store";
 import type { MemberProfile, ParseResponse, ProfileParse } from "@/lib/types";
-import { ProfileEditor, WeightBars } from "@/components/profile/profile-editor";
+import { AboutFields, ProfileEditor, WeightBars } from "@/components/profile/profile-editor";
+import { PlacesSection, type PlaceSuggestion } from "@/components/places/place-wizard";
 import { MODE_LABEL } from "@/components/shared/format";
 
-type Step = "write" | "review" | "questions";
+type Step = "write" | "review" | "about" | "questions";
 
 async function requestParse(text: string): Promise<ParseResponse> {
   try {
@@ -53,6 +54,7 @@ async function requestParse(text: string): Promise<ParseResponse> {
 const STEPS: { id: Step; label: string }[] = [
   { id: "write", label: "Your week" },
   { id: "review", label: "Check it" },
+  { id: "about", label: "About you" },
   { id: "questions", label: "Quick picks" },
 ];
 
@@ -286,7 +288,7 @@ export function OnboardingFlow() {
             )}
 
             <div className="mt-6">
-              <ProfileEditor profile={profile} onChange={setProfile} />
+              <ProfileEditor profile={profile} onChange={setProfile} showName={false} showPlaces={false} />
             </div>
 
             <div className="sticky bottom-3 z-10 mt-6 flex flex-wrap items-center justify-between gap-3 rounded-full border border-line bg-white/95 p-2 pl-4 shadow-lg backdrop-blur">
@@ -297,18 +299,44 @@ export function OnboardingFlow() {
                 <span className="hidden text-[12.5px] text-muted-foreground sm:inline">
                   {unconfirmedCount(profile) > 0 ? `${unconfirmedCount(profile)} unconfirmed` : "All details confirmed"}
                 </span>
-                <Button
-                  className="h-10 rounded-full px-5"
-                  onClick={() => {
-                    setQIndex(0);
-                    setQLog([]);
-                    if (thisOrThat.ask.length === 0) finish();
-                    else setStep("questions");
-                  }}
-                >
+                <Button className="h-10 rounded-full px-5" onClick={() => setStep("about")}>
                   Continue <ArrowRight aria-hidden />
                 </Button>
               </div>
+            </div>
+          </motion.section>
+        )}
+
+        {step === "about" && (
+          <motion.section
+            key="about"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2 }}
+          >
+            <h1 className="text-[2.1rem] leading-[1.05] font-semibold text-ink sm:text-[2.6rem]">About you</h1>
+            <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-muted-foreground">
+              Your major and clubs help us suggest roommates with similar weeks. Add the places you go often so commutes count them.
+            </p>
+            <div className="mt-6">
+              <AboutAndPlaces profile={profile} onChange={setProfile} />
+            </div>
+            <div className="sticky bottom-3 z-10 mt-6 flex flex-wrap items-center justify-between gap-3 rounded-full border border-line bg-white/95 p-2 pl-4 shadow-lg backdrop-blur">
+              <Button variant="ghost" className="rounded-full" onClick={() => setStep("review")}>
+                <ArrowLeft aria-hidden /> Back
+              </Button>
+              <Button
+                className="h-10 rounded-full px-5"
+                onClick={() => {
+                  setQIndex(0);
+                  setQLog([]);
+                  if (thisOrThat.ask.length === 0) finish();
+                  else setStep("questions");
+                }}
+              >
+                Continue <ArrowRight aria-hidden />
+              </Button>
             </div>
           </motion.section>
         )}
@@ -532,6 +560,23 @@ function ThisOrThatStep({
       <Button variant="ghost" className="mt-6 rounded-full" onClick={onBack}>
         <ArrowLeft aria-hidden /> Back to details
       </Button>
+    </div>
+  );
+}
+
+/** Onboarding "About you": major + clubs (a club asks "Do you go regularly?"), then places. */
+function AboutAndPlaces({ profile, onChange }: { profile: MemberProfile; onChange: (p: MemberProfile) => void }) {
+  const [start, setStart] = useState<{ name: string; suggestion?: PlaceSuggestion } | null>(null);
+  return (
+    <div className="grid gap-4">
+      <AboutFields profile={profile} onChange={onChange} onAskPlace={setStart} />
+      <section className="rounded-[26px] border border-line bg-paper/60 p-4 sm:p-5">
+        <h3 className="text-[17px] font-semibold text-ink">Places you go often</h3>
+        <p className="mt-1 text-[13px] leading-relaxed text-muted-foreground">A club, a job, a gym. Pick where it is yourself; we never guess a location.</p>
+        <div className="mt-3.5">
+          <PlacesSection profile={profile} onChange={onChange} start={start} />
+        </div>
+      </section>
     </div>
   );
 }

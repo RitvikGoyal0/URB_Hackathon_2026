@@ -187,12 +187,12 @@ export function scoreCommute(
   let anyWalkFaster = false;
   const weightOf = destinationWeigher(member);
 
-  const trip = (id: string, name: string, mode: TravelMode, d: Trip, order: number, to: { lat?: number; lng?: number } | null, custom: boolean) => {
+  const trip = (id: string, name: string, mode: TravelMode, d: Trip, order: number, to: { lat?: number; lng?: number } | null, custom: boolean, routeId: string | null) => {
     let minutes: number | null = null;
     let estimated = false;
     let usedMode: TravelMode = mode;
     let note: string | undefined;
-    const cell = !custom && mode !== "bus" ? matrix.matrix[listing.id]?.[id]?.[mode as RoutedMode] : undefined;
+    const cell = routeId && mode !== "bus" ? matrix.matrix[listing.id]?.[routeId]?.[mode as RoutedMode] : undefined;
     if (cell && Number.isFinite(cell.minutes)) {
       minutes = cell.minutes;
       estimated = cell.estimated;
@@ -226,9 +226,12 @@ export function scoreCommute(
 
   member.destinations.forEach((d, i) => {
     const info = destInfo.get(d.destinationId);
-    trip(d.destinationId, info?.name ?? humanizeId(d.destinationId), member.travelMode, d, i, info ?? null, false);
+    trip(d.destinationId, info?.name ?? humanizeId(d.destinationId), member.travelMode, d, i, info ?? null, false, d.destinationId);
   });
-  places.forEach((p, i) => trip(p.id, p.name, p.mode ?? member.travelMode, p, member.destinations.length + i, p.location, true));
+  // A place set to a campus area uses that area's routed time; buildings and pins are estimated.
+  places.forEach((p, i) =>
+    trip(p.id, p.name, p.mode ?? member.travelMode, p, member.destinations.length + i, p.location, true, p.location.source === "area" ? (p.location.refId ?? null) : null),
+  );
 
   const totalW = rows.reduce((s, r) => s + r.w, 0);
   if (rows.length === 0) {
