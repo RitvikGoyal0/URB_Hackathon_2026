@@ -1,0 +1,28 @@
+{
+  "note": "Demo cache (spec §8.3). Keyed by sha256 of normalized text (trim, collapse whitespace, lowercase). Regenerate textHash with: npx tsx -e \"import('./src/lib/ai/normalize.ts').then(m=>console.log(m.hashProfileText(process.argv[1])))\" \"<text>\"",
+  "entries": [
+    {
+      "text": "I'm an engineering student at Michigan. I'm on North Campus most weekdays, have evening club meetings, don't have a car, enjoy cooking with friends, and want housing under $850 a month.",
+      "textHash": "a8976e31ff21f16c9e949c3a4b7c4638058e832d08682110b79e22ebc2a4a65d",
+      "parse": {
+        "destinations": [
+          { "destinationId": "north_campus", "visitsPerWeek": 4, "sourceText": "on North Campus most weekdays", "confidence": 0.95 }
+        ],
+        "budgetMax": { "value": 850, "sourceText": "want housing under $850 a month", "confidence": 0.95 },
+        "hasCar": { "value": false, "sourceText": "don't have a car", "confidence": 0.95 },
+        "lifestyle": {
+          "cooking": { "value": "high", "sourceText": "enjoy cooking with friends", "confidence": 0.85 }
+        },
+        "requirements": {},
+        "desiredAmenities": [
+          { "value": "largeKitchen", "sourceText": "enjoy cooking with friends", "confidence": 0.7 }
+        ],
+        "unmappedPlaces": [
+          { "text": "evening club meetings", "suggestedDestinationId": "central_campus", "question": "Where do your club meetings happen?" }
+        ],
+        "missing": [],
+        "travelModeOptions": ["bus", "walk"]
+      }
+    }
+  ]
+}
