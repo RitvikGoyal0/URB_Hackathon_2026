@@ -2,7 +2,7 @@ import type { Blocker, Dim, Id, Listing, MemberProfile, RankedResult, RankingDif
 import { DIMS } from "../types";
 import { COMPARE_MIN_POINTS, MUCH_CLOSER_POINTS, RANK_MOVE_THRESHOLD } from "./constants";
 import { humanizeId, joinList, round1 } from "./format";
-import { busEffectiveMinutes, commuteCurve, destinationWeight } from "./subscores";
+import { busEffectiveMinutes, commuteCurve, destinationWeigher } from "./subscores";
 
 /**
  * "What changed?" (spec §7.7). Every sentence is built from the diff data below — nothing
@@ -184,11 +184,12 @@ function compareTops(
     const much = bestCommute.gap >= MUCH_CLOSER_POINTS ? "much " : "";
     // destination with the largest weighted gain
     let pick: { id: Id; a: number; b: number; mode: string; gain: number } | null = null;
+    const weightOf = member ? destinationWeigher(member) : null;
     for (const t of nm.commutes) {
       const o = pm.commutes.find((x) => x.destinationId === t.destinationId);
       if (!o || t.minutes === null || o.minutes === null) continue;
       const d = member?.destinations.find((x) => x.destinationId === t.destinationId);
-      const w = d ? destinationWeight(d.visitsPerWeek, d.importance) || d.importance : 1;
+      const w = d && weightOf ? weightOf(d) : 1;
       const eff = (m: number) => (member?.travelMode === "bus" ? busEffectiveMinutes(m) : m);
       const gain = w * (commuteCurve(eff(t.minutes)) - commuteCurve(eff(o.minutes)));
       if (pick === null || gain > pick.gain) pick = { id: t.destinationId, a: t.minutes, b: o.minutes, mode: t.mode, gain };

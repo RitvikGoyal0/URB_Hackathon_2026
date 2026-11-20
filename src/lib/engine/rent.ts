@@ -6,6 +6,7 @@ import type { Listing } from "../types";
  * - per_bedroom / per_person: amount + Σ per_person fees (+ Σ per_unit fees / groupSize).
  *   The amount is NEVER divided by group size.
  * - unknown basis or null amount: null ("Contact for pricing"). Unknown rent is NEVER 0.
+ * - non-finite amount or fee data: null (never NaN).
  * Result is rounded to whole dollars.
  */
 export function perPersonRent(listing: Listing, groupSize: number): number | null {
@@ -14,6 +15,7 @@ export function perPersonRent(listing: Listing, groupSize: number): number | nul
   const unitFees = fees.filter((f) => f.scope === "per_unit").reduce((s, f) => s + f.monthly, 0);
   const personFees = fees.filter((f) => f.scope === "per_person").reduce((s, f) => s + f.monthly, 0);
   const size = Math.max(1, Math.floor(groupSize) || 1);
-  if (basis === "per_unit") return Math.round((amount + unitFees) / size + personFees);
-  return Math.round(amount + personFees + unitFees / size);
+  const rent = basis === "per_unit" ? (amount + unitFees) / size + personFees : amount + personFees + unitFees / size;
+  // Corrupt fee data (NaN / Infinity) must never surface as a price: treat as unknown.
+  return Number.isFinite(rent) ? Math.round(rent) : null;
 }

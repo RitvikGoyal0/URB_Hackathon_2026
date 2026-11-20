@@ -7,6 +7,7 @@
 import type {
   CampusDestination,
   CommuteMatrix,
+  Destination,
   FeatureKey,
   Listing,
   MemberProfile,
@@ -62,9 +63,11 @@ export function rentEvidence(listing: Listing, rent: number | null, groupSize: n
   const size = Math.max(1, groupSize);
   if (rent === null || r.amount === null) {
     out.push(
-      r.amount === null
+      r.amount === null || !Number.isFinite(r.amount)
         ? "Rent not published — contact for pricing (never treated as $0)"
-        : `Rent basis unknown (${money(r.amount)} listed without per-unit/per-bed basis) — contact for pricing`,
+        : r.basis === "unknown"
+          ? `Rent basis unknown (${money(r.amount)} listed without per-unit/per-bed basis) — contact for pricing`
+          : `Fee data incomplete for the ${money(r.amount)} listed rent — contact for pricing`,
     );
   } else {
     const unitFees = r.fees.filter((f) => f.scope === "per_unit");
@@ -73,7 +76,7 @@ export function rentEvidence(listing: Listing, rent: number | null, groupSize: n
     const personSum = personFees.reduce((s, f) => s + f.monthly, 0);
     let line: string;
     if (r.basis === "per_unit") {
-      line = `${money(r.amount)}/unit${unitSum ? ` + ${money(unitSum)} unit fees` : ""} ÷ ${size} people${
+      line = `${money(r.amount)}/unit${unitSum ? ` + ${money(unitSum)} unit fees` : ""} ÷ ${size} ${size === 1 ? "person" : "people"}${
         personSum ? ` + ${money(personSum)} per-person fees` : ""
       } = ${money(rent)}/person`;
     } else {
@@ -141,7 +144,18 @@ export interface CommuteScored extends Scored {
 }
 
 export function destinationWeight(visitsPerWeek: number, importance: number): number {
-  return Math.max(0, visitsPerWeek) * importance;
+  return (Number.isFinite(visitsPerWeek) ? Math.max(0, visitsPerWeek) : 0) * importance;
+}
+
+/**
+ * The weight each of a member's destinations carries in their commute score: visits/week ×
+ * importance, or importance alone when EVERY destination has 0 visits. scoreCommute, the
+ * explanation templates and "What changed?" all use this, so a destination that contributes
+ * nothing to the score is never named as a strength or a drawback.
+ */
+export function destinationWeigher(member: MemberProfile): (d: Destination) => number {
+  const importanceOnly = member.destinations.every((d) => destinationWeight(d.visitsPerWeek, d.importance) === 0);
+  return (d) => (importanceOnly ? d.importance : destinationWeight(d.visitsPerWeek, d.importance));
 }
 
 export function scoreCommute(
@@ -161,7 +175,7 @@ export function scoreCommute(
   const evidence: string[] = [];
   let anyBusNote = false;
   let anyEstimated = false;
-  const useImportanceOnly = member.destinations.every((d) => destinationWeight(d.visitsPerWeek, d.importance) === 0);
+  const weightOf = destinationWeigher(member);
 
   member.destinations.forEach((d, order) => {
     const name = destNames.get(d.destinationId) ?? humanizeId(d.destinationId);
@@ -182,7 +196,7 @@ export function scoreCommute(
     }
     if (cell.estimated) anyEstimated = true;
     commutes.push({ destinationId: d.destinationId, mode: reportedMode, minutes: cell.minutes, estimated: cell.estimated, ...(note ? { note } : {}) });
-    const w = useImportanceOnly ? d.importance : destinationWeight(d.visitsPerWeek, d.importance);
+    const w = weightOf(d);
     rows.push({
       w,
       s: commuteCurve(effective),
@@ -196,12 +210,16 @@ export function scoreCommute(
     );
   });
 
+  const totalW = rows.reduce((s, r) => s + r.w, 0);
+  // No rows, or only rows for destinations with zero weight (0 visits/week) while the visited
+  // destinations have no travel time: the trips that matter are unknown → missing data.
   if (rows.length === 0) {
     return { ...nullScore("missing_data", "No travel times available for this listing — commute not scored.", evidence), commutes };
   }
-  const totalW = rows.reduce((s, r) => s + r.w, 0);
-  const score =
-    totalW > 0 ? rows.reduce((s, r) => s + r.w * r.s, 0) / totalW : rows.reduce((s, r) => s + r.s, 0) / rows.length;
+  if (totalW <= 0) {
+    return { ...nullScore("missing_data", "No travel times for the destinations visited each week — commute not scored.", evidence), commutes };
+  }
+  const score = rows.reduce((s, r) => s + r.w * r.s, 0) / totalW;
   const parts = [...rows].sort((a, b) => b.w - a.w || a.order - b.order).map((r) => r.part);
   let reason = `${parts.join("; ")}.`;
   if (isBus) {
@@ -381,7 +399,12 @@ export function spaceParts(listing: Listing, member: MemberProfile, groupSize: n
     parts.push({
       key: "bedroom",
       score: ratio * 100,
-      text: ratio >= 1 ? `own bedroom (${listing.bedrooms} BR for ${g})` : `shared bedrooms (${listing.bedrooms} BR for ${g})`,
+      text:
+        listing.bedrooms <= 0
+          ? `${bedroomsPhrase(listing.bedrooms)} for ${g}`
+          : ratio >= 1
+            ? `own bedroom (${listing.bedrooms} BR for ${g})`
+            : `shared bedrooms (${listing.bedrooms} BR for ${g})`,
     });
   }
   const bpp = listing.bathrooms / g;

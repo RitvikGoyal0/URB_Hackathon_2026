@@ -14,7 +14,7 @@ import {
   busEffectiveMinutes,
   commuteCurve,
   destinationNameMap,
-  destinationWeight,
+  destinationWeigher,
   lifestyleRules,
   scoreAmenities,
   spaceParts,
@@ -145,14 +145,18 @@ function aMinutes(n: number): string {
 
 type Trip = { destinationId: Id; minutes: number; mode: string; note?: string; w: number; points: number };
 
+/** Routed trips with the SAME weights the commute score used; zero-weight trips are dropped. */
 function trips(c: Contribution): Trip[] {
   const out: Trip[] = [];
+  const weightOf = destinationWeigher(c.member);
   for (const t of c.pm.commutes) {
     if (t.minutes === null) continue;
     const d = c.member.destinations.find((x) => x.destinationId === t.destinationId);
     if (!d) continue;
+    const w = weightOf(d);
+    if (!(w > 0)) continue;
     const eff = c.member.travelMode === "bus" ? busEffectiveMinutes(t.minutes) : t.minutes;
-    out.push({ destinationId: t.destinationId, minutes: t.minutes, mode: t.mode, note: t.note, w: destinationWeight(d.visitsPerWeek, d.importance) || d.importance, points: commuteCurve(eff) });
+    out.push({ destinationId: t.destinationId, minutes: t.minutes, mode: t.mode, note: t.note, w, points: commuteCurve(eff) });
   }
   return out;
 }

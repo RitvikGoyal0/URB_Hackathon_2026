@@ -52,7 +52,7 @@ export function rankListings(
   destinations: CampusDestination[],
   options: RankOptions = {},
 ): RankedResult[] {
-  const groupSize = Math.max(1, options.groupSize ?? members.length);
+  const groupSize = sanitizeGroupSize(options.groupSize, members.length);
   const destNames = destinationNameMap(destinations);
 
   const results = listings.map((listing) => scoreListing(listing, members, matrix, destNames, groupSize));
@@ -60,6 +60,18 @@ export function rankListings(
   results.forEach((r, i) => (r.rank = i + 1));
   return results;
 }
+
+/**
+ * Whole number of people ≥ 1. A non-finite or < 1 option falls back to members.length, and a
+ * fractional one is floored — so rent splits, capacity checks and space-per-person all use the
+ * SAME head count (perPersonRent floors internally; the capacity / space math does not).
+ */
+export function sanitizeGroupSize(option: number | undefined, memberCount: number): number {
+  if (option !== undefined && Number.isFinite(option) && option >= 1) return Math.floor(option);
+  return Math.max(1, memberCount);
+}
+
+const people = (n: number) => `${n} ${n === 1 ? "person" : "people"}`;
 
 const TIER: Record<Eligibility, number> = { eligible: 0, eligible_with_unknowns: 1, blocked: 2 };
 
@@ -170,11 +182,13 @@ export function hardChecks(
   if (listing.maxOccupancy !== undefined && listing.maxOccupancy < g) {
     blockers.push({ kind: "capacity", message: `Max occupancy is ${listing.maxOccupancy}; the group has ${g}.` });
   }
-  const tooFewEvenShared = br * MAX_PEOPLE_PER_SHARED_BEDROOM < g;
+  // A studio (0 bedrooms) is one sleeping room: it fits 1 person, or 2 sharing.
+  const rooms = Math.max(1, br);
+  const tooFewEvenShared = rooms * MAX_PEOPLE_PER_SHARED_BEDROOM < g;
   if (tooFewEvenShared) {
     blockers.push({
       kind: "capacity",
-      message: `${br <= 0 ? capitalize(bedroomsPhrase(br)) : `Only ${bedroomsPhrase(br)}`}: can't fit ${g} people even sharing ${MAX_PEOPLE_PER_SHARED_BEDROOM} per room.`,
+      message: `${br <= 0 ? capitalize(bedroomsPhrase(br)) : `Only ${bedroomsPhrase(br)}`}: can't fit ${people(g)} even sharing ${MAX_PEOPLE_PER_SHARED_BEDROOM} per room.`,
     });
   }
   const needPrivate = members.filter((m) => m.requirements.privateBedroom);
@@ -184,11 +198,11 @@ export function hardChecks(
         blockers.push({
           kind: "capacity",
           memberId: m.id,
-          message: `${br <= 0 ? capitalize(bedroomsPhrase(br)) : `Only ${bedroomsPhrase(br)}`} for ${g} people; ${m.displayName} needs a private bedroom.`,
+          message: `${br <= 0 ? capitalize(bedroomsPhrase(br)) : `Only ${bedroomsPhrase(br)}`} for ${people(g)}; ${m.displayName} needs a private bedroom.`,
         });
       }
-    } else if (!tooFewEvenShared) {
-      warnings.push({ kind: "shared_bedrooms", message: `Shared bedrooms needed (${bedroomsPhrase(br)} for ${g} people).` });
+    } else if (!tooFewEvenShared && rooms < g) {
+      warnings.push({ kind: "shared_bedrooms", message: `Shared bedrooms needed (${bedroomsPhrase(br)} for ${people(g)}).` });
     }
   } else {
     for (const m of needPrivate) {
