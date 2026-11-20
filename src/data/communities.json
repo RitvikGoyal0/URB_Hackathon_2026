@@ -1,0 +1,45 @@
+[
+  {
+    "id": "haven_geddes",
+    "campusId": "umich",
+    "name": "Haven on Geddes",
+    "aliases": ["Haven Ann Arbor", "1700 Geddes"],
+    "brand": "Haven",
+    "address": "1700 Geddes Ave, Ann Arbor, MI 48104",
+    "lat": 42.2786,
+    "lng": -83.7255,
+    "description": "STUB — Data agent replaces with sourced description and amenity claims.",
+    "amenities": [],
+    "officialUrl": "https://www.havenongeddes.com/ann-arbor/haven-on-geddes/student/",
+    "images": [],
+    "provenance": { "sourceUrl": "https://www.havenongeddes.com/ann-arbor/haven-on-geddes/student/", "sourceName": "Haven on Geddes", "observedAt": "2026-11-20", "status": "provider_reported" }
+  },
+  {
+    "id": "stub_packard",
+    "campusId": "umich",
+    "name": "Packard Street House (Demo)",
+    "aliases": [],
+    "brand": "Synthetic",
+    "address": "Near Packard St (fictional)",
+    "lat": 42.2712,
+    "lng": -83.7360,
+    "description": "STUB synthetic listing for parallel development.",
+    "amenities": [],
+    "images": [],
+    "provenance": { "sourceUrl": "synthetic://demo", "sourceName": "Demo data (fictional)", "observedAt": "2026-11-20", "status": "synthetic" }
+  },
+  {
+    "id": "stub_northside",
+    "campusId": "umich",
+    "name": "Northside Commons (Demo)",
+    "aliases": [],
+    "brand": "Synthetic",
+    "address": "Near Plymouth Rd (fictional)",
+    "lat": 42.2960,
+    "lng": -83.7190,
+    "description": "STUB synthetic listing for parallel development.",
+    "amenities": [],
+    "images": [],
+    "provenance": { "sourceUrl": "synthetic://demo", "sourceName": "Demo data (fictional)", "observedAt": "2026-11-20", "status": "synthetic" }
+  }
+]

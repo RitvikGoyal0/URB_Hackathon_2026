@@ -1,0 +1,58 @@
+[
+  {
+    "id": "umich",
+    "slug": "michigan",
+    "name": "University of Michigan",
+    "shortName": "Michigan",
+    "city": "Ann Arbor",
+    "state": "MI",
+    "lat": 42.2780,
+    "lng": -83.7382,
+    "status": "active",
+    "offcampusResourceUrl": "https://offcampushousing.umich.edu/",
+    "description": "Ann Arbor's Central, North and Medical campuses, with Haven on Geddes beside Nichols Arboretum.",
+    "havenCommunityNames": ["Haven on Geddes"]
+  },
+  {
+    "id": "alabama",
+    "slug": "alabama",
+    "name": "University of Alabama",
+    "shortName": "Alabama",
+    "city": "Tuscaloosa",
+    "state": "AL",
+    "lat": 33.2140,
+    "lng": -87.5391,
+    "status": "coming_soon",
+    "offcampusResourceUrl": "https://offcampushousing.ua.edu/",
+    "description": "Tuscaloosa student housing near the Quad and Bryant–Denny.",
+    "havenCommunityNames": ["Haven on Hackberry"]
+  },
+  {
+    "id": "miami",
+    "slug": "miami",
+    "name": "Miami University",
+    "shortName": "Miami",
+    "city": "Oxford",
+    "state": "OH",
+    "lat": 39.5089,
+    "lng": -84.7346,
+    "status": "coming_soon",
+    "offcampusResourceUrl": "https://miamioh.edu/",
+    "description": "Oxford student housing a short walk from Uptown.",
+    "havenCommunityNames": ["Haven at 9West"]
+  },
+  {
+    "id": "vt",
+    "slug": "virginia-tech",
+    "name": "Virginia Tech",
+    "shortName": "Virginia Tech",
+    "city": "Blacksburg",
+    "state": "VA",
+    "lat": 37.2284,
+    "lng": -80.4234,
+    "status": "coming_soon",
+    "offcampusResourceUrl": "https://offcampushousing.vt.edu/",
+    "description": "Blacksburg student housing around downtown and the Drillfield.",
+    "havenCommunityNames": ["Haven at the Farm", "Haven on North Main"]
+  }
+]

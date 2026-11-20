@@ -1,0 +1,67 @@
+[
+  {
+    "id": "geddes_4br",
+    "communityId": "haven_geddes",
+    "name": "Haven on Geddes — 4BR Home",
+    "housingType": "townhome",
+    "bedrooms": 4,
+    "bathrooms": 4,
+    "privateBedrooms": true,
+    "rent": {
+      "amount": 4396,
+      "basis": "per_unit",
+      "fees": [],
+      "utilitiesIncluded": true,
+      "secondary": { "min": 1095, "max": 1335, "basis": "per_bedroom", "label": "Per-bed pricing" },
+      "provenance": { "sourceUrl": "https://www.havenongeddes.com/ann-arbor/haven-on-geddes/student/", "sourceName": "Haven on Geddes", "observedAt": "2026-11-20", "status": "provider_reported" }
+    },
+    "availability": { "status": "unknown", "provenance": { "sourceUrl": "https://www.havenongeddes.com/ann-arbor/haven-on-geddes/student/", "sourceName": "Haven on Geddes", "observedAt": "2026-11-20", "status": "provider_reported" } },
+    "features": { "inUnitLaundry": null, "dishwasher": true, "parking": null, "furnished": null, "largeKitchen": true, "socialAmenities": true, "quietBuilding": null, "petFriendly": null, "ac": null },
+    "sourceType": "haven",
+    "provenance": { "sourceUrl": "https://www.havenongeddes.com/ann-arbor/haven-on-geddes/student/", "sourceName": "Haven on Geddes", "observedAt": "2026-11-20", "status": "provider_reported" },
+    "images": []
+  },
+  {
+    "id": "stub_packard_house",
+    "communityId": "stub_packard",
+    "name": "Packard Street House (Demo) — 4BR",
+    "housingType": "house",
+    "bedrooms": 4,
+    "bathrooms": 2,
+    "sqft": 1600,
+    "privateBedrooms": true,
+    "rent": {
+      "amount": 2900,
+      "basis": "per_unit",
+      "fees": [],
+      "utilitiesIncluded": false,
+      "provenance": { "sourceUrl": "synthetic://demo", "sourceName": "Demo data (fictional)", "observedAt": "2026-11-20", "status": "synthetic" }
+    },
+    "availability": { "status": "available", "date": "2027-08-25", "provenance": { "sourceUrl": "synthetic://demo", "sourceName": "Demo data (fictional)", "observedAt": "2026-11-20", "status": "synthetic" } },
+    "features": { "inUnitLaundry": true, "dishwasher": false, "parking": true, "furnished": false, "largeKitchen": false, "socialAmenities": false, "quietBuilding": true, "petFriendly": false, "ac": false },
+    "sourceType": "synthetic",
+    "provenance": { "sourceUrl": "synthetic://demo", "sourceName": "Demo data (fictional)", "observedAt": "2026-11-20", "status": "synthetic" },
+    "images": []
+  },
+  {
+    "id": "stub_northside_4br",
+    "communityId": "stub_northside",
+    "name": "Northside Commons (Demo) — 4BR Garden",
+    "housingType": "garden_apartment",
+    "bedrooms": 4,
+    "bathrooms": 2,
+    "privateBedrooms": true,
+    "rent": {
+      "amount": null,
+      "basis": "unknown",
+      "fees": [],
+      "utilitiesIncluded": null,
+      "provenance": { "sourceUrl": "synthetic://demo", "sourceName": "Demo data (fictional)", "observedAt": "2026-11-20", "status": "synthetic" }
+    },
+    "availability": { "status": "unknown", "provenance": { "sourceUrl": "synthetic://demo", "sourceName": "Demo data (fictional)", "observedAt": "2026-11-20", "status": "synthetic" } },
+    "features": { "inUnitLaundry": null, "dishwasher": true, "parking": true, "furnished": null, "largeKitchen": true, "socialAmenities": null, "quietBuilding": true, "petFriendly": null, "ac": true },
+    "sourceType": "synthetic",
+    "provenance": { "sourceUrl": "synthetic://demo", "sourceName": "Demo data (fictional)", "observedAt": "2026-11-20", "status": "synthetic" },
+    "images": []
+  }
+]

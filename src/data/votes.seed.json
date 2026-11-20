@@ -1,0 +1,7 @@
+[
+  { "memberId": "member_b", "listingId": "geddes_4br", "value": "interested", "at": "2026-11-19T18:00:00Z" },
+  { "memberId": "member_c", "listingId": "geddes_4br", "value": "maybe", "at": "2026-11-19T18:05:00Z" },
+  { "memberId": "member_d", "listingId": "geddes_4br", "value": "interested", "at": "2026-11-19T19:10:00Z" },
+  { "memberId": "member_b", "listingId": "stub_packard_house", "value": "pass", "at": "2026-11-19T20:00:00Z" },
+  { "memberId": "member_c", "listingId": "stub_packard_house", "value": "interested", "at": "2026-11-19T20:02:00Z" }
+]
