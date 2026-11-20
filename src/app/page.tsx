@@ -7,8 +7,8 @@ import { MemberAvatar, ListingSourceBadge } from "@/components/shared/bits";
 import { RepresentativeImage } from "@/components/shared/representative-image";
 import { fmtScore, memberColor, money } from "@/components/shared/format";
 import { cn } from "@/lib/utils";
-import { commuteMatrix, defaultLivePersona, destinations, getListing, listings, seededRoommates, universities } from "@/lib/data";
-import { rankListings } from "@/lib/engine";
+import { commuteMatrix, defaultLivePersona, destinations, friends, getListing, getStudent, listings, universities } from "@/lib/data";
+import { filterForLobby, rankListings } from "@/lib/engine";
 
 const STEPS = [
   {
@@ -34,8 +34,10 @@ const STEPS = [
 ];
 
 export default function Home() {
-  const members = [defaultLivePersona, ...seededRoommates];
-  const ranked = rankListings(listings, members, commuteMatrix, destinations);
+  // Example 4-person lobby: Maya, her friends Jordan and Sam, and Riley (her closest roommate match).
+  const riley = getStudent("member_d");
+  const members = [defaultLivePersona, ...friends, ...(riley ? [riley] : [])];
+  const ranked = rankListings(filterForLobby(listings, members.length), members, commuteMatrix, destinations, { groupSize: members.length });
   const top = ranked[0];
   const topListing = top ? getListing(top.listingId) : undefined;
   const ringMembers = top
@@ -79,7 +81,7 @@ export default function Home() {
             >
               <RepresentativeImage housingType={topListing.housingType} className="h-44 rounded-[22px] sm:h-52" />
               <div className="px-3 pt-4 pb-2">
-                <p className="text-[12.5px] font-medium text-teal">Top match for the demo group, The Packard Four</p>
+                <p className="text-[12.5px] font-medium text-teal">Top match for an example group of {members.length}</p>
                 <div className="mt-1.5 flex items-start justify-between gap-4">
                   <div className="min-w-0">
                     <h2 className="text-xl leading-snug font-semibold text-ink">{topListing.name}</h2>

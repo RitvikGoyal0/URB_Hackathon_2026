@@ -1,0 +1,402 @@
+[
+  {
+    "id": "wilson_center",
+    "campusId": "umich",
+    "name": "Wilson Student Team Project Center",
+    "shortName": "Wilson Center",
+    "aliases": [
+      "MRacing shop",
+      "Solar Car shop",
+      "student team shops",
+      "Wilson"
+    ],
+    "areaId": "north_campus",
+    "lat": 42.29331,
+    "lng": -83.71062,
+    "source": "OpenStreetMap Nominatim: Wilson Student Team Project Center, 2603, Draper Drive",
+    "observedAt": "2026-11-20"
+  },
+  {
+    "id": "pierpont_commons",
+    "campusId": "umich",
+    "name": "Pierpont Commons",
+    "shortName": "Pierpont",
+    "aliases": [],
+    "areaId": "north_campus",
+    "lat": 42.29112,
+    "lng": -83.7176,
+    "source": "OpenStreetMap Nominatim: Pierpont Commons, 2101, Bonisteel Boulevard",
+    "observedAt": "2026-11-20"
+  },
+  {
+    "id": "beyster",
+    "campusId": "umich",
+    "name": "Bob and Betty Beyster Building",
+    "shortName": "Beyster",
+    "aliases": [
+      "CSE building"
+    ],
+    "areaId": "north_campus",
+    "lat": 42.29302,
+    "lng": -83.71635,
+    "source": "OpenStreetMap Nominatim: Bob and Betty Beyster Building, 2260, Hayward Street",
+    "observedAt": "2026-11-20"
+  },
+  {
+    "id": "eecs",
+    "campusId": "umich",
+    "name": "Electrical Engineering and Computer Science Building",
+    "shortName": "EECS",
+    "aliases": [],
+    "areaId": "north_campus",
+    "lat": 42.29234,
+    "lng": -83.71388,
+    "source": "OpenStreetMap Nominatim: Electrical Engineering and Computer Science Building, 1301, Beal Avenue",
+    "observedAt": "2026-11-20"
+  },
+  {
+    "id": "gg_brown",
+    "campusId": "umich",
+    "name": "G.G. Brown Laboratory",
+    "shortName": "G.G. Brown",
+    "aliases": [
+      "GG Brown"
+    ],
+    "areaId": "north_campus",
+    "lat": 42.2933,
+    "lng": -83.71399,
+    "source": "OpenStreetMap Nominatim: G. G. Brown Building, 2350, Hayward Street",
+    "observedAt": "2026-11-20"
+  },
+  {
+    "id": "ford_robotics",
+    "campusId": "umich",
+    "name": "Ford Motor Company Robotics Building",
+    "shortName": "Ford Robotics",
+    "aliases": [
+      "FRB",
+      "Robotics Building"
+    ],
+    "areaId": "north_campus",
+    "lat": 42.29459,
+    "lng": -83.70941,
+    "source": "OpenStreetMap Nominatim: Ford Motor Company Robotics Building, 2505, Hayward Street",
+    "observedAt": "2026-11-20"
+  },
+  {
+    "id": "duderstadt",
+    "campusId": "umich",
+    "name": "Duderstadt Center",
+    "shortName": "Duderstadt",
+    "aliases": [
+      "the Dude"
+    ],
+    "areaId": "north_campus",
+    "lat": 42.29118,
+    "lng": -83.71577,
+    "source": "OpenStreetMap Nominatim: Duderstadt Center, 2281, Bonisteel Boulevard",
+    "observedAt": "2026-11-20"
+  },
+  {
+    "id": "chrysler_center",
+    "campusId": "umich",
+    "name": "Chrysler Center",
+    "shortName": "Chrysler",
+    "aliases": [],
+    "areaId": "north_campus",
+    "lat": 42.29089,
+    "lng": -83.71677,
+    "source": "OpenStreetMap Nominatim: Chrysler Center, 2121, Bonisteel Boulevard",
+    "observedAt": "2026-11-20"
+  },
+  {
+    "id": "ncrb",
+    "campusId": "umich",
+    "name": "North Campus Recreation Building",
+    "shortName": "NCRB",
+    "aliases": [],
+    "areaId": "north_campus",
+    "lat": 42.29554,
+    "lng": -83.72017,
+    "source": "OpenStreetMap Nominatim: North Campus Recreation Building, 2375, Hubbard Road",
+    "observedAt": "2026-11-20"
+  },
+  {
+    "id": "moore_music",
+    "campusId": "umich",
+    "name": "Earl V. Moore Building (School of Music)",
+    "shortName": "Moore Building",
+    "aliases": [
+      "School of Music",
+      "SMTD"
+    ],
+    "areaId": "north_campus",
+    "lat": 42.29038,
+    "lng": -83.72097,
+    "source": "OpenStreetMap Nominatim: Earl V. Moore Building, 1100, Baits Drive",
+    "observedAt": "2026-11-20"
+  },
+  {
+    "id": "art_architecture",
+    "campusId": "umich",
+    "name": "Art & Architecture Building (Taubman College)",
+    "shortName": "Art & Architecture",
+    "aliases": [
+      "Taubman College",
+      "A&AB"
+    ],
+    "areaId": "north_campus",
+    "lat": 42.28958,
+    "lng": -83.71705,
+    "source": "OpenStreetMap Nominatim: Art & Architecture Building, 2000 Bonisteel Boulevard",
+    "observedAt": "2026-11-20"
+  },
+  {
+    "id": "michigan_union",
+    "campusId": "umich",
+    "name": "Michigan Union",
+    "shortName": "Union",
+    "aliases": [
+      "the Union"
+    ],
+    "areaId": "central_campus",
+    "lat": 42.27517,
+    "lng": -83.74151,
+    "source": "OpenStreetMap Nominatim: Michigan Union, 530, South State Street, Germantown",
+    "observedAt": "2026-11-20"
+  },
+  {
+    "id": "michigan_league",
+    "campusId": "umich",
+    "name": "Michigan League",
+    "shortName": "League",
+    "aliases": [
+      "the League"
+    ],
+    "areaId": "central_campus",
+    "lat": 42.27935,
+    "lng": -83.73771,
+    "source": "OpenStreetMap Nominatim: Michigan League, 911, North University Avenue",
+    "observedAt": "2026-11-20"
+  },
+  {
+    "id": "hatcher",
+    "campusId": "umich",
+    "name": "Hatcher Graduate Library",
+    "shortName": "Hatcher",
+    "aliases": [
+      "Grad Library"
+    ],
+    "areaId": "central_campus",
+    "lat": 42.27622,
+    "lng": -83.73818,
+    "source": "OpenStreetMap Nominatim: Hatcher Graduate Library, 913, South University Avenue, Germantown",
+    "observedAt": "2026-11-20"
+  },
+  {
+    "id": "shapiro",
+    "campusId": "umich",
+    "name": "Shapiro Undergraduate Library",
+    "shortName": "Shapiro",
+    "aliases": [
+      "UGLi"
+    ],
+    "areaId": "central_campus",
+    "lat": 42.27563,
+    "lng": -83.73719,
+    "source": "OpenStreetMap Nominatim: Shapiro Undergraduate Library, 919, South University Avenue, Germantown",
+    "observedAt": "2026-11-20"
+  },
+  {
+    "id": "angell_hall",
+    "campusId": "umich",
+    "name": "Angell Hall",
+    "shortName": "Angell Hall",
+    "aliases": [],
+    "areaId": "central_campus",
+    "lat": 42.27672,
+    "lng": -83.73975,
+    "source": "OpenStreetMap Nominatim: Angell Hall, 435, South State Street, Germantown",
+    "observedAt": "2026-11-20"
+  },
+  {
+    "id": "mason_hall",
+    "campusId": "umich",
+    "name": "Mason Hall",
+    "shortName": "Mason Hall",
+    "aliases": [],
+    "areaId": "central_campus",
+    "lat": 42.27705,
+    "lng": -83.7395,
+    "source": "OpenStreetMap Nominatim: Mason Hall, 419, South State Street, Germantown",
+    "observedAt": "2026-11-20"
+  },
+  {
+    "id": "chemistry",
+    "campusId": "umich",
+    "name": "Chemistry Building",
+    "shortName": "Chemistry",
+    "aliases": [
+      "Chem Building"
+    ],
+    "areaId": "central_campus",
+    "lat": 42.27803,
+    "lng": -83.73671,
+    "source": "OpenStreetMap Nominatim: Department of Chemistry Building, 930 North University Avenue",
+    "observedAt": "2026-11-20"
+  },
+  {
+    "id": "weiser_hall",
+    "campusId": "umich",
+    "name": "Weiser Hall",
+    "shortName": "Weiser Hall",
+    "aliases": [],
+    "areaId": "central_campus",
+    "lat": 42.2765,
+    "lng": -83.735,
+    "source": "OpenStreetMap Nominatim: Weiser Hall, 500, Church Street",
+    "observedAt": "2026-11-20"
+  },
+  {
+    "id": "biological_sciences",
+    "campusId": "umich",
+    "name": "Biological Sciences Building",
+    "shortName": "Biological Sciences",
+    "aliases": [
+      "BSB"
+    ],
+    "areaId": "central_campus",
+    "lat": 42.279,
+    "lng": -83.7345,
+    "source": "OpenStreetMap Nominatim: Biological Sciences Building, 1105, North University Avenue",
+    "observedAt": "2026-11-20"
+  },
+  {
+    "id": "rackham",
+    "campusId": "umich",
+    "name": "Rackham Building",
+    "shortName": "Rackham",
+    "aliases": [],
+    "areaId": "central_campus",
+    "lat": 42.28087,
+    "lng": -83.73828,
+    "source": "OpenStreetMap Nominatim: Rackham School of Graduate Studies, 915, East Washington Street, Old Fourth Ward",
+    "observedAt": "2026-11-20"
+  },
+  {
+    "id": "hadley",
+    "campusId": "umich",
+    "name": "Hadley Family Recreation & Well-Being Center (former CCRB site)",
+    "shortName": "Hadley Rec Center",
+    "aliases": [
+      "CCRB",
+      "Central Campus Recreation Building"
+    ],
+    "areaId": "central_campus",
+    "lat": 42.2781,
+    "lng": -83.73278,
+    "source": "OpenStreetMap Nominatim: Hadley Family Recreation & Well-Being Center, 401 Washtenaw Avenue",
+    "observedAt": "2026-11-20",
+    "note": "The CCRB site at 401 Washtenaw Ave is now the Hadley Family Recreation & Well-Being Center in OSM."
+  },
+  {
+    "id": "ross",
+    "campusId": "umich",
+    "name": "Ross School of Business",
+    "shortName": "Ross",
+    "aliases": [
+      "Ross"
+    ],
+    "areaId": "ross",
+    "lat": 42.27278,
+    "lng": -83.73697,
+    "source": "OpenStreetMap Nominatim: Ross School of Business, Hill Street, Burns Park",
+    "observedAt": "2026-11-20"
+  },
+  {
+    "id": "university_hospital",
+    "campusId": "umich",
+    "name": "University Hospital & C.S. Mott Children’s Hospital (Michigan Medicine)",
+    "shortName": "University Hospital",
+    "aliases": [
+      "Mott",
+      "Michigan Medicine",
+      "the hospital"
+    ],
+    "areaId": "medical_campus",
+    "lat": 42.28468,
+    "lng": -83.72942,
+    "source": "OpenStreetMap Nominatim: University Hospital, 1500, East Medical Center Drive",
+    "observedAt": "2026-11-20",
+    "note": "Point is University Hospital (1500 E Medical Center Dr); Mott Children’s Hospital is on the same medical campus block and did not return its own OSM result."
+  },
+  {
+    "id": "nursing",
+    "campusId": "umich",
+    "name": "School of Nursing Building",
+    "shortName": "Nursing",
+    "aliases": [
+      "426 N Ingalls"
+    ],
+    "areaId": "medical_campus",
+    "lat": 42.28514,
+    "lng": -83.7385,
+    "source": "OpenStreetMap Nominatim: School Of Nursing Building 2, 426, North Ingalls Street, Old Fourth Ward",
+    "observedAt": "2026-11-20"
+  },
+  {
+    "id": "im_building",
+    "campusId": "umich",
+    "name": "Intramural Sports Building",
+    "shortName": "IM Building",
+    "aliases": [
+      "IMSB"
+    ],
+    "areaId": "south_campus",
+    "lat": 42.26937,
+    "lng": -83.74224,
+    "source": "OpenStreetMap Nominatim: Intramural Sports Building, 606, East Hoover Avenue",
+    "observedAt": "2026-11-20"
+  },
+  {
+    "id": "crisler",
+    "campusId": "umich",
+    "name": "Crisler Center",
+    "shortName": "Crisler",
+    "aliases": [],
+    "areaId": "south_campus",
+    "lat": 42.26504,
+    "lng": -83.74667,
+    "source": "OpenStreetMap Nominatim: Crisler Center, 333, East Stadium Boulevard",
+    "observedAt": "2026-11-20"
+  },
+  {
+    "id": "michigan_stadium",
+    "campusId": "umich",
+    "name": "Michigan Stadium",
+    "shortName": "The Big House",
+    "aliases": [
+      "Big House"
+    ],
+    "areaId": "south_campus",
+    "lat": 42.26583,
+    "lng": -83.74783,
+    "source": "OpenStreetMap Nominatim: Michigan Stadium, 1201, South Main Street",
+    "observedAt": "2026-11-20"
+  },
+  {
+    "id": "blake_transit",
+    "campusId": "umich",
+    "name": "Blake Transit Center",
+    "shortName": "Blake Transit Center",
+    "aliases": [
+      "BTC",
+      "downtown bus station"
+    ],
+    "areaId": null,
+    "lat": 42.27838,
+    "lng": -83.74658,
+    "source": "OpenStreetMap Nominatim: Blake Transit Center, 328, South Fifth Avenue, Germantown",
+    "observedAt": "2026-11-20"
+  }
+]

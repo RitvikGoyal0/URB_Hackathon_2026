@@ -5,8 +5,10 @@ import { commuteMatrix } from "@/lib/data";
 import {
   AFFORD_AT_BUDGET_SCORE,
   AFFORD_FULL_MARKS_RATIO,
-  BUS_EXCESS_FACTOR,
-  BUS_WALK_THRESHOLD_MIN,
+  BUS_ACCESS_MIN,
+  BUS_KMH,
+  BUS_WAIT_MIN,
+  DETOUR_FACTOR,
   COMMUTE_FULL_MARKS_MIN,
   COMMUTE_ZERO_MIN,
   GROUP_MEAN_WEIGHT,
@@ -108,7 +110,7 @@ export function ScoreFormula({ result, listing, people }: { result: RankedResult
         </li>
         <li className="rounded-xl bg-paper px-3 py-2">
           <span className="font-medium text-ink">Commute:</span> 100 at {COMMUTE_FULL_MARKS_MIN} minutes or less, 0 at {COMMUTE_ZERO_MIN}+, weighted by visits per week × importance. Times come from{" "}
-          {commuteMatrix.provider}, computed {longDate(commuteMatrix.computedAt)}. Bus trips aren&apos;t routed: bus riders are scored on walking time, and minutes past a {BUS_WALK_THRESHOLD_MIN}-minute walk count at {BUS_EXCESS_FACTOR}× (assumed bus-able). No bus duration is ever shown.
+          {commuteMatrix.provider}, computed {longDate(commuteMatrix.computedAt)}. Bus trips and custom places are estimated from distance (straight line × {DETOUR_FACTOR} for streets): a bus trip is {BUS_ACCESS_MIN} min to and from stops + {BUS_WAIT_MIN} min average wait + riding at {BUS_KMH} km/h, and when walking is faster we use the walk. Estimates are marked &ldquo;est.&rdquo;
         </li>
         <li className="rounded-xl bg-paper px-3 py-2">
           <span className="font-medium text-ink">Unknowns:</span> an amenity the listing doesn&apos;t mention counts as not met; unknown rent is never $0; an unknown

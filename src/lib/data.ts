@@ -4,13 +4,14 @@
  */
 import universitiesJson from "@/data/universities.json";
 import destinationsJson from "@/data/destinations.umich.json";
+import buildingsJson from "@/data/buildings.umich.json";
 import communitiesJson from "@/data/communities.json";
 import listingsJson from "@/data/listings.json";
 import personasJson from "@/data/personas.json";
-import votesJson from "@/data/votes.seed.json";
 import resourcesJson from "@/data/resources.umich.json";
 import commuteMatrixJson from "@/data/commute-matrix.json";
 import type {
+  Building,
   CampusDestination,
   Community,
   CommuteMatrix,
@@ -18,19 +19,28 @@ import type {
   MemberProfile,
   ResourceLink,
   University,
-  Vote,
 } from "./types";
 
 export const universities = universitiesJson as University[];
 export const destinations = destinationsJson as CampusDestination[];
+/** Known U-M buildings for "Where is it?" and schedule matching (V3 §6). */
+export const buildings = buildingsJson as Building[];
 export const communities = communitiesJson as Community[];
 export const listings = listingsJson as unknown as Listing[];
 export const personas = personasJson as unknown as MemberProfile[];
-export const seedVotes = votesJson as Vote[];
 export const resources = resourcesJson as ResourceLink[];
-export const commuteMatrix = commuteMatrixJson as unknown as CommuteMatrix;
+const communityCoords = new Map((communitiesJson as Community[]).map((c) => [c.id, { lat: c.lat, lng: c.lng }]));
+/** Routed OSRM times + each listing's coordinates for the distance estimator (bus, custom places). */
+export const commuteMatrix: CommuteMatrix = {
+  ...(commuteMatrixJson as unknown as CommuteMatrix),
+  origins: Object.fromEntries(
+    (listingsJson as unknown as Listing[]).flatMap((l) => {
+      const c = communityCoords.get(l.communityId);
+      return c ? [[l.id, c]] : [];
+    }),
+  ),
+};
 
-export const DEFAULT_GROUP_NAME = "The Packard Four";
 export const LIVE_MEMBER_ID = "member_a";
 
 const byId = <T extends { id: string }>(arr: T[]) => new Map(arr.map((x) => [x.id, x]));
@@ -42,6 +52,8 @@ const listingMap = byId(listings);
 export const getUniversity = (id: string) => universityMap.get(id);
 export const getUniversityBySlug = (slug: string) => universities.find((u) => u.slug === slug);
 export const getDestination = (id: string) => destinationMap.get(id);
+const buildingMap = byId(buildings);
+export const getBuilding = (id: string) => buildingMap.get(id);
 export const getCommunity = (id: string) => communityMap.get(id);
 export const getListing = (id: string) => listingMap.get(id);
 

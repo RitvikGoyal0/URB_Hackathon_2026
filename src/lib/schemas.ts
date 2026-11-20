@@ -61,6 +61,20 @@ export const campusDestination = z.object({
   verifiedAt: isoDate,
 }) satisfies z.ZodType<T.CampusDestination>;
 
+export const building = z.object({
+  id: z.string().regex(/^[a-z0-9_]+$/),
+  campusId: z.string(),
+  name: z.string().min(1),
+  shortName: z.string().min(1),
+  aliases: z.array(z.string().min(1)),
+  areaId: z.string().nullable(),
+  lat: z.number().min(-90).max(90),
+  lng: z.number().min(-180).max(180),
+  source: z.string().min(1),
+  observedAt: isoDate,
+  note: z.string().optional(),
+}) satisfies z.ZodType<T.Building>;
+
 export const community = z.object({
   id: z.string(),
   campusId: z.string(),
@@ -355,6 +369,7 @@ export const appStateV1 = z.object({ version: z.literal(1), liveProfile: memberP
 export const seedSchemas = {
   universities: z.array(university),
   destinations: z.array(campusDestination),
+  buildings: z.array(building),
   communities: z.array(community),
   listings: z.array(listing),
   personas: z.array(memberProfile),

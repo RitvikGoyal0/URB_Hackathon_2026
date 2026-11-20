@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { rankListings, weightedScore } from "../rank";
-import { affordabilityCurve, busEffectiveMinutes, commuteCurve } from "../subscores";
+import { affordabilityCurve, averageCommute, commuteCurve } from "../subscores";
 import { DIMS, type Dim, type MemberProfile, type Subscore } from "@/lib/types";
 import { DESTS, makeListing, makeMatrix, makeMember } from "./fixtures";
 
@@ -145,21 +145,39 @@ describe("commute (§7.4, §5.7)", () => {
     expect(r2.perMember[0].subscores.commute.score).toBe(50);
   });
 
-  it("bus rule: scored on walk time, excess over 20 min at 50%, note shown, no bus duration printed", () => {
-    expect(busEffectiveMinutes(15)).toBe(15);
-    expect(busEffectiveMinutes(40)).toBe(30);
+  it("bus: estimated from distance (never walk time), labelled est.; short trips say walking is faster", () => {
     const bus = makeMember("m", "Maya", { travelMode: "bus", destinations: [{ destinationId: "north_campus", visitsPerWeek: 4, importance: 3 }] });
-    const far = one(makeListing("a"), [bus], { north_campus: { walk: 40, bike: 12, drive: 6 } } as never);
-    const pm = far.perMember[0];
-    expect(pm.subscores.commute.score).toBe(33.3); // effective 30 min
-    expect(pm.commutes[0]).toEqual({ destinationId: "north_campus", mode: "walk", minutes: 40, estimated: false, note: "Bus likely; check U-M Magic Bus" });
-    expect(pm.subscores.commute.reason).toMatch(/Bus likely; check U-M Magic Bus/);
-    expect(pm.subscores.commute.reason).not.toMatch(/\d+[- ]min(ute)? bus/i);
-    expect(pm.commutes.every((c) => c.mode !== "bus")).toBe(true);
+    const nc = DESTS.find((d) => d.id === "north_campus")!;
+    // ~2.4 km straight line south of North Campus → road 3.24 km → bus 5+5+10.8 = 20.8 min
+    const far = { ...makeMatrix({ a: { north_campus: { walk: 40, bike: 12, drive: 6 } } } as never), origins: { a: { lat: nc.lat - 0.0216, lng: nc.lng } } };
+    const pm = rankListings([makeListing("a")], [bus], far, DESTS)[0].perMember[0];
+    expect(pm.commutes[0]).toMatchObject({ destinationId: "north_campus", mode: "bus", estimated: true, visitsPerWeek: 4 });
+    expect(pm.commutes[0].minutes!).toBeCloseTo(20.8, 0);
+    expect(pm.subscores.commute.reason).toMatch(/~21-min bus ride \(est\.\)/);
+    // 300 m away: bus (≥10 min) is slower than walking → walk time, flagged
+    const near = { ...makeMatrix({ b: {} }), origins: { b: { lat: nc.lat - 0.0027, lng: nc.lng } } };
+    const c = rankListings([makeListing("b")], [bus], near, DESTS)[0].perMember[0].commutes[0];
+    expect(c.mode).toBe("walk");
+    expect(c.note).toMatch(/^Walking is faster/);
+    // no coordinates → no time (never a fabricated one)
+    const none = rankListings([makeListing("c")], [bus], makeMatrix({ c: { north_campus: 10 } }), DESTS)[0];
+    expect(none.perMember[0].commutes[0].minutes).toBeNull();
+    expect(none.perMember[0].subscores.commute.score).toBeNull();
+  });
 
-    const near = one(makeListing("b"), [bus], { north_campus: { walk: 15 } } as never);
-    expect(near.perMember[0].subscores.commute.score).toBe(83.3);
-    expect(near.perMember[0].commutes[0].note).toBeUndefined();
+  it("custom places are estimated in their own mode and averaged by visits", () => {
+    const m = makeMember("m", "Mo", {
+      travelMode: "walk",
+      destinations: [{ destinationId: "central", visitsPerWeek: 4, importance: 2 }],
+      places: [{ id: "p1", name: "MRacing", kind: "custom", location: { source: "building", label: "Wilson Center", lat: 42.2938, lng: -83.7107 }, visitsPerWeek: 2, importance: 3, mode: "bike" }],
+    });
+    const mx = { ...makeMatrix({ a: { central: 10 } }), origins: { a: { lat: 42.2780, lng: -83.7382 } } };
+    const pm = rankListings([makeListing("a")], [m], mx, DESTS)[0].perMember[0];
+    const p = pm.commutes.find((c) => c.destinationId === "p1")!;
+    expect(p).toMatchObject({ name: "MRacing", mode: "bike", estimated: true, visitsPerWeek: 2 });
+    const avg = averageCommute(pm.commutes);
+    expect(avg.minutes).toBe(Math.round((10 * 4 + p.minutes! * 2) / 6));
+    expect(avg).toMatchObject({ counted: 2, total: 2, estimated: true });
   });
 
   it("evidence marks straight-line estimates", () => {

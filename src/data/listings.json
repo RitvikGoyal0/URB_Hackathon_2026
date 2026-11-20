@@ -8,7 +8,7 @@
     "bathrooms": 4,
     "privateBedrooms": true,
     "rent": {
-      "amount": 4396,
+      "amount": null,
       "basis": "per_unit",
       "fees": [],
       "utilitiesIncluded": true,
@@ -23,7 +23,7 @@
         "sourceName": "Haven on Geddes (project research brief)",
         "observedAt": "2026-11-20",
         "status": "unverified",
-        "note": "Whole-unit $4,396/mo (about $1,099 per person) carried over from the project brief. On re-check 2026-11-20 the live floor-plans page showed only 3BR layouts at $1,100 and $1,335 per bed (no 4BR, no whole-unit price). Verify before presenting as provider-reported."
+        "note": "Pricing not verified. The project brief listed $4,396/mo for a 4BR whole unit, but on 2026-11-20 neither Haven's floor-plans page nor its U-M Off-Campus Housing listing showed a 4BR layout or a whole-unit price (both show 3BR layouts only). Verify with Haven before relying on it."
       }
     },
     "availability": {
@@ -40,8 +40,8 @@
       "dishwasher": true,
       "parking": null,
       "furnished": null,
-      "largeKitchen": true,
-      "socialAmenities": true,
+      "largeKitchen": null,
+      "socialAmenities": null,
       "quietBuilding": null,
       "petFriendly": null,
       "ac": null
@@ -217,7 +217,13 @@
       "observedAt": "2026-11-20",
       "status": "third_party_reported"
     },
-    "images": []
+    "images": [],
+    "featureEvidence": {
+      "socialAmenities": {
+        "quote": "TV Lounge",
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/landmark-107340"
+      }
+    }
   },
   {
     "id": "um_foundry_4br",
@@ -269,7 +275,13 @@
       "observedAt": "2026-11-20",
       "status": "third_party_reported"
     },
-    "images": []
+    "images": [],
+    "featureEvidence": {
+      "socialAmenities": {
+        "quote": "Clubhouse, Cyber Lounge, Rooftop Terrace",
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/foundry-lofts-6815"
+      }
+    }
   },
   {
     "id": "um_yard_4br",
@@ -322,7 +334,13 @@
       "observedAt": "2026-11-20",
       "status": "third_party_reported"
     },
-    "images": []
+    "images": [],
+    "featureEvidence": {
+      "socialAmenities": {
+        "quote": "Clubhouse, Cyber Lounge, Game Room, Gaming Lounge",
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/the-yard-57184"
+      }
+    }
   },
   {
     "id": "um_trails_4br",
@@ -426,7 +444,13 @@
       "observedAt": "2026-11-20",
       "status": "third_party_reported"
     },
-    "images": []
+    "images": [],
+    "featureEvidence": {
+      "socialAmenities": {
+        "quote": "Clubhouse, Game Room, Group Study",
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/the-courtyards-apartments-17490"
+      }
+    }
   },
   {
     "id": "um_depot_4br",
@@ -528,7 +552,13 @@
       "observedAt": "2026-11-20",
       "status": "third_party_reported"
     },
-    "images": []
+    "images": [],
+    "featureEvidence": {
+      "largeKitchen": {
+        "quote": "big, modern kitchen with dishwasher and disposal",
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/209-miller-ave-ann-arbor-mi-48104-usa-118317"
+      }
+    }
   },
   {
     "id": "um_smain_4br",
@@ -684,7 +714,13 @@
       "observedAt": "2026-11-20",
       "status": "third_party_reported"
     },
-    "images": []
+    "images": [],
+    "featureEvidence": {
+      "largeKitchen": {
+        "quote": "a spacious kitchen with plenty of cabinet and counter space",
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/217-n.-ashley-st-110704"
+      }
+    }
   },
   {
     "id": "um_oldwest_1br",
@@ -843,206 +879,317 @@
     "images": []
   },
   {
-    "id": "stub_packard_house",
-    "communityId": "stub_packard",
-    "name": "Packard Street House (Demo) — 4BR",
-    "housingType": "house",
+    "id": "um_broadway_4br",
+    "communityId": "um_broadway",
+    "name": "1417 Broadway, 4BR Duplex (North Campus)",
+    "housingType": "duplex",
     "bedrooms": 4,
     "bathrooms": 2,
-    "sqft": 1600,
     "privateBedrooms": true,
     "rent": {
-      "amount": 2720,
-      "basis": "per_unit",
-      "fees": [],
-      "utilitiesIncluded": false,
-      "provenance": {
-        "sourceUrl": "synthetic://demo",
-        "sourceName": "Demo data (fictional)",
-        "observedAt": "2026-11-20",
-        "status": "synthetic"
-      }
-    },
-    "availability": {
-      "status": "available",
-      "date": "2027-08-25",
-      "provenance": {
-        "sourceUrl": "synthetic://demo",
-        "sourceName": "Demo data (fictional)",
-        "observedAt": "2026-11-20",
-        "status": "synthetic"
-      }
-    },
-    "features": {
-      "inUnitLaundry": true,
-      "dishwasher": true,
-      "parking": true,
-      "furnished": false,
-      "largeKitchen": false,
-      "socialAmenities": false,
-      "quietBuilding": true,
-      "petFriendly": false,
-      "ac": false
-    },
-    "sourceType": "synthetic",
-    "provenance": {
-      "sourceUrl": "synthetic://demo",
-      "sourceName": "Demo data (fictional)",
-      "observedAt": "2026-11-20",
-      "status": "synthetic"
-    },
-    "images": []
-  },
-  {
-    "id": "stub_northside_4br",
-    "communityId": "stub_northside",
-    "name": "Northside Commons (Demo) — 4BR Garden",
-    "housingType": "garden_apartment",
-    "bedrooms": 4,
-    "bathrooms": 2,
-    "sqft": 1500,
-    "privateBedrooms": true,
-    "rent": {
-      "amount": 4160,
-      "basis": "per_unit",
-      "fees": [],
-      "utilitiesIncluded": false,
-      "provenance": {
-        "sourceUrl": "synthetic://demo",
-        "sourceName": "Demo data (fictional)",
-        "observedAt": "2026-11-20",
-        "status": "synthetic"
-      }
-    },
-    "availability": {
-      "status": "available",
-      "date": "2027-08-25",
-      "provenance": {
-        "sourceUrl": "synthetic://demo",
-        "sourceName": "Demo data (fictional)",
-        "observedAt": "2026-11-20",
-        "status": "synthetic"
-      }
-    },
-    "features": {
-      "inUnitLaundry": true,
-      "dishwasher": true,
-      "parking": true,
-      "furnished": false,
-      "largeKitchen": true,
-      "socialAmenities": true,
-      "quietBuilding": true,
-      "petFriendly": false,
-      "ac": true
-    },
-    "sourceType": "synthetic",
-    "provenance": {
-      "sourceUrl": "synthetic://demo",
-      "sourceName": "Demo data (fictional)",
-      "observedAt": "2026-11-20",
-      "status": "synthetic"
-    },
-    "images": []
-  },
-  {
-    "id": "syn_kerrytown_row",
-    "communityId": "syn_kerrytown_row",
-    "name": "Kerrytown Row (Demo) — 4BR Townhome",
-    "housingType": "townhome",
-    "bedrooms": 4,
-    "bathrooms": 3,
-    "sqft": 1750,
-    "privateBedrooms": true,
-    "rent": {
-      "amount": 5200,
-      "basis": "per_unit",
-      "fees": [],
-      "utilitiesIncluded": false,
-      "provenance": {
-        "sourceUrl": "synthetic://demo",
-        "sourceName": "Demo data (fictional)",
-        "observedAt": "2026-11-20",
-        "status": "synthetic"
-      }
-    },
-    "availability": {
-      "status": "available",
-      "date": "2027-08-25",
-      "provenance": {
-        "sourceUrl": "synthetic://demo",
-        "sourceName": "Demo data (fictional)",
-        "observedAt": "2026-11-20",
-        "status": "synthetic"
-      }
-    },
-    "features": {
-      "inUnitLaundry": true,
-      "dishwasher": true,
-      "parking": true,
-      "furnished": false,
-      "largeKitchen": true,
-      "socialAmenities": false,
-      "quietBuilding": true,
-      "petFriendly": false,
-      "ac": true
-    },
-    "sourceType": "synthetic",
-    "provenance": {
-      "sourceUrl": "synthetic://demo",
-      "sourceName": "Demo data (fictional)",
-      "observedAt": "2026-11-20",
-      "status": "synthetic"
-    },
-    "images": []
-  },
-  {
-    "id": "syn_stadium_townhomes",
-    "communityId": "syn_stadium_townhomes",
-    "name": "Stadium Townhomes (Demo) — 4BR Townhome",
-    "housingType": "townhome",
-    "bedrooms": 4,
-    "bathrooms": 2.5,
-    "sqft": 1650,
-    "privateBedrooms": true,
-    "rent": {
-      "amount": 3400,
+      "amount": 4250,
       "basis": "per_unit",
       "fees": [],
       "utilitiesIncluded": null,
       "provenance": {
-        "sourceUrl": "synthetic://demo",
-        "sourceName": "Demo data (fictional)",
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/1417-broadway-quiet-spacious-room-near-hospital-north-campus-230748",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
         "observedAt": "2026-11-20",
-        "status": "synthetic"
+        "status": "third_party_reported",
+        "note": "Listed at $4,250/mo for the 4-bedroom home, offered as individual room leases (about $1,063 per room)."
       }
     },
     "availability": {
       "status": "available",
-      "date": "2027-08-25",
       "provenance": {
-        "sourceUrl": "synthetic://demo",
-        "sourceName": "Demo data (fictional)",
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/1417-broadway-quiet-spacious-room-near-hospital-north-campus-230748",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
         "observedAt": "2026-11-20",
-        "status": "synthetic"
+        "status": "third_party_reported"
+      }
+    },
+    "features": {
+      "inUnitLaundry": true,
+      "dishwasher": null,
+      "parking": true,
+      "furnished": true,
+      "largeKitchen": null,
+      "socialAmenities": null,
+      "quietBuilding": true,
+      "petFriendly": null,
+      "ac": true
+    },
+    "sourceType": "umich_offcampus",
+    "provenance": {
+      "sourceUrl": "https://offcampushousing.umich.edu/listing/1417-broadway-quiet-spacious-room-near-hospital-north-campus-230748",
+      "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+      "observedAt": "2026-11-20",
+      "status": "third_party_reported"
+    },
+    "images": [],
+    "featureEvidence": {
+      "quietBuilding": {
+        "quote": "Quiet, Spacious Room Near Hospital & North Campus",
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/1417-broadway-quiet-spacious-room-near-hospital-north-campus-230748"
+      }
+    }
+  },
+  {
+    "id": "um_fair_4br",
+    "communityId": "um_fair",
+    "name": "1805 Fair St, 4BR House (Eberwhite)",
+    "housingType": "house",
+    "bedrooms": 4,
+    "bathrooms": 2,
+    "privateBedrooms": true,
+    "rent": {
+      "amount": 2795,
+      "basis": "per_unit",
+      "fees": [],
+      "utilitiesIncluded": false,
+      "provenance": {
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/1805-fair-street-233701",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+        "observedAt": "2026-11-20",
+        "status": "third_party_reported",
+        "note": "Listed at $2,795/mo for the whole house. Tenants pay gas, electricity, water/sewer and snow removal; landlord covers trash and lawn care."
+      }
+    },
+    "availability": {
+      "status": "available",
+      "provenance": {
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/1805-fair-street-233701",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+        "observedAt": "2026-11-20",
+        "status": "third_party_reported"
       }
     },
     "features": {
       "inUnitLaundry": true,
       "dishwasher": true,
       "parking": true,
-      "furnished": false,
-      "largeKitchen": false,
-      "socialAmenities": false,
-      "quietBuilding": true,
+      "furnished": null,
+      "largeKitchen": null,
+      "socialAmenities": null,
+      "quietBuilding": null,
+      "petFriendly": true,
+      "ac": null
+    },
+    "sourceType": "umich_offcampus",
+    "provenance": {
+      "sourceUrl": "https://offcampushousing.umich.edu/listing/1805-fair-street-233701",
+      "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+      "observedAt": "2026-11-20",
+      "status": "third_party_reported"
+    },
+    "images": []
+  },
+  {
+    "id": "um_lawrence_4br",
+    "communityId": "um_lawrence",
+    "name": "418 Lawrence St, 4BR Apartment (Kerrytown)",
+    "housingType": "garden_apartment",
+    "bedrooms": 4,
+    "bathrooms": 2,
+    "privateBedrooms": true,
+    "rent": {
+      "amount": 4313,
+      "basis": "per_unit",
+      "fees": [],
+      "utilitiesIncluded": null,
+      "provenance": {
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/418-lawrence-st-ann-arbor-mi-48104-usa-118440",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+        "observedAt": "2026-11-20",
+        "status": "third_party_reported",
+        "note": "Listed at $4,313/mo for unit #B (other 4BR units listed at $4,800 and $5,040). Parking $80–$130/mo extra."
+      }
+    },
+    "availability": {
+      "status": "available",
+      "provenance": {
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/418-lawrence-st-ann-arbor-mi-48104-usa-118440",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+        "observedAt": "2026-11-20",
+        "status": "third_party_reported"
+      },
+      "date": "2027-07-25"
+    },
+    "features": {
+      "inUnitLaundry": null,
+      "dishwasher": true,
+      "parking": null,
+      "furnished": null,
+      "largeKitchen": null,
+      "socialAmenities": null,
+      "quietBuilding": null,
+      "petFriendly": null,
+      "ac": true
+    },
+    "sourceType": "umich_offcampus",
+    "provenance": {
+      "sourceUrl": "https://offcampushousing.umich.edu/listing/418-lawrence-st-ann-arbor-mi-48104-usa-118440",
+      "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+      "observedAt": "2026-11-20",
+      "status": "third_party_reported"
+    },
+    "images": []
+  },
+  {
+    "id": "um_ssv_4br",
+    "communityId": "um_ssv",
+    "name": "State Street Village, 4BR Apartment",
+    "housingType": "garden_apartment",
+    "bedrooms": 4,
+    "bathrooms": 3,
+    "privateBedrooms": true,
+    "rent": {
+      "amount": 3539,
+      "basis": "per_unit",
+      "fees": [],
+      "utilitiesIncluded": null,
+      "provenance": {
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/state-street-village-117095",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+        "observedAt": "2026-11-20",
+        "status": "third_party_reported",
+        "note": "Listed at $3,539/mo for the 4BR/3BA 'Main' layout ($3,739 for 'McKinley')."
+      }
+    },
+    "availability": {
+      "status": "unknown",
+      "provenance": {
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/state-street-village-117095",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+        "observedAt": "2026-11-20",
+        "status": "third_party_reported"
+      }
+    },
+    "features": {
+      "inUnitLaundry": true,
+      "dishwasher": true,
+      "parking": true,
+      "furnished": null,
+      "largeKitchen": null,
+      "socialAmenities": true,
+      "quietBuilding": null,
+      "petFriendly": true,
+      "ac": null
+    },
+    "sourceType": "umich_offcampus",
+    "provenance": {
+      "sourceUrl": "https://offcampushousing.umich.edu/listing/state-street-village-117095",
+      "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+      "observedAt": "2026-11-20",
+      "status": "third_party_reported"
+    },
+    "images": [],
+    "featureEvidence": {
+      "socialAmenities": {
+        "quote": "Clubhouse, Fitness Center",
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/state-street-village-117095"
+      }
+    }
+  },
+  {
+    "id": "um_packard_5br",
+    "communityId": "um_packard5",
+    "name": "1532 Packard St, 5BR House",
+    "housingType": "house",
+    "bedrooms": 5,
+    "bathrooms": 2.5,
+    "privateBedrooms": true,
+    "rent": {
+      "amount": 5700,
+      "basis": "per_unit",
+      "fees": [],
+      "utilitiesIncluded": false,
+      "provenance": {
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/1532-packard-st-108752",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+        "observedAt": "2026-11-20",
+        "status": "third_party_reported",
+        "note": "Listed at $5,700/mo for the whole house. Tenants pay water, gas, electricity and internet."
+      }
+    },
+    "availability": {
+      "status": "available",
+      "provenance": {
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/1532-packard-st-108752",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+        "observedAt": "2026-11-20",
+        "status": "third_party_reported"
+      },
+      "date": "2027-08-20"
+    },
+    "features": {
+      "inUnitLaundry": true,
+      "dishwasher": null,
+      "parking": true,
+      "furnished": null,
+      "largeKitchen": null,
+      "socialAmenities": null,
+      "quietBuilding": null,
       "petFriendly": true,
       "ac": true
     },
-    "sourceType": "synthetic",
+    "sourceType": "umich_offcampus",
     "provenance": {
-      "sourceUrl": "synthetic://demo",
-      "sourceName": "Demo data (fictional)",
+      "sourceUrl": "https://offcampushousing.umich.edu/listing/1532-packard-st-108752",
+      "sourceName": "U-M Off-Campus Housing (listing by property manager)",
       "observedAt": "2026-11-20",
-      "status": "synthetic"
+      "status": "third_party_reported"
+    },
+    "images": []
+  },
+  {
+    "id": "um_sstate_2br",
+    "communityId": "um_sstate",
+    "name": "1313 S State St, 2BR Apartment",
+    "housingType": "garden_apartment",
+    "bedrooms": 2,
+    "bathrooms": 1,
+    "privateBedrooms": true,
+    "rent": {
+      "amount": 1950,
+      "basis": "per_unit",
+      "fees": [],
+      "utilitiesIncluded": false,
+      "provenance": {
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/1313-s-state-112852",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+        "observedAt": "2026-11-20",
+        "status": "third_party_reported",
+        "note": "Listed at $1,950–$2,100/mo for a 2-bedroom unit; scored on $1,950. Heat and water included, electricity extra."
+      },
+      "amountMax": 2100
+    },
+    "availability": {
+      "status": "available",
+      "provenance": {
+        "sourceUrl": "https://offcampushousing.umich.edu/listing/1313-s-state-112852",
+        "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+        "observedAt": "2026-11-20",
+        "status": "third_party_reported"
+      }
+    },
+    "features": {
+      "inUnitLaundry": false,
+      "dishwasher": null,
+      "parking": null,
+      "furnished": true,
+      "largeKitchen": null,
+      "socialAmenities": null,
+      "quietBuilding": null,
+      "petFriendly": false,
+      "ac": null
+    },
+    "sourceType": "umich_offcampus",
+    "provenance": {
+      "sourceUrl": "https://offcampushousing.umich.edu/listing/1313-s-state-112852",
+      "sourceName": "U-M Off-Campus Housing (listing by property manager)",
+      "observedAt": "2026-11-20",
+      "status": "third_party_reported"
     },
     "images": []
   }

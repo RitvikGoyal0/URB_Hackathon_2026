@@ -14,16 +14,22 @@ export const AFFORD_AT_BUDGET_SCORE = 50;
 export const COMMUTE_FULL_MARKS_MIN = 10;
 /** Trips at or over this many minutes score 0 (linear in between). */
 export const COMMUTE_ZERO_MIN = 40;
-/**
- * Bus rule (§5.7): bus is never routed. Bus riders are scored on WALK time; walking time
- * beyond this threshold is assumed to be bus-able, so it counts at BUS_EXCESS_FACTOR.
- * effectiveMinutes = walk ≤ 20 ? walk : 20 + 0.5 × (walk − 20)
- * e.g. a 40-min walk is scored like a 30-min trip (33/100) rather than 0/100.
- * The effective number is never shown as a bus duration.
- */
-export const BUS_WALK_THRESHOLD_MIN = 20;
-export const BUS_EXCESS_FACTOR = 0.5;
-export const BUS_NOTE = "Bus likely; check U-M Magic Bus";
+// ---- Distance estimator (V3 §5.4): bus trips and custom places. Checked against OSRM in tests. ----
+/** Streets aren't straight: road distance ≈ straight-line distance × this. */
+export const DETOUR_FACTOR = 1.35;
+export const WALK_KMH = 4.8;
+export const BIKE_KMH = 14;
+/** Minutes added to every estimated bike ride to unlock and lock up (keeps short rides honest vs OSRM). */
+export const BIKE_LOCK_MIN = 1;
+export const DRIVE_KMH = 30;
+/** Minutes added to every estimated drive for parking. */
+export const DRIVE_PARK_MIN = 4;
+/** Walking to and from bus stops, total minutes. */
+export const BUS_ACCESS_MIN = 5;
+/** Average wait for a bus, minutes. */
+export const BUS_WAIT_MIN = 5;
+export const BUS_KMH = 18;
+export const ESTIMATE_NOTE = "Estimated from distance; real bus times vary. Check the Magic Bus app.";
 
 // ---- Lifestyle rule magnitudes (§7.4). Score = clamp(50 + Σ deltas, 0, 100). ----
 export const LIFESTYLE_BASE = 50;

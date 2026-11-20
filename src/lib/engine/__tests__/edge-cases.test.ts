@@ -199,7 +199,7 @@ describe("commute edge cases", () => {
     const m = makeMember("m", "Mo", { destinations: [{ destinationId: "nowhere", visitsPerWeek: 5, importance: 3 }] });
     const { r, e } = explain(makeListing("a"), [m], { central: 10 });
     expect(r.perMember[0].subscores.commute.score).toBeNull();
-    expect(r.perMember[0].commutes).toEqual([{ destinationId: "nowhere", mode: "walk", minutes: null, estimated: false, note: "No travel time available" }]);
+    expect(r.perMember[0].commutes).toEqual([{ destinationId: "nowhere", mode: "walk", minutes: null, estimated: false, visitsPerWeek: 5, note: "No travel time available" }]);
     expect(r.coverage).toEqual({ evaluated: 4, total: 5 });
     expect(r.eligibility).toBe("eligible_with_unknowns");
     expect(e.summary).toMatch(/Scored on 4 of 5 categories\./);
@@ -209,19 +209,6 @@ describe("commute edge cases", () => {
     const r = one(makeListing("a"), [makeMember("m", "Mo", { destinations: [] })]);
     expect(r.perMember[0].subscores.commute.score).toBeNull();
     expect(r.coverage.evaluated).toBe(5);
-  });
-
-  it("bus: a 20.0-min walk is scored as-is with no bus note; 20.5 gets the note and the 50% allowance", () => {
-    const bus = makeMember("b", "Bea", { travelMode: "bus", destinations: [{ destinationId: "central", visitsPerWeek: 5, importance: 3 }] });
-    const at = one(makeListing("a"), [bus], { central: 20 }).perMember[0];
-    expect(at.subscores.commute.score).toBeCloseTo(66.7, 1);
-    expect(at.commutes[0]).toEqual({ destinationId: "central", mode: "walk", minutes: 20, estimated: false });
-    const over = one(makeListing("a"), [bus], { central: 20.5 }).perMember[0];
-    expect(over.commutes[0].note).toBe("Bus likely; check U-M Magic Bus");
-    expect(over.subscores.commute.score).toBeCloseTo(round1(((40 - 20.25) / 30) * 100), 5);
-    const far = one(makeListing("a"), [bus], { central: 60 }).perMember[0];
-    expect(far.subscores.commute.score).toBe(0); // 20 + 0.5 × 40 = 40 → 0
-    expect(far.commutes[0].mode).toBe("walk"); // never a bus duration
   });
 
   it("drive: uses drive times only; missing drive cell → not scored even when walk exists", () => {
@@ -325,7 +312,3 @@ describe("explanation edge cases", () => {
     for (const d of DIMS) expect(r.perMember[0].subscores[d].reason.length).toBeGreaterThan(0);
   });
 });
-
-function round1(n: number) {
-  return Math.round(n * 10) / 10;
-}

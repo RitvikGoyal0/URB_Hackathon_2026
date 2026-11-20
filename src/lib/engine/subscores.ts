@@ -14,14 +14,14 @@ import type {
   MemberResult,
   RoutedMode,
   Subscore,
+  TravelMode,
 } from "../types";
+import { estimateTrip } from "./estimate";
 import {
   AFFORD_AT_BUDGET_SCORE,
   AFFORD_FULL_MARKS_RATIO,
   BATHS_PER_PERSON_FULL,
-  BUS_EXCESS_FACTOR,
-  BUS_NOTE,
-  BUS_WALK_THRESHOLD_MIN,
+  DETOUR_FACTOR,
   COMMUTE_FULL_MARKS_MIN,
   COMMUTE_ZERO_MIN,
   LIFESTYLE,
@@ -132,13 +132,7 @@ export function commuteCurve(minutes: number): number {
   return ((COMMUTE_ZERO_MIN - minutes) / (COMMUTE_ZERO_MIN - COMMUTE_FULL_MARKS_MIN)) * 100;
 }
 
-/** Bus rule (§5.7): bus riders are scored on walk time, with excess beyond 20 min discounted. */
-export function busEffectiveMinutes(walkMinutes: number): number {
-  if (walkMinutes <= BUS_WALK_THRESHOLD_MIN) return walkMinutes;
-  return BUS_WALK_THRESHOLD_MIN + BUS_EXCESS_FACTOR * (walkMinutes - BUS_WALK_THRESHOLD_MIN);
-}
-
-const MODE_WORD: Record<RoutedMode, string> = { walk: "walk", bike: "bike ride", drive: "drive" };
+const MODE_WORD: Record<TravelMode, string> = { walk: "walk", bike: "bike ride", drive: "drive", bus: "bus ride" };
 
 export interface CommuteScored extends Scored {
   commutes: MemberResult["commutes"];
@@ -148,72 +142,95 @@ export function destinationWeight(visitsPerWeek: number, importance: number): nu
   return (Number.isFinite(visitsPerWeek) ? Math.max(0, visitsPerWeek) : 0) * importance;
 }
 
+type Trip = Pick<Destination, "visitsPerWeek" | "importance">;
+
 /**
- * The weight each of a member's destinations carries in their commute score: visits/week ×
- * importance, or importance alone when EVERY destination has 0 visits. scoreCommute, the
+ * The weight each of a member's trips (campus areas + places) carries in their commute score:
+ * visits/week × importance, or importance alone when EVERY trip has 0 visits. scoreCommute, the
  * explanation templates and "What changed?" all use this, so a destination that contributes
  * nothing to the score is never named as a strength or a drawback.
  */
-export function destinationWeigher(member: MemberProfile): (d: Destination) => number {
-  const importanceOnly = member.destinations.every((d) => destinationWeight(d.visitsPerWeek, d.importance) === 0);
+export function destinationWeigher(member: MemberProfile): (d: Trip) => number {
+  const all: Trip[] = [...member.destinations, ...(member.places ?? [])];
+  const importanceOnly = all.every((d) => destinationWeight(d.visitsPerWeek, d.importance) === 0);
   return (d) => (importanceOnly ? d.importance : destinationWeight(d.visitsPerWeek, d.importance));
 }
 
+export interface DestInfo {
+  name: string;
+  lat?: number;
+  lng?: number;
+}
+
+/**
+ * Commute (V3 §5.4). For every campus area and located place, in the member's mode:
+ * - walk / bike / drive to a campus area: routed OSRM time from the committed matrix;
+ * - bus anywhere, and every mode to a custom/class place: distance estimate (estimate.ts),
+ *   labelled "est."; a bus rider whose bus would be slower than walking gets the walk time.
+ * Score: 100 at ≤ 10 min, 0 at ≥ 40 min, weighted by visits/week × importance.
+ */
 export function scoreCommute(
   listing: Listing,
   member: MemberProfile,
   matrix: CommuteMatrix,
-  destNames: Map<string, string>,
+  destInfo: Map<string, DestInfo>,
 ): CommuteScored {
   const commutes: MemberResult["commutes"] = [];
-  if (member.destinations.length === 0) {
+  const places = member.places ?? [];
+  if (member.destinations.length === 0 && places.length === 0) {
     return { ...nullScore("no_preference", "No regular destinations set — commute not scored."), commutes };
   }
-  const isBus = member.travelMode === "bus";
-  const routed: RoutedMode = isBus ? "walk" : (member.travelMode as RoutedMode);
-  const reportedMode = routed; // bus riders: we report the WALK time, never a bus duration
+  const origin = matrix.origins?.[listing.id];
   const rows: { w: number; s: number; part: string; order: number }[] = [];
   const evidence: string[] = [];
-  let anyBusNote = false;
   let anyEstimated = false;
+  let anyWalkFaster = false;
   const weightOf = destinationWeigher(member);
 
-  member.destinations.forEach((d, order) => {
-    const name = destNames.get(d.destinationId) ?? humanizeId(d.destinationId);
-    const cell = matrix.matrix[listing.id]?.[d.destinationId]?.[routed];
-    if (!cell || !Number.isFinite(cell.minutes)) {
-      commutes.push({ destinationId: d.destinationId, mode: reportedMode, minutes: null, estimated: false, note: "No travel time available" });
-      evidence.push(`${name}: no ${routed} time in the commute matrix — excluded`);
-      return;
-    }
+  const trip = (id: string, name: string, mode: TravelMode, d: Trip, order: number, to: { lat?: number; lng?: number } | null, custom: boolean) => {
+    let minutes: number | null = null;
+    let estimated = false;
+    let usedMode: TravelMode = mode;
     let note: string | undefined;
-    let effective = cell.minutes;
-    if (isBus) {
-      effective = busEffectiveMinutes(cell.minutes);
-      if (cell.minutes > BUS_WALK_THRESHOLD_MIN) {
-        note = BUS_NOTE;
-        anyBusNote = true;
+    const cell = !custom && mode !== "bus" ? matrix.matrix[listing.id]?.[id]?.[mode as RoutedMode] : undefined;
+    if (cell && Number.isFinite(cell.minutes)) {
+      minutes = cell.minutes;
+      estimated = cell.estimated;
+      evidence.push(`${name}: ${cell.minutes.toFixed(1)} min ${mode}, ${(cell.meters / 1000).toFixed(1)} km — ${cell.estimated ? "est. (straight-line)" : matrix.provider}`);
+    } else if (origin && to && to.lat !== undefined && to.lng !== undefined) {
+      const e = estimateTrip(origin, { lat: to.lat, lng: to.lng }, mode);
+      if (e) {
+        minutes = e.minutes;
+        estimated = true;
+        usedMode = e.mode;
+        if (e.walkingFaster) {
+          note = `Walking is faster (${Math.round(e.minutes)} min)`;
+          anyWalkFaster = true;
+        }
+        evidence.push(`${name}: ~${e.minutes.toFixed(1)} min ${e.mode} (est. from ${e.km.toFixed(1)} km by road)`);
       }
     }
-    if (cell.estimated) anyEstimated = true;
-    commutes.push({ destinationId: d.destinationId, mode: reportedMode, minutes: cell.minutes, estimated: cell.estimated, ...(note ? { note } : {}) });
-    const w = weightOf(d);
+    commutes.push({ destinationId: id, ...(custom ? { name } : {}), mode: usedMode, minutes, estimated, visitsPerWeek: d.visitsPerWeek, ...(note ? { note } : minutes === null ? { note: "No travel time available" } : {}) });
+    if (minutes === null) {
+      evidence.push(`${name}: no travel time — excluded`);
+      return;
+    }
+    if (estimated) anyEstimated = true;
     rows.push({
-      w,
-      s: commuteCurve(effective),
+      w: weightOf(d),
+      s: commuteCurve(minutes),
       order,
-      part: `${name}: ${int(cell.minutes)}-min ${MODE_WORD[routed]}${cell.estimated ? " (est.)" : ""}, ${d.visitsPerWeek}×/wk${note ? ` (${note})` : ""}`,
+      part: `${name}: ${estimated ? "~" : ""}${int(minutes)}-min ${MODE_WORD[usedMode]}${estimated ? " (est.)" : ""}, ${d.visitsPerWeek}×/wk`,
     });
-    evidence.push(
-      `${name}: ${cell.minutes.toFixed(1)} min ${routed}, ${(cell.meters / 1000).toFixed(1)} km — ${
-        cell.estimated ? "est. (straight-line)" : matrix.provider
-      }`,
-    );
+  };
+
+  member.destinations.forEach((d, i) => {
+    const info = destInfo.get(d.destinationId);
+    trip(d.destinationId, info?.name ?? humanizeId(d.destinationId), member.travelMode, d, i, info ?? null, false);
   });
+  places.forEach((p, i) => trip(p.id, p.name, p.mode ?? member.travelMode, p, member.destinations.length + i, p.location, true));
 
   const totalW = rows.reduce((s, r) => s + r.w, 0);
-  // No rows, or only rows for destinations with zero weight (0 visits/week) while the visited
-  // destinations have no travel time: the trips that matter are unknown → missing data.
   if (rows.length === 0) {
     return { ...nullScore("missing_data", "No travel times available for this listing — commute not scored.", evidence), commutes };
   }
@@ -223,16 +240,21 @@ export function scoreCommute(
   const score = rows.reduce((s, r) => s + r.w * r.s, 0) / totalW;
   const parts = [...rows].sort((a, b) => b.w - a.w || a.order - b.order).map((r) => r.part);
   let reason = `${parts.join("; ")}.`;
-  if (isBus) {
-    reason += anyBusNote
-      ? ` Bus isn't routed: scored on walking time, with time beyond ${BUS_WALK_THRESHOLD_MIN} min counted at ${Math.round(BUS_EXCESS_FACTOR * 100)}%.`
-      : " Bus isn't routed: scored on walking time.";
-    evidence.push(`Bus rider: walk minutes over ${BUS_WALK_THRESHOLD_MIN} weighted ×${BUS_EXCESS_FACTOR} (bus allowance); no bus duration is estimated`);
-  }
-  if (anyEstimated) evidence.push("Some times are est. (straight-line × 1.3), not routed");
+  if (anyWalkFaster) reason += " Some trips are short enough that walking beats waiting for a bus.";
+  if (anyEstimated) evidence.push(`Times marked est. are distance estimates (×${DETOUR_FACTOR} for streets), not routed`);
   if (member.travelMode === "drive" && !member.hasCar) evidence.push("Drive times assume car access; profile says no car");
   evidence.push("Each destination weighted by visits/week × importance; 100 at ≤10 min, 0 at ≥40 min");
   return { score: round1(score), reason, evidence, commutes };
+}
+
+/** One-way average for display: Σ(minutes × visits) / Σ visits over trips with a time. */
+export function averageCommute(commutes: MemberResult["commutes"]): { minutes: number | null; counted: number; total: number; estimated: boolean } {
+  const usable = commutes.filter((c) => c.minutes !== null && c.visitsPerWeek > 0);
+  const visits = usable.reduce((s, c) => s + c.visitsPerWeek, 0);
+  const total = commutes.filter((c) => c.visitsPerWeek > 0).length;
+  if (visits <= 0) return { minutes: null, counted: 0, total, estimated: false };
+  const m = usable.reduce((s, c) => s + (c.minutes as number) * c.visitsPerWeek, 0) / visits;
+  return { minutes: Math.round(m), counted: usable.length, total, estimated: usable.some((c) => c.estimated) };
 }
 
 // ---------------------------------------------------------------- amenities
@@ -442,4 +464,8 @@ export function scoreSpace(listing: Listing, member: MemberProfile, groupSize: n
 
 export function destinationNameMap(destinations: CampusDestination[]): Map<string, string> {
   return new Map(destinations.map((d) => [d.id, d.shortName || d.name]));
+}
+
+export function destinationInfoMap(destinations: CampusDestination[]): Map<string, DestInfo> {
+  return new Map(destinations.map((d) => [d.id, { name: d.shortName || d.name, lat: d.lat, lng: d.lng }]));
 }

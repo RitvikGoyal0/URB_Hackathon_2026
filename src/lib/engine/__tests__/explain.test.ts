@@ -36,10 +36,10 @@ describe("explainListing (§7.7)", () => {
     expect(e.compromise).toMatch(/for Maya\.$/);
   });
 
-  it("appends the bus note for bus riders (and never a bus duration)", () => {
-    const bus = { ...maya, travelMode: "bus" as const };
-    const { e } = run(home, [bus], { north_campus: 31 });
-    expect(e.compromise).toBe("Main drawback: a 31-minute walk to North Campus for Maya (bus likely; check U-M Magic Bus).");
+  it("estimated trips are marked est. in the explanation", () => {
+    const [r] = rankListings([home], [maya], makeMatrix({ [home.id]: { north_campus: 31 } }, true), DESTS);
+    const e = explainListing(r, home, [maya], DESTS);
+    expect(e.compromise).toMatch(/a 31-minute walk \(est\.\) to North Campus for Maya/);
   });
 
   it("is built from data, not hardcoded text", () => {

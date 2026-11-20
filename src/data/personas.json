@@ -48,6 +48,23 @@
     "major": "Engineering",
     "organizations": [
       "MRacing"
+    ],
+    "places": [
+      {
+        "id": "place_mracing",
+        "name": "MRacing",
+        "kind": "custom",
+        "location": {
+          "source": "building",
+          "refId": "wilson_center",
+          "label": "Wilson Student Team Project Center",
+          "lat": 42.29331,
+          "lng": -83.71062
+        },
+        "visitsPerWeek": 3,
+        "importance": 3,
+        "mode": "bus"
+      }
     ]
   },
   {
@@ -108,7 +125,7 @@
     "program": "Public Health",
     "bio": "Rent comes first; happy to bike further for a cheaper place.",
     "color": "violet",
-    "budgetMax": 1000,
+    "budgetMax": 850,
     "budgetIsHardCap": true,
     "travelMode": "bike",
     "hasCar": false,
@@ -307,7 +324,7 @@
     "program": "Nursing",
     "bio": "Nursing student with early clinical shifts at the medical campus.",
     "color": "lime",
-    "budgetMax": 950,
+    "budgetMax": 1000,
     "budgetIsHardCap": true,
     "travelMode": "bus",
     "hasCar": false,

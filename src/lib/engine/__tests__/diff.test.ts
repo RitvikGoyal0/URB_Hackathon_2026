@@ -7,7 +7,7 @@ import { DESTS, makeListing, makeMatrix, makeMember } from "./fixtures";
 // A miniature demo flip: Y (near North Campus, great kitchen) is blocked only by Sam's budget.
 const maya = makeMember("maya", "Maya", {
   budgetMax: 850,
-  travelMode: "bus",
+  travelMode: "walk",
   destinations: [
     { destinationId: "north_campus", visitsPerWeek: 4, importance: 3 },
     { destinationId: "central", visitsPerWeek: 2, importance: 2 },

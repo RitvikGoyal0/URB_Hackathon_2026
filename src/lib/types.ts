@@ -64,6 +64,23 @@ export interface CampusDestination {
   verifiedAt: string;
 }
 
+/** A frequently visited campus building (V3 §6), verified once against OpenStreetMap. */
+export interface Building {
+  id: Id;
+  campusId: Id;
+  name: string;
+  shortName: string;
+  /** Other names students use ("UGLi", "the Union", "MRacing shop") */
+  aliases: string[];
+  /** Campus area it belongs to, or null (e.g. the downtown transit center) */
+  areaId: Id | null;
+  lat: number;
+  lng: number;
+  source: string;
+  observedAt: string;
+  note?: string;
+}
+
 export interface Community {
   id: Id;
   campusId: Id;
@@ -277,6 +294,8 @@ export interface CommuteMatrix {
   computedAt: string;
   /** matrix[listingId][destinationId][mode] */
   matrix: Record<Id, Record<Id, Partial<Record<RoutedMode, CommuteCell>>>>;
+  /** listing coordinates, used by the distance estimator for bus trips and custom places */
+  origins?: Record<Id, { lat: number; lng: number }>;
 }
 
 // ---------- Engine I/O (spec §7) ----------
@@ -299,10 +318,16 @@ export interface MemberResult {
   perPersonRent: number | null;
   /** Commute detail per destination for UI */
   commutes: {
+    /** campus area id, or a custom/class place id */
     destinationId: Id;
+    /** display name for custom places */
+    name?: string;
+    /** mode the minutes are for (a bus rider's short trip may be "walk": walking is faster) */
     mode: TravelMode;
     minutes: number | null;
+    /** true = distance estimate (show "est."), false = routed */
     estimated: boolean;
+    visitsPerWeek: number;
     note?: string;
   }[];
 }

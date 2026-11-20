@@ -12,7 +12,6 @@ import { DIMS } from "../types";
 import { applyEvidenceRule } from "./rank";
 import { DIM_LABEL, FEATURE_LABEL, capitalize, humanizeId, joinList, money } from "./format";
 import {
-  busEffectiveMinutes,
   commuteCurve,
   destinationNameMap,
   destinationWeigher,
@@ -136,7 +135,7 @@ function makeCtx(result: RankedResult, listing: Listing, members: MemberProfile[
   };
 }
 
-const MODE_NOUN: Record<string, string> = { walk: "walk", bike: "bike ride", drive: "drive", bus: "walk" };
+const MODE_NOUN: Record<string, string> = { walk: "walk", bike: "bike ride", drive: "drive", bus: "bus ride" };
 
 /** "a 31-minute" / "an 8-minute" / "an 18-minute" */
 function aMinutes(n: number): string {
@@ -144,7 +143,7 @@ function aMinutes(n: number): string {
   return `${vowelSound ? "an" : "a"} ${n}-minute`;
 }
 
-type Trip = { destinationId: Id; minutes: number; mode: string; note?: string; w: number; points: number };
+type Trip = { destinationId: Id; name?: string; minutes: number; mode: string; estimated: boolean; w: number; points: number };
 
 /** Routed trips with the SAME weights the commute score used; zero-weight trips are dropped. */
 function trips(c: Contribution): Trip[] {
@@ -152,18 +151,17 @@ function trips(c: Contribution): Trip[] {
   const weightOf = destinationWeigher(c.member);
   for (const t of c.pm.commutes) {
     if (t.minutes === null) continue;
-    const d = c.member.destinations.find((x) => x.destinationId === t.destinationId);
+    const d = c.member.destinations.find((x) => x.destinationId === t.destinationId) ?? c.member.places?.find((p) => p.id === t.destinationId);
     if (!d) continue;
     const w = weightOf(d);
     if (!(w > 0)) continue;
-    const eff = c.member.travelMode === "bus" ? busEffectiveMinutes(t.minutes) : t.minutes;
-    out.push({ destinationId: t.destinationId, minutes: t.minutes, mode: t.mode, note: t.note, w, points: commuteCurve(eff) });
+    out.push({ destinationId: t.destinationId, name: t.name, minutes: t.minutes, mode: t.mode, estimated: t.estimated, w, points: commuteCurve(t.minutes) });
   }
   return out;
 }
 
 function tripText(t: Trip, ctx: Ctx, who: string): string {
-  return `${aMinutes(Math.round(t.minutes))} ${MODE_NOUN[t.mode] ?? t.mode} to ${ctx.destName(t.destinationId)} for ${who}${t.note ? ` (${t.note[0].toLowerCase()}${t.note.slice(1)})` : ""}`;
+  return `${aMinutes(Math.round(t.minutes))} ${MODE_NOUN[t.mode] ?? t.mode}${t.estimated ? " (est.)" : ""} to ${t.name ?? ctx.destName(t.destinationId)} for ${who}`;
 }
 
 function rentPct(ctx: Ctx, c: Contribution): { rent: number; pct: number } | null {

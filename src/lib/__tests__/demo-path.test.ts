@@ -6,8 +6,8 @@
  */
 import { describe, expect, it } from "vitest";
 import { lookupCachedParse } from "../ai/cache";
-import { commuteMatrix, defaultLivePersona, destinations, listings, seededRoommates } from "../data";
-import { diffRankings, explainListing, rankListings } from "../engine";
+import { commuteMatrix, defaultLivePersona, destinations, FRIEND_IDS, getBuilding, listings, students } from "../data";
+import { diffRankings, explainListing, filterForLobby, rankListings } from "../engine";
 import {
   addDestination,
   applyThisOrThatAnswer,
@@ -20,13 +20,24 @@ import {
   setTravelMode,
   type ThisOrThatAnswer,
 } from "../onboarding";
-import type { MemberProfile, TravelMode } from "../types";
+import type { MemberProfile, Place, TravelMode } from "../types";
 
 const DEMO =
   "I'm an engineering student at Michigan. I'm on North Campus most weekdays, have evening club meetings, don't have a car, enjoy cooking with friends, and want housing under $1,150 a month.";
-const X = "stub_packard_house";
-const Y = "stub_northside_4br";
+/** State Street Village: blocked only by Sam's budget until it rises (see demo-flip.test.ts). */
+const Y = "um_ssv_4br";
 const SAM = "member_c";
+
+const wilson = getBuilding("wilson_center")!;
+const mracing: Place = {
+  id: "place_mracing",
+  name: "MRacing",
+  kind: "custom",
+  location: { source: "building", refId: wilson.id, label: wilson.name, lat: wilson.lat, lng: wilson.lng },
+  visitsPerWeek: 3,
+  importance: 3,
+  mode: "bus",
+};
 
 function demoProfile(mode: TravelMode, answers: ThisOrThatAnswer[], confirm = true): MemberProfile {
   const parse = lookupCachedParse(DEMO)!;
@@ -36,17 +47,23 @@ function demoProfile(mode: TravelMode, answers: ThisOrThatAnswer[], confirm = tr
     if (f.kind === "travelMode") p = setTravelMode(p, mode);
   }
   if (confirm) p = confirmAll(p);
+  // Stage script §12.2: About you → MRacing → "Where is it?" Wilson Center → 3×/wk → Bus → High.
+  p = { ...p, places: [mracing] };
   const { ask } = selectThisOrThat(parse);
   ask.forEach((q, i) => (p = applyThisOrThatAnswer(p, q, answers[i] ?? "skip")));
   return effectiveProfile(p);
 }
 
-function rank(live: MemberProfile, samBudget?: number) {
-  const members = [live, ...seededRoommates.map((m) => (m.id === SAM && samBudget ? { ...m, budgetMax: samBudget } : m))];
-  return { members, ranked: rankListings(listings, members, commuteMatrix, destinations) };
+const friends = FRIEND_IDS.map((id) => students.find((s) => s.id === id)!);
+const candidates = students.filter((s) => !FRIEND_IDS.includes(s.id));
+const pool = filterForLobby(listings, 4);
+/** 4-person lobby: the typed profile + Jordan + Sam + the invited candidate. */
+function rank(live: MemberProfile, fourth: MemberProfile, samBudget?: number) {
+  const members = [live, ...friends, fourth].map((m) => (m.id === SAM && samBudget ? { ...m, budgetMax: samBudget } : m));
+  return { members, ranked: rankListings(pool, members, commuteMatrix, destinations, { groupSize: 4 }) };
 }
 
-const sam = seededRoommates.find((m) => m.id === SAM)!;
+const sam = friends.find((m) => m.id === SAM)!;
 const ANSWER_SETS: ThisOrThatAnswer[][] = [
   [],
   ["a", "a", "a", "a", "a"],
@@ -84,28 +101,34 @@ describe("demo path: onboarding builds the expected profile", () => {
   });
 });
 
-// V3: rebuilt with the real catalog and lobby flow (spec §5.10, build step 5).
-describe.skip("demo path: the on-stage flip holds for the typed profile", () => {
+describe("demo path: the on-stage flip holds for the typed profile", () => {
   for (const mode of ["bus", "walk"] as TravelMode[]) {
     for (const answers of ANSWER_SETS) {
-      it(`mode=${mode} answers=[${answers.join(",") || "none"}]`, () => {
+      it.each(candidates.map((c) => [c.displayName, c] as const))(`mode=${mode} answers=[${answers.join(",") || "none"}] + %s`, (_name, fourth) => {
         const live = demoProfile(mode, answers);
-        const before = rank(live);
-        expect(before.ranked[0].listingId).toBe(X);
-        const yBefore = before.ranked.find((r) => r.listingId === Y)!;
-        expect(yBefore.eligibility).toBe("blocked");
-        expect(yBefore.blockers.some((b) => b.kind === "budget" && b.memberId === SAM)).toBe(true);
+        const before = rank(live, fourth);
+        const X = before.ranked[0];
+        expect(X.eligibility).not.toBe("blocked");
+        const onlySam = (id: string) => {
+          const r = before.ranked.find((x) => x.listingId === id)!;
+          return r.eligibility === "blocked" && r.blockers.every((b) => b.kind === "budget" && b.memberId === SAM);
+        };
+        expect(onlySam(Y)).toBe(true);
 
         for (const bump of [100, 150, 200, 250]) {
-          const after = rank(live, sam.budgetMax + bump);
-          expect(after.ranked[0].listingId, `bump +$${bump}`).toBe(Y);
+          const after = rank(live, fourth, sam.budgetMax + bump);
+          // The typed profile's weights come from this-or-that, so the winner may be State Street
+          // Village or another real home Sam's budget blocked; either tells the same story.
+          const top = after.ranked[0].listingId;
+          expect(top, `bump +$${bump}`).not.toBe(X.listingId);
+          expect(onlySam(top), `${top} was blocked only by Sam`).toBe(true);
           const diff = diffRankings(before.ranked, after.ranked, {
             changedInputs: [`Sam's budget $${sam.budgetMax} → $${sam.budgetMax + bump}`],
             listings,
             members: after.members,
           });
-          expect(diff.becameEligible).toContain(Y);
-          expect(diff.newTop).toBe(Y);
+          expect(diff.becameEligible).toContain(top);
+          expect(diff.newTop).toBe(top);
           const text = diff.sentences.join(" ");
           expect(text).toMatch(/became affordable for Sam/);
           expect(text).not.toMatch(/NaN|undefined|null|Infinity/);
@@ -116,7 +139,7 @@ describe.skip("demo path: the on-stage flip holds for the typed profile", () => 
 
   it("explanations for every listing are clean for the demo group", () => {
     const live = demoProfile("bus", []);
-    const { members, ranked } = rank(live);
+    const { members, ranked } = rank(live, candidates[0]);
     for (const r of ranked) {
       const l = listings.find((x) => x.id === r.listingId)!;
       const e = explainListing(r, l, members, destinations);
@@ -125,8 +148,14 @@ describe.skip("demo path: the on-stage flip holds for the typed profile", () => 
     }
   });
 
-  it("at least 4 listings are rankable (not blocked) at seeded budgets", () => {
-    const { ranked } = rank(demoProfile("bus", []));
-    expect(ranked.filter((r) => r.eligibility !== "blocked").length).toBeGreaterThanOrEqual(4);
+  it("at seeded budgets some homes are open and several more wait only on Sam's budget", () => {
+    for (const fourth of candidates) {
+      const { ranked } = rank(demoProfile("bus", []), fourth);
+      expect(ranked.filter((r) => r.eligibility !== "blocked").length, fourth.displayName).toBeGreaterThanOrEqual(2);
+      const nearlyOpen = ranked.filter(
+        (r) => r.eligibility === "blocked" && r.blockers.every((b) => b.kind === "budget" && b.memberId === SAM && (b.amount ?? Infinity) <= 100),
+      );
+      expect(nearlyOpen.length, fourth.displayName).toBeGreaterThanOrEqual(3);
+    }
   });
 });

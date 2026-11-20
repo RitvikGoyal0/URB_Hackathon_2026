@@ -18,8 +18,9 @@ import { GROUP_MEAN_WEIGHT, GROUP_MIN_WEIGHT, MAX_PEOPLE_PER_SHARED_BEDROOM } fr
 import { FEATURE_LABEL, bedroomsPhrase, capitalize, cmpStr, money, round1 } from "./format";
 import { perPersonRent } from "./rent";
 import {
+  type DestInfo,
   type Scored,
-  destinationNameMap,
+  destinationInfoMap,
   scoreAffordability,
   scoreAmenities,
   scoreCommute,
@@ -54,11 +55,11 @@ export function rankListings(
 ): RankedResult[] {
   const perListing = options.groupSize === "bedrooms";
   const groupSize = sanitizeGroupSize(perListing ? undefined : (options.groupSize as number | undefined), members.length);
-  const destNames = destinationNameMap(destinations);
+  const destInfo = destinationInfoMap(destinations);
 
   const results = listings.map((raw) => {
     const listing = applyEvidenceRule(raw);
-    return scoreListing(listing, members, matrix, destNames, perListing ? roomsIn(listing) : groupSize);
+    return scoreListing(listing, members, matrix, destInfo, perListing ? roomsIn(listing) : groupSize);
   });
   results.sort(compareResults);
   results.forEach((r, i) => (r.rank = i + 1));
@@ -119,7 +120,7 @@ function scoreListing(
   listing: Listing,
   members: MemberProfile[],
   matrix: CommuteMatrix,
-  destNames: Map<string, string>,
+  destInfo: Map<string, DestInfo>,
   groupSize: number,
 ): RankedResult {
   // V3 §5.3: rent is per room (whole-unit rent ÷ bedrooms), never ÷ the number of people.
@@ -129,7 +130,7 @@ function scoreListing(
   const missingDims = new Set<Dim>();
 
   const perMember: MemberResult[] = members.map((m) => {
-    const commute = scoreCommute(listing, m, matrix, destNames);
+    const commute = scoreCommute(listing, m, matrix, destInfo);
     const scored: Record<Dim, Scored> = {
       affordability: scoreAffordability(listing, m, rent, rooms),
       commute,

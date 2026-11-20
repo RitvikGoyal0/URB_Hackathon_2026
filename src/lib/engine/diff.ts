@@ -2,7 +2,7 @@ import type { Blocker, Dim, Id, Listing, MemberProfile, RankedResult, RankingDif
 import { DIMS } from "../types";
 import { COMPARE_MIN_POINTS, MUCH_CLOSER_POINTS, RANK_MOVE_THRESHOLD } from "./constants";
 import { humanizeId, joinList, round1 } from "./format";
-import { busEffectiveMinutes, commuteCurve, destinationWeigher } from "./subscores";
+import { commuteCurve, destinationWeigher } from "./subscores";
 
 /**
  * "What changed?" (spec §7.7). Every sentence is built from the diff data below — nothing
@@ -149,7 +149,7 @@ function diffBlockers(from: Blocker[], to: Blocker[]): Blocker[] {
   return from.filter((b) => !toKeys.has(key(b)));
 }
 
-const MODE_NOUN: Record<string, string> = { walk: "walk", bike: "bike ride", drive: "drive", bus: "walk" };
+const MODE_NOUN: Record<string, string> = { walk: "walk", bike: "bike ride", drive: "drive", bus: "bus ride" };
 
 /**
  * "it is much closer to North Campus for Maya (8- vs 40-minute walk)" — from the member whose
@@ -190,7 +190,7 @@ function compareTops(
       if (!o || t.minutes === null || o.minutes === null) continue;
       const d = member?.destinations.find((x) => x.destinationId === t.destinationId);
       const w = d && weightOf ? weightOf(d) : 1;
-      const eff = (m: number) => (member?.travelMode === "bus" ? busEffectiveMinutes(m) : m);
+      const eff = (m: number) => m;
       const gain = w * (commuteCurve(eff(t.minutes)) - commuteCurve(eff(o.minutes)));
       if (pick === null || gain > pick.gain) pick = { id: t.destinationId, a: t.minutes, b: o.minutes, mode: t.mode, gain };
     }

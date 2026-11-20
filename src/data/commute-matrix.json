@@ -1,6 +1,6 @@
 {
   "provider": "OSRM / OpenStreetMap (routing.openstreetmap.de)",
-  "computedAt": "2026-11-20T09:46:56.966Z",
+  "computedAt": "2026-11-20T11:58:04.130Z",
   "matrix": {
     "geddes_4br": {
       "central_campus": {
@@ -1938,486 +1938,728 @@
         }
       }
     },
-    "stub_packard_house": {
+    "um_broadway_4br": {
       "central_campus": {
         "walk": {
-          "minutes": 9.7,
-          "meters": 724,
+          "minutes": 32.1,
+          "meters": 2408,
           "estimated": false
         },
         "bike": {
-          "minutes": 4.8,
-          "meters": 824,
+          "minutes": 14,
+          "meters": 2492,
           "estimated": false
         },
         "drive": {
-          "minutes": 2.3,
-          "meters": 757,
+          "minutes": 6.4,
+          "meters": 3122,
           "estimated": false
         }
       },
       "north_campus": {
         "walk": {
-          "minutes": 49.2,
-          "meters": 3692,
+          "minutes": 23,
+          "meters": 1722,
           "estimated": false
         },
         "bike": {
-          "minutes": 17.2,
-          "meters": 4430,
+          "minutes": 10,
+          "meters": 2391,
           "estimated": false
         },
         "drive": {
-          "minutes": 7,
-          "meters": 3904,
+          "minutes": 3.3,
+          "meters": 1759,
           "estimated": false
         }
       },
       "south_campus": {
-        "walk": {
-          "minutes": 21.7,
-          "meters": 1625,
-          "estimated": false
-        },
-        "bike": {
-          "minutes": 9.4,
-          "meters": 1666,
-          "estimated": false
-        },
-        "drive": {
-          "minutes": 4.4,
-          "meters": 1834,
-          "estimated": false
-        }
-      },
-      "medical_campus": {
-        "walk": {
-          "minutes": 22.5,
-          "meters": 1714,
-          "estimated": false
-        },
-        "bike": {
-          "minutes": 9.9,
-          "meters": 1988,
-          "estimated": false
-        },
-        "drive": {
-          "minutes": 4,
-          "meters": 1818,
-          "estimated": false
-        }
-      },
-      "kerrytown": {
-        "walk": {
-          "minutes": 27.4,
-          "meters": 2057,
-          "estimated": false
-        },
-        "bike": {
-          "minutes": 10.4,
-          "meters": 2371,
-          "estimated": false
-        },
-        "drive": {
-          "minutes": 4.6,
-          "meters": 2413,
-          "estimated": false
-        }
-      },
-      "ross": {
-        "walk": {
-          "minutes": 3.9,
-          "meters": 292,
-          "estimated": false
-        },
-        "bike": {
-          "minutes": 2.6,
-          "meters": 324,
-          "estimated": false
-        },
-        "drive": {
-          "minutes": 1.1,
-          "meters": 403,
-          "estimated": false
-        }
-      },
-      "duderstadt": {
-        "walk": {
-          "minutes": 50.7,
-          "meters": 3802,
-          "estimated": false
-        },
-        "bike": {
-          "minutes": 17.8,
-          "meters": 3950,
-          "estimated": false
-        },
-        "drive": {
-          "minutes": 7.4,
-          "meters": 4110,
-          "estimated": false
-        }
-      }
-    },
-    "stub_northside_4br": {
-      "central_campus": {
-        "walk": {
-          "minutes": 39.3,
-          "meters": 3341,
-          "estimated": false
-        },
-        "bike": {
-          "minutes": 15.1,
-          "meters": 3477,
-          "estimated": false
-        },
-        "drive": {
-          "minutes": 7.8,
-          "meters": 4233,
-          "estimated": false
-        }
-      },
-      "north_campus": {
-        "walk": {
-          "minutes": 8.1,
-          "meters": 608,
-          "estimated": false
-        },
-        "bike": {
-          "minutes": 4,
-          "meters": 617,
-          "estimated": false
-        },
-        "drive": {
-          "minutes": 1.3,
-          "meters": 597,
-          "estimated": false
-        }
-      },
-      "south_campus": {
-        "walk": {
-          "minutes": 69,
-          "meters": 5178,
-          "estimated": false
-        },
-        "bike": {
-          "minutes": 23.1,
-          "meters": 5433,
-          "estimated": false
-        },
-        "drive": {
-          "minutes": 10.3,
-          "meters": 5864,
-          "estimated": false
-        }
-      },
-      "medical_campus": {
-        "walk": {
-          "minutes": 33.2,
-          "meters": 2883,
-          "estimated": false
-        },
-        "bike": {
-          "minutes": 12.5,
-          "meters": 3006,
-          "estimated": false
-        },
-        "drive": {
-          "minutes": 6.3,
-          "meters": 3615,
-          "estimated": false
-        }
-      },
-      "kerrytown": {
-        "walk": {
-          "minutes": 40.4,
-          "meters": 3028,
-          "estimated": false
-        },
-        "bike": {
-          "minutes": 12.2,
-          "meters": 3333,
-          "estimated": false
-        },
-        "drive": {
-          "minutes": 5.1,
-          "meters": 3222,
-          "estimated": false
-        }
-      },
-      "ross": {
         "walk": {
           "minutes": 47.9,
-          "meters": 3981,
+          "meters": 3591,
           "estimated": false
         },
         "bike": {
-          "minutes": 17.9,
-          "meters": 4366,
-          "estimated": false
-        },
-        "drive": {
-          "minutes": 7.8,
-          "meters": 4669,
-          "estimated": false
-        }
-      },
-      "duderstadt": {
-        "walk": {
-          "minutes": 11.2,
-          "meters": 840,
-          "estimated": false
-        },
-        "bike": {
-          "minutes": 6.2,
-          "meters": 922,
-          "estimated": false
-        },
-        "drive": {
-          "minutes": 2.2,
-          "meters": 1043,
-          "estimated": false
-        }
-      }
-    },
-    "syn_kerrytown_row": {
-      "central_campus": {
-        "walk": {
-          "minutes": 20.7,
-          "meters": 1551,
-          "estimated": false
-        },
-        "bike": {
-          "minutes": 9.1,
-          "meters": 1670,
-          "estimated": false
-        },
-        "drive": {
-          "minutes": 4.5,
-          "meters": 2093,
-          "estimated": false
-        }
-      },
-      "north_campus": {
-        "walk": {
-          "minutes": 38.9,
-          "meters": 2918,
-          "estimated": false
-        },
-        "bike": {
-          "minutes": 12.7,
-          "meters": 3221,
-          "estimated": false
-        },
-        "drive": {
-          "minutes": 5.2,
-          "meters": 3040,
-          "estimated": false
-        }
-      },
-      "south_campus": {
-        "walk": {
-          "minutes": 32.2,
-          "meters": 2413,
-          "estimated": false
-        },
-        "bike": {
-          "minutes": 13.5,
-          "meters": 2436,
-          "estimated": false
-        },
-        "drive": {
-          "minutes": 5.9,
-          "meters": 2753,
-          "estimated": false
-        }
-      },
-      "medical_campus": {
-        "walk": {
-          "minutes": 21.3,
-          "meters": 1599,
-          "estimated": false
-        },
-        "bike": {
-          "minutes": 8.8,
-          "meters": 1662,
-          "estimated": false
-        },
-        "drive": {
-          "minutes": 4.7,
-          "meters": 2344,
-          "estimated": false
-        }
-      },
-      "kerrytown": {
-        "walk": {
-          "minutes": 3.5,
-          "meters": 259,
-          "estimated": false
-        },
-        "bike": {
-          "minutes": 1.4,
-          "meters": 247,
-          "estimated": false
-        },
-        "drive": {
-          "minutes": 0.5,
-          "meters": 252,
-          "estimated": false
-        }
-      },
-      "ross": {
-        "walk": {
-          "minutes": 28.3,
-          "meters": 2121,
-          "estimated": false
-        },
-        "bike": {
-          "minutes": 11.1,
-          "meters": 2324,
-          "estimated": false
-        },
-        "drive": {
-          "minutes": 4.1,
-          "meters": 2115,
-          "estimated": false
-        }
-      },
-      "duderstadt": {
-        "walk": {
-          "minutes": 41.8,
-          "meters": 3134,
-          "estimated": false
-        },
-        "bike": {
-          "minutes": 14.1,
-          "meters": 3900,
-          "estimated": false
-        },
-        "drive": {
-          "minutes": 5.6,
-          "meters": 3246,
-          "estimated": false
-        }
-      }
-    },
-    "syn_stadium_townhomes": {
-      "central_campus": {
-        "walk": {
-          "minutes": 36.2,
-          "meters": 2714,
-          "estimated": false
-        },
-        "bike": {
-          "minutes": 13.4,
-          "meters": 2874,
-          "estimated": false
-        },
-        "drive": {
-          "minutes": 5.7,
-          "meters": 2835,
-          "estimated": false
-        }
-      },
-      "north_campus": {
-        "walk": {
-          "minutes": 79.7,
-          "meters": 5980,
-          "estimated": false
-        },
-        "bike": {
-          "minutes": 24.6,
-          "meters": 6336,
-          "estimated": false
-        },
-        "drive": {
-          "minutes": 10.2,
-          "meters": 6034,
-          "estimated": false
-        }
-      },
-      "south_campus": {
-        "walk": {
-          "minutes": 16.9,
-          "meters": 1264,
-          "estimated": false
-        },
-        "bike": {
-          "minutes": 7.9,
-          "meters": 1382,
-          "estimated": false
-        },
-        "drive": {
-          "minutes": 3,
-          "meters": 1479,
-          "estimated": false
-        }
-      },
-      "medical_campus": {
-        "walk": {
-          "minutes": 51.3,
-          "meters": 3873,
-          "estimated": false
-        },
-        "bike": {
-          "minutes": 18.5,
-          "meters": 4095,
+          "minutes": 19.7,
+          "meters": 3719,
           "estimated": false
         },
         "drive": {
           "minutes": 8.3,
-          "meters": 4143,
+          "meters": 4022,
+          "estimated": false
+        }
+      },
+      "medical_campus": {
+        "walk": {
+          "minutes": 26.1,
+          "meters": 1961,
+          "estimated": false
+        },
+        "bike": {
+          "minutes": 11.4,
+          "meters": 2020,
+          "estimated": false
+        },
+        "drive": {
+          "minutes": 4.9,
+          "meters": 2504,
           "estimated": false
         }
       },
       "kerrytown": {
         "walk": {
-          "minutes": 38,
-          "meters": 2847,
+          "minutes": 19.2,
+          "meters": 1441,
           "estimated": false
         },
         "bike": {
-          "minutes": 12.7,
-          "meters": 3078,
+          "minutes": 7.7,
+          "meters": 1531,
           "estimated": false
         },
         "drive": {
-          "minutes": 5.9,
-          "meters": 3258,
+          "minutes": 2.9,
+          "meters": 1520,
           "estimated": false
         }
       },
       "ross": {
         "walk": {
-          "minutes": 31.8,
-          "meters": 2382,
+          "minutes": 39.7,
+          "meters": 2978,
           "estimated": false
         },
         "bike": {
-          "minutes": 11.1,
-          "meters": 2404,
+          "minutes": 16.8,
+          "meters": 3381,
           "estimated": false
         },
         "drive": {
-          "minutes": 4.6,
-          "meters": 2321,
+          "minutes": 6.2,
+          "meters": 3240,
           "estimated": false
         }
       },
       "duderstadt": {
         "walk": {
-          "minutes": 76.8,
-          "meters": 5759,
+          "minutes": 25.9,
+          "meters": 1939,
           "estimated": false
         },
         "bike": {
-          "minutes": 25.3,
-          "meters": 5870,
+          "minutes": 11.3,
+          "meters": 3070,
           "estimated": false
         },
         "drive": {
-          "minutes": 10.6,
-          "meters": 6240,
+          "minutes": 4.1,
+          "meters": 2205,
+          "estimated": false
+        }
+      }
+    },
+    "um_fair_4br": {
+      "central_campus": {
+        "walk": {
+          "minutes": 39.1,
+          "meters": 2936,
+          "estimated": false
+        },
+        "bike": {
+          "minutes": 14.6,
+          "meters": 2950,
+          "estimated": false
+        },
+        "drive": {
+          "minutes": 7,
+          "meters": 3525,
+          "estimated": false
+        }
+      },
+      "north_campus": {
+        "walk": {
+          "minutes": 76.7,
+          "meters": 5752,
+          "estimated": false
+        },
+        "bike": {
+          "minutes": 24.2,
+          "meters": 6109,
+          "estimated": false
+        },
+        "drive": {
+          "minutes": 9.5,
+          "meters": 5580,
+          "estimated": false
+        }
+      },
+      "south_campus": {
+        "walk": {
+          "minutes": 42.6,
+          "meters": 3199,
+          "estimated": false
+        },
+        "bike": {
+          "minutes": 16.1,
+          "meters": 3322,
+          "estimated": false
+        },
+        "drive": {
+          "minutes": 7.2,
+          "meters": 3459,
+          "estimated": false
+        }
+      },
+      "medical_campus": {
+        "walk": {
+          "minutes": 50.8,
+          "meters": 3813,
+          "estimated": false
+        },
+        "bike": {
+          "minutes": 18.1,
+          "meters": 3868,
+          "estimated": false
+        },
+        "drive": {
+          "minutes": 7.8,
+          "meters": 4173,
+          "estimated": false
+        }
+      },
+      "kerrytown": {
+        "walk": {
+          "minutes": 35,
+          "meters": 2621,
+          "estimated": false
+        },
+        "bike": {
+          "minutes": 12.3,
+          "meters": 2661,
+          "estimated": false
+        },
+        "drive": {
+          "minutes": 5.3,
+          "meters": 2820,
+          "estimated": false
+        }
+      },
+      "ross": {
+        "walk": {
+          "minutes": 44.7,
+          "meters": 3353,
+          "estimated": false
+        },
+        "bike": {
+          "minutes": 16.8,
+          "meters": 3587,
+          "estimated": false
+        },
+        "drive": {
+          "minutes": 6.6,
+          "meters": 3546,
+          "estimated": false
+        }
+      },
+      "duderstadt": {
+        "walk": {
+          "minutes": 74.9,
+          "meters": 5615,
+          "estimated": false
+        },
+        "bike": {
+          "minutes": 24.9,
+          "meters": 5643,
+          "estimated": false
+        },
+        "drive": {
+          "minutes": 9.9,
+          "meters": 5786,
+          "estimated": false
+        }
+      }
+    },
+    "um_lawrence_4br": {
+      "central_campus": {
+        "walk": {
+          "minutes": 13.9,
+          "meters": 1042,
+          "estimated": false
+        },
+        "bike": {
+          "minutes": 6.7,
+          "meters": 1063,
+          "estimated": false
+        },
+        "drive": {
+          "minutes": 3.5,
+          "meters": 1586,
+          "estimated": false
+        }
+      },
+      "north_campus": {
+        "walk": {
+          "minutes": 37.3,
+          "meters": 2797,
+          "estimated": false
+        },
+        "bike": {
+          "minutes": 12.5,
+          "meters": 3375,
+          "estimated": false
+        },
+        "drive": {
+          "minutes": 4.8,
+          "meters": 2846,
+          "estimated": false
+        }
+      },
+      "south_campus": {
+        "walk": {
+          "minutes": 31.6,
+          "meters": 2373,
+          "estimated": false
+        },
+        "bike": {
+          "minutes": 13.3,
+          "meters": 2384,
+          "estimated": false
+        },
+        "drive": {
+          "minutes": 5.6,
+          "meters": 2802,
+          "estimated": false
+        }
+      },
+      "medical_campus": {
+        "walk": {
+          "minutes": 14.6,
+          "meters": 1092,
+          "estimated": false
+        },
+        "bike": {
+          "minutes": 6.5,
+          "meters": 1141,
+          "estimated": false
+        },
+        "drive": {
+          "minutes": 3.8,
+          "meters": 1631,
+          "estimated": false
+        }
+      },
+      "kerrytown": {
+        "walk": {
+          "minutes": 4.8,
+          "meters": 360,
+          "estimated": false
+        },
+        "bike": {
+          "minutes": 2.8,
+          "meters": 447,
+          "estimated": false
+        },
+        "drive": {
+          "minutes": 1.9,
+          "meters": 725,
+          "estimated": false
+        }
+      },
+      "ross": {
+        "walk": {
+          "minutes": 21.5,
+          "meters": 1612,
+          "estimated": false
+        },
+        "bike": {
+          "minutes": 9.1,
+          "meters": 1810,
+          "estimated": false
+        },
+        "drive": {
+          "minutes": 3.1,
+          "meters": 1607,
+          "estimated": false
+        }
+      },
+      "duderstadt": {
+        "walk": {
+          "minutes": 38.8,
+          "meters": 2907,
+          "estimated": false
+        },
+        "bike": {
+          "minutes": 13.3,
+          "meters": 2920,
+          "estimated": false
+        },
+        "drive": {
+          "minutes": 5.2,
+          "meters": 3052,
+          "estimated": false
+        }
+      }
+    },
+    "um_ssv_4br": {
+      "central_campus": {
+        "walk": {
+          "minutes": 36.6,
+          "meters": 2744,
+          "estimated": false
+        },
+        "bike": {
+          "minutes": 12.9,
+          "meters": 2876,
+          "estimated": false
+        },
+        "drive": {
+          "minutes": 5.1,
+          "meters": 2805,
+          "estimated": false
+        }
+      },
+      "north_campus": {
+        "walk": {
+          "minutes": 75.7,
+          "meters": 5679,
+          "estimated": false
+        },
+        "bike": {
+          "minutes": 24.9,
+          "meters": 6395,
+          "estimated": false
+        },
+        "drive": {
+          "minutes": 9.5,
+          "meters": 5860,
+          "estimated": false
+        }
+      },
+      "south_campus": {
+        "walk": {
+          "minutes": 24.1,
+          "meters": 1808,
+          "estimated": false
+        },
+        "bike": {
+          "minutes": 11.4,
+          "meters": 1949,
+          "estimated": false
+        },
+        "drive": {
+          "minutes": 4.4,
+          "meters": 2218,
+          "estimated": false
+        }
+      },
+      "medical_campus": {
+        "walk": {
+          "minutes": 51.7,
+          "meters": 3903,
+          "estimated": false
+        },
+        "bike": {
+          "minutes": 18.8,
+          "meters": 4154,
+          "estimated": false
+        },
+        "drive": {
+          "minutes": 7.7,
+          "meters": 4136,
+          "estimated": false
+        }
+      },
+      "kerrytown": {
+        "walk": {
+          "minutes": 48,
+          "meters": 3600,
+          "estimated": false
+        },
+        "bike": {
+          "minutes": 16,
+          "meters": 3822,
+          "estimated": false
+        },
+        "drive": {
+          "minutes": 6.7,
+          "meters": 3921,
+          "estimated": false
+        }
+      },
+      "ross": {
+        "walk": {
+          "minutes": 31.4,
+          "meters": 2358,
+          "estimated": false
+        },
+        "bike": {
+          "minutes": 10.8,
+          "meters": 2400,
+          "estimated": false
+        },
+        "drive": {
+          "minutes": 4.1,
+          "meters": 2314,
+          "estimated": false
+        }
+      },
+      "duderstadt": {
+        "walk": {
+          "minutes": 77.2,
+          "meters": 5789,
+          "estimated": false
+        },
+        "bike": {
+          "minutes": 25.6,
+          "meters": 5930,
+          "estimated": false
+        },
+        "drive": {
+          "minutes": 9.9,
+          "meters": 6066,
+          "estimated": false
+        }
+      }
+    },
+    "um_packard_5br": {
+      "central_campus": {
+        "walk": {
+          "minutes": 24.5,
+          "meters": 1840,
+          "estimated": false
+        },
+        "bike": {
+          "minutes": 9.6,
+          "meters": 1930,
+          "estimated": false
+        },
+        "drive": {
+          "minutes": 3.7,
+          "meters": 2010,
+          "estimated": false
+        }
+      },
+      "north_campus": {
+        "walk": {
+          "minutes": 62.1,
+          "meters": 4655,
+          "estimated": false
+        },
+        "bike": {
+          "minutes": 21.7,
+          "meters": 5434,
+          "estimated": false
+        },
+        "drive": {
+          "minutes": 8.1,
+          "meters": 5066,
+          "estimated": false
+        }
+      },
+      "south_campus": {
+        "walk": {
+          "minutes": 22,
+          "meters": 1647,
+          "estimated": false
+        },
+        "bike": {
+          "minutes": 11.8,
+          "meters": 2163,
+          "estimated": false
+        },
+        "drive": {
+          "minutes": 3.7,
+          "meters": 2035,
+          "estimated": false
+        }
+      },
+      "medical_campus": {
+        "walk": {
+          "minutes": 35.8,
+          "meters": 2705,
+          "estimated": false
+        },
+        "bike": {
+          "minutes": 13.8,
+          "meters": 2848,
+          "estimated": false
+        },
+        "drive": {
+          "minutes": 5.8,
+          "meters": 2670,
+          "estimated": false
+        }
+      },
+      "kerrytown": {
+        "walk": {
+          "minutes": 37.5,
+          "meters": 2814,
+          "estimated": false
+        },
+        "bike": {
+          "minutes": 13.3,
+          "meters": 3036,
+          "estimated": false
+        },
+        "drive": {
+          "minutes": 5.3,
+          "meters": 3126,
+          "estimated": false
+        }
+      },
+      "ross": {
+        "walk": {
+          "minutes": 18.8,
+          "meters": 1408,
+          "estimated": false
+        },
+        "bike": {
+          "minutes": 7.4,
+          "meters": 1399,
+          "estimated": false
+        },
+        "drive": {
+          "minutes": 2.7,
+          "meters": 1519,
+          "estimated": false
+        }
+      },
+      "duderstadt": {
+        "walk": {
+          "minutes": 63.5,
+          "meters": 4765,
+          "estimated": false
+        },
+        "bike": {
+          "minutes": 22.2,
+          "meters": 4955,
+          "estimated": false
+        },
+        "drive": {
+          "minutes": 8.5,
+          "meters": 5272,
+          "estimated": false
+        }
+      }
+    },
+    "um_sstate_2br": {
+      "central_campus": {
+        "walk": {
+          "minutes": 19.8,
+          "meters": 1485,
+          "estimated": false
+        },
+        "bike": {
+          "minutes": 8.6,
+          "meters": 1618,
+          "estimated": false
+        },
+        "drive": {
+          "minutes": 2.9,
+          "meters": 1537,
+          "estimated": false
+        }
+      },
+      "north_campus": {
+        "walk": {
+          "minutes": 58.9,
+          "meters": 4419,
+          "estimated": false
+        },
+        "bike": {
+          "minutes": 20.6,
+          "meters": 5136,
+          "estimated": false
+        },
+        "drive": {
+          "minutes": 7.4,
+          "meters": 4592,
+          "estimated": false
+        }
+      },
+      "south_campus": {
+        "walk": {
+          "minutes": 13.6,
+          "meters": 1019,
+          "estimated": false
+        },
+        "bike": {
+          "minutes": 9.4,
+          "meters": 1551,
+          "estimated": false
+        },
+        "drive": {
+          "minutes": 3.6,
+          "meters": 1588,
+          "estimated": false
+        }
+      },
+      "medical_campus": {
+        "walk": {
+          "minutes": 34.9,
+          "meters": 2644,
+          "estimated": false
+        },
+        "bike": {
+          "minutes": 14.5,
+          "meters": 2895,
+          "estimated": false
+        },
+        "drive": {
+          "minutes": 5.6,
+          "meters": 2868,
+          "estimated": false
+        }
+      },
+      "kerrytown": {
+        "walk": {
+          "minutes": 31.2,
+          "meters": 2340,
+          "estimated": false
+        },
+        "bike": {
+          "minutes": 11.7,
+          "meters": 2563,
+          "estimated": false
+        },
+        "drive": {
+          "minutes": 4.5,
+          "meters": 2652,
+          "estimated": false
+        }
+      },
+      "ross": {
+        "walk": {
+          "minutes": 14.7,
+          "meters": 1099,
+          "estimated": false
+        },
+        "bike": {
+          "minutes": 6.5,
+          "meters": 1142,
+          "estimated": false
+        },
+        "drive": {
+          "minutes": 1.9,
+          "meters": 1046,
+          "estimated": false
+        }
+      },
+      "duderstadt": {
+        "walk": {
+          "minutes": 60.4,
+          "meters": 4529,
+          "estimated": false
+        },
+        "bike": {
+          "minutes": 21.3,
+          "meters": 4671,
+          "estimated": false
+        },
+        "drive": {
+          "minutes": 7.8,
+          "meters": 4798,
           "estimated": false
         }
       }
