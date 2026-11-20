@@ -144,6 +144,8 @@ export interface Listing {
   provenance: Provenance;
   /** Public paths or neutral placeholder images only — no hotlinked listing photos. */
   images: string[];
+  /** Source wording for subjective features; without it they are unknown (V3 §4.3). */
+  featureEvidence?: Partial<Record<FeatureKey, { quote: string; sourceUrl: string }>>;
 }
 
 export interface Destination {
@@ -196,6 +198,36 @@ export interface MemberProfile {
   weights: Weights;
   /** keyed by field path, e.g. "budgetMax", "destinations.north_campus" */
   fieldMeta: Record<string, FieldMeta>;
+  major?: string;
+  organizations?: string[];
+  photo?: { dataUrl: string; updatedAt: string } | null;
+  /** places beyond the 7 campus areas (known buildings, pins, class buildings); student-located only */
+  places?: Place[];
+  schedule?: { classes: ScheduleClass[]; confirmedAt?: string } | null;
+}
+
+export type Weekday = "mon" | "tue" | "wed" | "thu" | "fri" | "sat" | "sun";
+
+export interface Place {
+  id: Id;
+  name: string;
+  kind: "custom" | "class";
+  location: { source: "building" | "pin" | "area"; refId?: Id; label: string; lat: number; lng: number };
+  visitsPerWeek: number;
+  importance: 1 | 2 | 3;
+  /** defaults to the profile's travelMode */
+  mode?: TravelMode;
+}
+
+export interface ScheduleClass {
+  name: string;
+  days: Weekday[];
+  /** "HH:MM" 24h */
+  start: string;
+  end: string;
+  building?: string;
+  placeId?: Id;
+  confirmed: boolean;
 }
 
 export interface Group {
@@ -310,8 +342,9 @@ export interface RankedResult {
 }
 
 export interface RankOptions {
-  /** defaults to members.length */
-  groupSize?: number;
+  /** people sharing (capacity + space checks). Defaults to members.length. "bedrooms" = each
+   *  listing is assumed full, one person per room (solo search). Rent is always per room. */
+  groupSize?: number | "bedrooms";
 }
 
 export interface Explanation {
@@ -378,11 +411,40 @@ export interface Scenario {
   savedAt: string;
 }
 
-export interface AppState {
-  version: 1;
-  liveProfile: MemberProfile | null;
-  groupName: string;
-  votes: Vote[];
+export interface LobbyData {
   watchlist: WatchItem[];
+  /** live user's votes for this lobby only (never shared across lobbies) */
+  votes: Vote[];
   scenario: Scenario | null;
+}
+
+export interface LobbyMember {
+  memberId: Id;
+  status: "invited" | "joined";
+  invitedAt: string;
+  joinedAt?: string;
+  role: "owner" | "member";
+}
+
+export interface Lobby extends LobbyData {
+  id: Id;
+  name: string;
+  universityId: "umich";
+  /** 2–6; in a lobby only homes with exactly this many bedrooms are shown */
+  targetSize: number;
+  moveIn?: string;
+  createdAt: string;
+  /** roommates only; the live user is the implicit owner */
+  members: LobbyMember[];
+}
+
+export interface AppState {
+  version: 2;
+  liveProfile: MemberProfile | null;
+  lobbies: Lobby[];
+  /** null = solo search */
+  activeLobbyId: Id | null;
+  /** saved homes / votes / what-if while searching solo */
+  solo: LobbyData;
+  demo: { inviteDelayMs: number };
 }

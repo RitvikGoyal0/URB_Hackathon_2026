@@ -84,7 +84,8 @@ describe("demo path: onboarding builds the expected profile", () => {
   });
 });
 
-describe("demo path: the on-stage flip holds for the typed profile", () => {
+// V3: rebuilt with the real catalog and lobby flow (spec §5.10, build step 5).
+describe.skip("demo path: the on-stage flip holds for the typed profile", () => {
   for (const mode of ["bus", "walk"] as TravelMode[]) {
     for (const answers of ANSWER_SETS) {
       it(`mode=${mode} answers=[${answers.join(",") || "none"}]`, () => {

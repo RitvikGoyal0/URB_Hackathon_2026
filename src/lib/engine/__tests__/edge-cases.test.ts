@@ -44,12 +44,12 @@ describe("degenerate inputs", () => {
     }
   });
 
-  it("group of one: per-unit rent is the whole unit, wording is singular, groupScore equals the member score", () => {
-    const { r, e } = explain(makeListing("a", { rent: { amount: 1200, basis: "per_unit" } }), [jo]);
+  it("group of one in a studio: per-unit rent is the whole unit, groupScore equals the member score", () => {
+    const { r, e } = explain(makeListing("a", { bedrooms: 0, rent: { amount: 1200, basis: "per_unit" } }), [jo]);
     expect(r.perMember[0].perPersonRent).toBe(1200);
     expect(r.groupScore).toBe(r.perMember[0].score);
     expect(r.mean).toBe(r.min);
-    expect(r.perMember[0].subscores.affordability.evidence[0]).toMatch(/^\$1,200\/unit ÷ 1 person = \$1,200\/person/);
+    expect(r.perMember[0].subscores.affordability.evidence[0]).toMatch(/^\$1,200\/unit ÷ 1 room = \$1,200\/room/);
     // a group of one has no "least satisfied in the group"
     expect(e.perMember.jo[0]).not.toMatch(/least satisfied/);
   });
@@ -289,8 +289,8 @@ describe("commute edge cases", () => {
       ],
     });
     const sam = makeMember("sam", "Sam", { budgetMax: 700, destinations: [] });
-    const X = makeListing("x", { name: "X House", rent: { amount: 1300, basis: "per_unit" }, features: { dishwasher: false } });
-    const Y = makeListing("y", { name: "Y House", rent: { amount: 1600, basis: "per_unit" } });
+    const X = makeListing("x", { name: "X House", bedrooms: 2, rent: { amount: 1300, basis: "per_unit" }, features: { dishwasher: false } });
+    const Y = makeListing("y", { name: "Y House", bedrooms: 2, rent: { amount: 1600, basis: "per_unit" } });
     const matrix = makeMatrix({ x: { north_campus: 35, central: 60 }, y: { north_campus: 25, central: 5 } });
     const before = rankListings([X, Y], [maya, sam], matrix, DESTS);
     const afterMembers = [maya, { ...sam, budgetMax: 850 }];

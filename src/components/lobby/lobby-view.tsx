@@ -16,7 +16,7 @@ import { MemberAvatar } from "@/components/shared/bits";
 import { MODE_LABEL, budgetBucket, fmtScore, memberColor, money } from "@/components/shared/format";
 import { deriveInsights } from "./insights";
 
-function GroupName({ name }: { name: string }) {
+function GroupName({ name, lobbyId }: { name: string; lobbyId: string | null }) {
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(name);
   if (editing) {
@@ -25,7 +25,7 @@ function GroupName({ name }: { name: string }) {
         className="flex flex-wrap items-center gap-2"
         onSubmit={(e) => {
           e.preventDefault();
-          actions.setGroupName(draft);
+          if (lobbyId) actions.renameLobby(lobbyId, draft);
           setEditing(false);
         }}
       >
@@ -158,7 +158,7 @@ function InsightList({ title, icon: Icon, items, tone }: { title: string; icon: 
 }
 
 export function LobbyView() {
-  const { state, people, baseMembers, ranking, changedInputs } = useGroup();
+  const { state, lobby, people, baseMembers, ranking, changedInputs } = useGroup();
   const insights = deriveInsights(baseMembers);
   const top = ranking.find((r) => r.eligibility !== "blocked") ?? ranking[0];
   const topListing = top ? getListing(top.listingId) : undefined;
@@ -171,7 +171,7 @@ export function LobbyView() {
         <div>
           <p className="text-[13px] font-medium text-teal">Your group · University of Michigan</p>
           <div className="mt-2">
-            <GroupName key={state.groupName} name={state.groupName} />
+            <GroupName key={lobby?.name ?? "solo"} name={lobby?.name ?? "Solo search"} lobbyId={lobby?.id ?? null} />
           </div>
           <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-muted-foreground">
             Four people, four different weeks. Here&apos;s where you line up and where someone will have to compromise.

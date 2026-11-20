@@ -21,7 +21,7 @@ describe("affordability (§7.4)", () => {
   });
 
   it("budget blocker names the member and carries the dollar amount", () => {
-    const r = one(makeListing("a", { rent: { amount: 1700, basis: "per_unit" } }), [sam, jo]); // 1700 ÷ 2 = 850/person
+    const r = one(makeListing("a", { bedrooms: 2, rent: { amount: 1700, basis: "per_unit" } }), [sam, jo]); // 1700 ÷ 2 rooms = 850/room
     expect(r.blockers).toEqual([{ kind: "budget", memberId: "sam", amount: 150, message: "Exceeds Sam's budget by $150/mo." }]);
     expect(r.eligibility).toBe("blocked");
     const samRes = r.perMember.find((p) => p.memberId === "sam")!;
@@ -56,10 +56,10 @@ describe("affordability (§7.4)", () => {
   it("evidence cites the rent basis math and provenance status", () => {
     const r = one(makeListing("a", { rent: { amount: 4396, basis: "per_unit" } }));
     expect(r.perMember[0].subscores.affordability.evidence[0]).toBe(
-      "$4,396/unit ÷ 1 person = $4,396/person — provider-reported by Example Provider, observed 2026-11-20",
+      "$4,396/unit ÷ 4 rooms = $1,099/room — provider-reported by Example Provider, observed 2026-11-20",
     );
     const perBed = one(makeListing("b", { rent: { amount: 900, basis: "per_bedroom" } }), [jo, sam]);
-    expect(perBed.perMember[0].subscores.affordability.evidence[0]).toMatch(/^\$900\/bed \(not split by group size\) = \$900\/person — provider-reported/);
+    expect(perBed.perMember[0].subscores.affordability.evidence[0]).toMatch(/^\$900\/bed \(as listed\) = \$900\/person — provider-reported/);
   });
 });
 

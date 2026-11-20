@@ -69,8 +69,8 @@ export function ListingDetail({ id }: { id: string }) {
     );
   }
 
-  const saved = g.state.watchlist.some((w) => w.listingId === id);
-  const myVote = [...g.state.votes].reverse().find((v) => v.listingId === id && v.memberId === LIVE_MEMBER_ID)?.value;
+  const saved = g.data.watchlist.some((w) => w.listingId === id);
+  const myVote = [...g.data.votes].reverse().find((v) => v.listingId === id && v.memberId === LIVE_MEMBER_ID)?.value;
   const latestVotes = new Map<string, VoteValue>();
   for (const v of [...votes].sort((a, b) => a.at.localeCompare(b.at))) if (v.listingId === id) latestVotes.set(v.memberId, v.value);
   const label = consensus(votes, id, g.people.length);

@@ -52,10 +52,14 @@ export function rankListings(
   destinations: CampusDestination[],
   options: RankOptions = {},
 ): RankedResult[] {
-  const groupSize = sanitizeGroupSize(options.groupSize, members.length);
+  const perListing = options.groupSize === "bedrooms";
+  const groupSize = sanitizeGroupSize(perListing ? undefined : (options.groupSize as number | undefined), members.length);
   const destNames = destinationNameMap(destinations);
 
-  const results = listings.map((listing) => scoreListing(listing, members, matrix, destNames, groupSize));
+  const results = listings.map((raw) => {
+    const listing = applyEvidenceRule(raw);
+    return scoreListing(listing, members, matrix, destNames, perListing ? roomsIn(listing) : groupSize);
+  });
   results.sort(compareResults);
   results.forEach((r, i) => (r.rank = i + 1));
   return results;
@@ -69,6 +73,33 @@ export function rankListings(
 export function sanitizeGroupSize(option: number | undefined, memberCount: number): number {
   if (option !== undefined && Number.isFinite(option) && option >= 1) return Math.floor(option);
   return Math.max(1, memberCount);
+}
+
+/** Sleeping rooms used for the per-room rent split: a studio (0 BR) counts as one room. */
+export const roomsIn = (listing: Listing) => Math.max(1, Math.floor(listing.bedrooms) || 0);
+
+/**
+ * V3 §5.2 bedroom filter: in a lobby only homes with exactly `targetSize` bedrooms are shown.
+ * Solo search (targetSize null) shows every size.
+ */
+export function filterForLobby(listings: Listing[], targetSize: number | null): Listing[] {
+  return targetSize === null ? listings : listings.filter((l) => l.bedrooms === targetSize);
+}
+
+/** Features that can't be measured: they count only when the source's own words are on file. */
+export const SUBJECTIVE_FEATURES = ["quietBuilding", "largeKitchen", "socialAmenities"] as const;
+
+/**
+ * V3 §4.3 subjective feature rule: without `featureEvidence[key]` a subjective feature is unknown
+ * (null), so it is never scored as met and never used by lifestyle rules. Returns the same object
+ * when nothing changes.
+ */
+export function applyEvidenceRule(listing: Listing): Listing {
+  const drop = SUBJECTIVE_FEATURES.filter((k) => listing.features[k] !== null && !listing.featureEvidence?.[k]);
+  if (drop.length === 0) return listing;
+  const features = { ...listing.features };
+  for (const k of drop) features[k] = null;
+  return { ...listing, features };
 }
 
 const people = (n: number) => `${n} ${n === 1 ? "person" : "people"}`;
@@ -91,14 +122,16 @@ function scoreListing(
   destNames: Map<string, string>,
   groupSize: number,
 ): RankedResult {
-  const rent = perPersonRent(listing, groupSize);
+  // V3 §5.3: rent is per room (whole-unit rent ÷ bedrooms), never ÷ the number of people.
+  const rooms = roomsIn(listing);
+  const rent = perPersonRent(listing, rooms);
   const { blockers, warnings } = hardChecks(listing, members, rent, groupSize);
   const missingDims = new Set<Dim>();
 
   const perMember: MemberResult[] = members.map((m) => {
     const commute = scoreCommute(listing, m, matrix, destNames);
     const scored: Record<Dim, Scored> = {
-      affordability: scoreAffordability(listing, m, rent, groupSize),
+      affordability: scoreAffordability(listing, m, rent, rooms),
       commute,
       amenities: scoreAmenities(listing, m),
       lifestyle: scoreLifestyle(listing, m),

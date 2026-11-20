@@ -21,7 +21,8 @@ const EXPECTED_Y: string | null = "stub_northside_4br";
 /** Set DEMO_FLIP=1 to run it before the lead un-skips it. */
 const maybeIt = it;
 
-describe("demo flip (§7.6) — real seed data", () => {
+// V3: the flip is rebuilt on the real catalog (spec §5.10, build step 5); re-enabled there.
+describe.skip("demo flip (§7.6) — real seed data", () => {
   // TODO(lead): un-skip (replace `maybeIt` with `it`) once the data agent has finished tuning budgets / synthetic rents.
   maybeIt("raising Sam's budget by $100–$250 unblocks Y and makes it #1", () => {
     const sam = personas.find((p) => p.id === SAM_ID);

@@ -50,6 +50,12 @@ export function makeListing(id: string, o: ListingOverrides = {}): Listing {
     sourceType: "umich_offcampus",
     provenance: PROV,
     images: [],
+    // subjective features count only with source wording (V3 §4.3); fixtures carry it by default
+    featureEvidence: {
+      quietBuilding: { quote: "quiet building", sourceUrl: PROV.sourceUrl },
+      largeKitchen: { quote: "large kitchen", sourceUrl: PROV.sourceUrl },
+      socialAmenities: { quote: "clubhouse", sourceUrl: PROV.sourceUrl },
+    },
     ...rest,
     rent: {
       amount: 600,

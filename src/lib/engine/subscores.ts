@@ -57,6 +57,7 @@ export function affordabilityCurve(rent: number, budget: number): number {
 }
 
 /** Evidence lines describing how per-person rent was derived. Shared by every member. */
+/** `groupSize` here is the per-room divisor (bedrooms, a studio = 1). */
 export function rentEvidence(listing: Listing, rent: number | null, groupSize: number): string[] {
   const r = listing.rent;
   const out: string[] = [];
@@ -76,12 +77,12 @@ export function rentEvidence(listing: Listing, rent: number | null, groupSize: n
     const personSum = personFees.reduce((s, f) => s + f.monthly, 0);
     let line: string;
     if (r.basis === "per_unit") {
-      line = `${money(r.amount)}/unit${unitSum ? ` + ${money(unitSum)} unit fees` : ""} ÷ ${size} ${size === 1 ? "person" : "people"}${
+      line = `${money(r.amount)}/unit${unitSum ? ` + ${money(unitSum)} unit fees` : ""} ÷ ${size} ${size === 1 ? "room" : "rooms"}${
         personSum ? ` + ${money(personSum)} per-person fees` : ""
-      } = ${money(rent)}/person`;
+      } = ${money(rent)}/room`;
     } else {
       const unit = r.basis === "per_bedroom" ? "bed" : "person";
-      line = `${money(r.amount)}/${unit} (not split by group size)${personSum ? ` + ${money(personSum)} per-person fees` : ""}${
+      line = `${money(r.amount)}/${unit} (as listed)${personSum ? ` + ${money(personSum)} per-person fees` : ""}${
         unitSum ? ` + ${money(unitSum)} unit fees ÷ ${size}` : ""
       } = ${money(rent)}/person`;
     }

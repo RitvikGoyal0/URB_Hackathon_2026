@@ -2,7 +2,7 @@
  * Matching engine — public API (spec §7). Pure functions, no React.
  * FROZEN signatures; the Engine track replaces the STUB bodies in the modules below.
  */
-export { rankListings } from "./rank";
+export { rankListings, filterForLobby, applyEvidenceRule, roomsIn, SUBJECTIVE_FEATURES } from "./rank";
 export { perPersonRent } from "./rent";
 export { explainListing } from "./explain";
 export { diffRankings } from "./diff";

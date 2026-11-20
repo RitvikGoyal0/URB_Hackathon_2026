@@ -185,9 +185,9 @@ function WatchCard({ item, votes }: { item: WatchItem; votes: Vote[] }) {
 }
 
 export function WatchlistView() {
-  const { state, rankById, changedInputs } = useGroup();
+  const { data, rankById, changedInputs } = useGroup();
   const votes = useAllVotes();
-  const items = [...state.watchlist].sort((a, b) => (rankById.get(a.listingId)?.rank ?? 999) - (rankById.get(b.listingId)?.rank ?? 999));
+  const items = [...data.watchlist].sort((a, b) => (rankById.get(a.listingId)?.rank ?? 999) - (rankById.get(b.listingId)?.rank ?? 999));
   return (
     <main className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 sm:py-14">
       <PageIntro title="Watchlist">

@@ -45,7 +45,11 @@ export const getDestination = (id: string) => destinationMap.get(id);
 export const getCommunity = (id: string) => communityMap.get(id);
 export const getListing = (id: string) => listingMap.get(id);
 
-/** Seeded roommates B, C, D (the live user A comes from onboarding / localStorage). */
-export const seededRoommates = personas.filter((p) => !p.isLiveUser);
+/** Fictional students you can invite (the live user comes from onboarding / localStorage). */
+export const students = personas.filter((p) => !p.isLiveUser);
+/** @deprecated V2 fixed group; kept for the landing-page preview and tests. */
+export const seededRoommates = students;
+const studentMap = byId(students);
+export const getStudent = (id: string) => studentMap.get(id);
 /** Default live persona ("Maya") used before onboarding or as demo fallback. */
 export const defaultLivePersona = personas.find((p) => p.isLiveUser)!;

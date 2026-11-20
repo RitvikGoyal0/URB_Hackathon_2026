@@ -21,14 +21,16 @@ const members = [maya, jordan, sam];
 
 const X = makeListing("x_packard", {
   name: "Packard House",
+  bedrooms: 3,
   rent: { amount: 1950, basis: "per_unit" }, // 650/person
   features: { largeKitchen: false, dishwasher: false, socialAmenities: false, quietBuilding: true },
 });
 const Y = makeListing("y_northside", {
   name: "Northside Commons",
+  bedrooms: 3,
   rent: { amount: 2400, basis: "per_unit" }, // 800/person
 });
-const Z = makeListing("z_far", { name: "Far Away Flat", rent: { amount: 3600, basis: "per_unit" } }); // 1,200: blocked for all
+const Z = makeListing("z_far", { name: "Far Away Flat", bedrooms: 3, rent: { amount: 3600, basis: "per_unit" } }); // 1,200: blocked for all
 const listings = [X, Y, Z];
 const matrix = makeMatrix({
   x_packard: { north_campus: { walk: 40, bike: 14, drive: 7 }, central: { walk: 10, bike: 4, drive: 4 } },

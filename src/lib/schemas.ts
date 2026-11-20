@@ -139,6 +139,7 @@ export const listing = z
     sourceType,
     provenance,
     images: z.array(z.string()),
+    featureEvidence: z.partialRecord(featureKey, z.object({ quote: z.string().min(1), sourceUrl: z.string() })).optional(),
   })
   .refine((l) => (l.sourceType === "synthetic") === (l.provenance.status === "synthetic"), {
     message: "synthetic sourceType must have synthetic provenance status (and vice versa)",
@@ -182,6 +183,35 @@ export const destination = z.object({
   importance: z.union([z.literal(1), z.literal(2), z.literal(3)]),
 }) satisfies z.ZodType<T.Destination>;
 
+export const weekday = z.enum(["mon", "tue", "wed", "thu", "fri", "sat", "sun"]);
+const hhmm = z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/);
+
+export const place = z.object({
+  id: z.string(),
+  name: z.string().min(1),
+  kind: z.enum(["custom", "class"]),
+  location: z.object({
+    source: z.enum(["building", "pin", "area"]),
+    refId: z.string().optional(),
+    label: z.string(),
+    lat: z.number().min(-90).max(90),
+    lng: z.number().min(-180).max(180),
+  }),
+  visitsPerWeek: z.number().nonnegative().max(21),
+  importance: z.union([z.literal(1), z.literal(2), z.literal(3)]),
+  mode: travelMode.optional(),
+}) satisfies z.ZodType<T.Place>;
+
+export const scheduleClass = z.object({
+  name: z.string(),
+  days: z.array(weekday),
+  start: hhmm,
+  end: hhmm,
+  building: z.string().optional(),
+  placeId: z.string().optional(),
+  confirmed: z.boolean(),
+}) satisfies z.ZodType<T.ScheduleClass>;
+
 export const memberProfile = z.object({
   id: z.string(),
   displayName: z.string().min(1),
@@ -199,6 +229,11 @@ export const memberProfile = z.object({
   desiredAmenities: z.array(featureKey),
   weights,
   fieldMeta: z.record(z.string(), fieldMeta),
+  major: z.string().optional(),
+  organizations: z.array(z.string()).optional(),
+  photo: z.object({ dataUrl: z.string().startsWith("data:image/"), updatedAt: z.string() }).nullable().optional(),
+  places: z.array(place).optional(),
+  schedule: z.object({ classes: z.array(scheduleClass), confirmedAt: z.string().optional() }).nullable().optional(),
 }) satisfies z.ZodType<T.MemberProfile>;
 
 export const voteValue = z.enum(["interested", "maybe", "pass"]);
@@ -280,14 +315,41 @@ export const scenario = z.object({
   savedAt: z.string(),
 }) satisfies z.ZodType<T.Scenario>;
 
-export const appState = z.object({
-  version: z.literal(1),
-  liveProfile: memberProfile.nullable(),
-  groupName: z.string(),
-  votes: z.array(vote),
+export const lobbyData = z.object({
   watchlist: z.array(watchItem),
+  votes: z.array(vote),
   scenario: scenario.nullable(),
+}) satisfies z.ZodType<T.LobbyData>;
+
+export const lobbyMember = z.object({
+  memberId: z.string(),
+  status: z.enum(["invited", "joined"]),
+  invitedAt: z.string(),
+  joinedAt: z.string().optional(),
+  role: z.enum(["owner", "member"]),
+}) satisfies z.ZodType<T.LobbyMember>;
+
+export const lobby = lobbyData.extend({
+  id: z.string(),
+  name: z.string().min(1),
+  universityId: z.literal("umich"),
+  targetSize: z.number().int().min(2).max(6),
+  moveIn: z.string().optional(),
+  createdAt: z.string(),
+  members: z.array(lobbyMember),
+}) satisfies z.ZodType<T.Lobby>;
+
+export const appState = z.object({
+  version: z.literal(2),
+  liveProfile: memberProfile.nullable(),
+  lobbies: z.array(lobby),
+  activeLobbyId: z.string().nullable(),
+  solo: lobbyData,
+  demo: z.object({ inviteDelayMs: z.number().int().min(0).max(30000) }),
 }) satisfies z.ZodType<T.AppState>;
+
+/** v1 payload, only to migrate the live profile forward (V3 §4.1). */
+export const appStateV1 = z.object({ version: z.literal(1), liveProfile: memberProfile.nullable() });
 
 // ---------- Seed-file array schemas ----------
 export const seedSchemas = {

@@ -39,7 +39,7 @@ export function ExploreView() {
   const mode: Mode = params.get("mode") === "haven" ? "haven" : "all";
 
   const g = useGroup();
-  const { people, ranking, baselineById, state } = g;
+  const { people, ranking, baselineById, data, contextLabel } = g;
   const [filters, setFilters] = useState<Filters>(DEFAULT_FILTERS);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -47,7 +47,7 @@ export function ExploreView() {
   const [compare, setCompare] = useState(false);
   const [mobileView, setMobileView] = useState<"list" | "map">("list");
 
-  const saved = useMemo(() => new Set(state.watchlist.map((w) => w.listingId)), [state.watchlist]);
+  const saved = useMemo(() => new Set(data.watchlist.map((w) => w.listingId)), [data.watchlist]);
 
   const explanations = useMemo(() => {
     const m = new Map<string, Explanation>();
@@ -119,7 +119,7 @@ export function ExploreView() {
     <main className="mx-auto w-full max-w-[90rem] px-4 pt-8 pb-16 sm:px-6">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <p className="text-[13px] font-medium text-teal">Ranked for {state.groupName}</p>
+          <p className="text-[13px] font-medium text-teal">Ranked for {contextLabel}</p>
           <h1 className="mt-1 text-[2rem] leading-tight font-semibold text-ink sm:text-[2.5rem]">
             {mode === "haven" ? "Haven communities" : "Homes that work for all four of you"}
           </h1>

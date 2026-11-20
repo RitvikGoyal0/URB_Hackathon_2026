@@ -154,9 +154,10 @@ describe("properties: scores and aggregation", () => {
 describe("properties: rent", () => {
   it("unknown / null rent → null everywhere (never 0); known rent follows §7.2 exactly; per-bed/person amount is never divided", () => {
     forAllWorlds((w) => {
-      const g = w.members.length;
       const ls = byId(rank(w));
       for (const l of w.listings) {
+        // V3 §5.3: per room, i.e. ÷ bedrooms (a studio is one room), never ÷ group size
+        const g = Math.max(1, l.bedrooms);
         const rent = perPersonRent(l, g);
         const unit = l.rent.fees.filter((f) => f.scope === "per_unit").reduce((s, f) => s + f.monthly, 0);
         const person = l.rent.fees.filter((f) => f.scope === "per_person").reduce((s, f) => s + f.monthly, 0);
@@ -198,7 +199,7 @@ describe("properties: hard checks and eligibility", () => {
     forAllWorlds((w) => {
       const ls = byId(rank(w));
       for (const l of w.listings) {
-        const rent = perPersonRent(l, w.members.length);
+        const rent = perPersonRent(l, Math.max(1, l.bedrooms));
         const r = ls.get(l.id)!;
         for (const m of w.members) {
           const b = r.blockers.find((x) => x.kind === "budget" && x.memberId === m.id);

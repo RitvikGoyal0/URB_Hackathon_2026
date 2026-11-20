@@ -9,6 +9,7 @@ import type {
   RankedResult,
 } from "../types";
 import { DIMS } from "../types";
+import { applyEvidenceRule } from "./rank";
 import { DIM_LABEL, FEATURE_LABEL, capitalize, humanizeId, joinList, money } from "./format";
 import {
   busEffectiveMinutes,
@@ -36,7 +37,7 @@ export function explainListing(
   members: MemberProfile[],
   destinations: CampusDestination[],
 ): Explanation {
-  const ctx = makeCtx(result, listing, members, destinations);
+  const ctx = makeCtx(result, applyEvidenceRule(listing), members, destinations);
   const contribs: Contribution[] = [];
   for (const pm of result.perMember) {
     const member = ctx.memberById.get(pm.memberId);
