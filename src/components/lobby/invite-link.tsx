@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import type { Lobby } from "@/lib/types";
 
-const BASE = "https://hack-the-lease-seven.vercel.app/join";
+const BASE = "https://rentezvous.vercel.app/join";
 
 function slug(s: string) {
   return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 40) || "lobby";

@@ -6,7 +6,7 @@ A housing decision tool for University of Michigan students. A student describes
 
 Built for Hack the Lease 2026 (Nov 20, 2026). The V3 scope and rules are in [`.plans/v3-refinement-spec.md`](.plans/v3-refinement-spec.md). The original MVP spec is [`hack-the-lease-mvp-spec.md`](hack-the-lease-mvp-spec.md).
 
-Live: https://hack-the-lease-seven.vercel.app
+Live: https://rentezvous.vercel.app
 
 > **The students are fictional.** Jordan, Sam, Riley and the other roommates are invented personas, and the app shows no demo tags, at the team's request. The presenter says so on stage. **Every listing is real.**
 
