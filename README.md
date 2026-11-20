@@ -1,4 +1,4 @@
-# Hack the Lease
+# Rentezvous
 
 **Find roommates who fit your lifestyle and homes that fit your group.**
 

@@ -46,7 +46,7 @@ async function osrmTable(
   const destinationsIdx = dests.map((_, i) => i + origins.length).join(";");
   const url = `https://routing.openstreetmap.de/${OSRM_PROFILE[mode]}/table/v1/driving/${coords}?sources=${sources}&destinations=${destinationsIdx}&annotations=duration,distance`;
   try {
-    const res = await fetch(url, { headers: { "User-Agent": "hack-the-lease-demo/0.1" } });
+    const res = await fetch(url, { headers: { "User-Agent": "rentezvous-demo/0.1" } });
     if (!res.ok) return null;
     const json = (await res.json()) as { code: string; durations?: (number | null)[][]; distances?: (number | null)[][] };
     if (json.code !== "Ok" || !json.durations || !json.distances) return null;

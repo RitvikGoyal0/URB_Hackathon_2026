@@ -20,7 +20,7 @@
       },
       "provenance": {
         "sourceUrl": "team-research:housing-sheet",
-        "sourceName": "Hack the Lease team research (housing sheet)",
+        "sourceName": "Rentezvous team research (housing sheet)",
         "observedAt": "2026-11-20",
         "status": "unverified",
         "note": "Team housing sheet: $4,396/mo for the 4BR ($1,099 per person), the same figure as the original project brief. Haven's floor-plans page and its U-M Off-Campus Housing listing still show no 4BR layout, so confirm with Haven."
@@ -317,7 +317,7 @@
       "utilitiesIncluded": null,
       "provenance": {
         "sourceUrl": "team-research:housing-sheet",
-        "sourceName": "Hack the Lease team research (housing sheet)",
+        "sourceName": "Rentezvous team research (housing sheet)",
         "observedAt": "2026-11-20",
         "status": "unverified",
         "note": "Team housing sheet: $1,499 per person. The sheet's $7,495 total is 5 x $1,499 and doesn't fit a 4BR, so only the per-person figure is used. The U-M Off-Campus Housing listing shows 4BR plans at $1,399-$1,574 per person (checked 2026-11-20). High-speed internet listed as a utility."
@@ -703,7 +703,7 @@
       "utilitiesIncluded": false,
       "provenance": {
         "sourceUrl": "team-research:housing-sheet",
-        "sourceName": "Hack the Lease team research (housing sheet)",
+        "sourceName": "Rentezvous team research (housing sheet)",
         "observedAt": "2026-11-20",
         "status": "unverified",
         "note": "Team housing sheet: $1,950/mo for the whole duplex. The U-M Off-Campus Housing listing shows $1,895/mo (checked 2026-11-20). Tenants pay gas, electricity and water/sewer. 3 bedrooms only, so a group of 4 does not fit."
@@ -812,7 +812,7 @@
       "utilitiesIncluded": null,
       "provenance": {
         "sourceUrl": "team-research:housing-sheet",
-        "sourceName": "Hack the Lease team research (housing sheet)",
+        "sourceName": "Rentezvous team research (housing sheet)",
         "observedAt": "2026-11-20",
         "status": "unverified",
         "note": "Team housing sheet: $2,629/mo for the studio. The U-M Off-Campus Housing listing says 'Ask For Price' (checked 2026-11-20)."

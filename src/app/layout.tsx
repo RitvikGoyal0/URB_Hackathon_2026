@@ -25,8 +25,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Hack the Lease · Find your people. Find your place.",
-    template: "%s · Hack the Lease",
+    default: "Rentezvous · Find your people. Find your place.",
+    template: "%s · Rentezvous",
   },
   description:
     "A housing decision tool for groups of four: scores Ann Arbor listings for each roommate's real week, explains the trade-offs and lets the group vote.",
@@ -46,7 +46,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           </AppProviders>
         </TooltipProvider>
         <Toaster theme="light" position="bottom-center" richColors={false} />
-        {process.env.NODE_ENV === "development" && <Agentation appName="Hack the Lease" endpoint={process.env.NEXT_PUBLIC_AGENTATION_ENDPOINT} />}
+        {process.env.NODE_ENV === "development" && <Agentation appName="Rentezvous" endpoint={process.env.NEXT_PUBLIC_AGENTATION_ENDPOINT} />}
       </body>
     </html>
   );
