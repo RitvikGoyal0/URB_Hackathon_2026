@@ -5,7 +5,7 @@ import { sanitizeParse } from "../sanitize";
 import type { ProfileParse } from "../../types";
 
 const DEMO =
-  "I'm an engineering student at Michigan. I'm on North Campus most weekdays, have evening club meetings, don't have a car, enjoy cooking with friends, and want housing under $850 a month.";
+  "I'm an engineering student at Michigan. I'm on North Campus most weekdays, have evening club meetings, don't have a car, enjoy cooking with friends, and want housing under $1,150 a month.";
 
 describe("normalize + cache", () => {
   it("normalizes whitespace and case", () => {
@@ -24,7 +24,7 @@ describe("normalize + cache", () => {
     expect(p.travelMode).toBeUndefined();
     expect(p.travelModeOptions).toEqual(["bus", "walk"]);
     expect(p.lifestyle.cooking?.value).toBe("high");
-    expect(p.budgetMax?.value).toBe(850);
+    expect(p.budgetMax?.value).toBe(1150);
   });
   it("other text misses the cache", () => {
     expect(lookupCachedParse("I like dogs")).toBeNull();

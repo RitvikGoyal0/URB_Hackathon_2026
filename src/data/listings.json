@@ -903,7 +903,7 @@
     "sqft": 1500,
     "privateBedrooms": true,
     "rent": {
-      "amount": 3280,
+      "amount": 4160,
       "basis": "per_unit",
       "fees": [],
       "utilitiesIncluded": false,
@@ -954,7 +954,7 @@
     "sqft": 1750,
     "privateBedrooms": true,
     "rent": {
-      "amount": 3900,
+      "amount": 5200,
       "basis": "per_unit",
       "fees": [],
       "utilitiesIncluded": false,

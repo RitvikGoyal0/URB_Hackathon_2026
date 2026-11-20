@@ -6,18 +6,44 @@
     "program": "Engineering",
     "bio": "On North Campus most weekdays, evening club meetings, no car, loves cooking with friends.",
     "color": "teal",
-    "budgetMax": 850,
+    "budgetMax": 1150,
     "budgetIsHardCap": false,
     "travelMode": "bus",
     "hasCar": false,
     "destinations": [
-      { "destinationId": "north_campus", "visitsPerWeek": 4, "importance": 3 },
-      { "destinationId": "central_campus", "visitsPerWeek": 2, "importance": 2 }
+      {
+        "destinationId": "north_campus",
+        "visitsPerWeek": 4,
+        "importance": 3
+      },
+      {
+        "destinationId": "central_campus",
+        "visitsPerWeek": 2,
+        "importance": 2
+      }
     ],
-    "lifestyle": { "noise": "quiet", "cooking": "high", "guests": "sometimes" },
-    "requirements": { "privateBedroom": false, "parking": false, "inUnitLaundry": false },
-    "desiredAmenities": ["largeKitchen", "dishwasher", "inUnitLaundry"],
-    "weights": { "affordability": 0.30, "commute": 0.25, "amenities": 0.20, "lifestyle": 0.15, "space": 0.10 },
+    "lifestyle": {
+      "noise": "quiet",
+      "cooking": "high",
+      "guests": "sometimes"
+    },
+    "requirements": {
+      "privateBedroom": false,
+      "parking": false,
+      "inUnitLaundry": false
+    },
+    "desiredAmenities": [
+      "largeKitchen",
+      "dishwasher",
+      "inUnitLaundry"
+    ],
+    "weights": {
+      "affordability": 0.3,
+      "commute": 0.25,
+      "amenities": 0.2,
+      "lifestyle": 0.15,
+      "space": 0.1
+    },
     "fieldMeta": {}
   },
   {
@@ -27,18 +53,44 @@
     "program": "Club officer",
     "bio": "Runs a student club and hosts dinners most weekends.",
     "color": "amber",
-    "budgetMax": 1000,
+    "budgetMax": 1200,
     "budgetIsHardCap": false,
     "travelMode": "walk",
     "hasCar": false,
     "destinations": [
-      { "destinationId": "central_campus", "visitsPerWeek": 5, "importance": 3 },
-      { "destinationId": "kerrytown", "visitsPerWeek": 1, "importance": 1 }
+      {
+        "destinationId": "central_campus",
+        "visitsPerWeek": 5,
+        "importance": 3
+      },
+      {
+        "destinationId": "kerrytown",
+        "visitsPerWeek": 1,
+        "importance": 1
+      }
     ],
-    "lifestyle": { "noise": "social", "cooking": "high", "guests": "often" },
-    "requirements": { "privateBedroom": false, "parking": false, "inUnitLaundry": false },
-    "desiredAmenities": ["largeKitchen", "socialAmenities", "dishwasher"],
-    "weights": { "affordability": 0.25, "commute": 0.25, "amenities": 0.20, "lifestyle": 0.20, "space": 0.10 },
+    "lifestyle": {
+      "noise": "social",
+      "cooking": "high",
+      "guests": "often"
+    },
+    "requirements": {
+      "privateBedroom": false,
+      "parking": false,
+      "inUnitLaundry": false
+    },
+    "desiredAmenities": [
+      "largeKitchen",
+      "socialAmenities",
+      "dishwasher"
+    ],
+    "weights": {
+      "affordability": 0.25,
+      "commute": 0.25,
+      "amenities": 0.2,
+      "lifestyle": 0.2,
+      "space": 0.1
+    },
     "fieldMeta": {}
   },
   {
@@ -48,18 +100,42 @@
     "program": "Budget first",
     "bio": "Rent comes first; happy to bike further for a cheaper place.",
     "color": "violet",
-    "budgetMax": 700,
+    "budgetMax": 1000,
     "budgetIsHardCap": true,
     "travelMode": "bike",
     "hasCar": false,
     "destinations": [
-      { "destinationId": "central_campus", "visitsPerWeek": 3, "importance": 2 },
-      { "destinationId": "medical_campus", "visitsPerWeek": 2, "importance": 2 }
+      {
+        "destinationId": "central_campus",
+        "visitsPerWeek": 3,
+        "importance": 2
+      },
+      {
+        "destinationId": "medical_campus",
+        "visitsPerWeek": 2,
+        "importance": 2
+      }
     ],
-    "lifestyle": { "noise": "either", "cooking": "medium", "guests": "sometimes" },
-    "requirements": { "privateBedroom": false, "parking": false, "inUnitLaundry": false },
-    "desiredAmenities": ["inUnitLaundry"],
-    "weights": { "affordability": 0.45, "commute": 0.20, "amenities": 0.10, "lifestyle": 0.10, "space": 0.15 },
+    "lifestyle": {
+      "noise": "either",
+      "cooking": "medium",
+      "guests": "sometimes"
+    },
+    "requirements": {
+      "privateBedroom": false,
+      "parking": false,
+      "inUnitLaundry": false
+    },
+    "desiredAmenities": [
+      "inUnitLaundry"
+    ],
+    "weights": {
+      "affordability": 0.45,
+      "commute": 0.2,
+      "amenities": 0.1,
+      "lifestyle": 0.1,
+      "space": 0.15
+    },
     "fieldMeta": {}
   },
   {
@@ -69,18 +145,43 @@
     "program": "Grad-school prep",
     "bio": "Studies late, needs a quiet private room.",
     "color": "sky",
-    "budgetMax": 1150,
+    "budgetMax": 1400,
     "budgetIsHardCap": false,
     "travelMode": "walk",
     "hasCar": false,
     "destinations": [
-      { "destinationId": "central_campus", "visitsPerWeek": 4, "importance": 3 },
-      { "destinationId": "duderstadt", "visitsPerWeek": 2, "importance": 2 }
+      {
+        "destinationId": "central_campus",
+        "visitsPerWeek": 4,
+        "importance": 3
+      },
+      {
+        "destinationId": "duderstadt",
+        "visitsPerWeek": 2,
+        "importance": 2
+      }
     ],
-    "lifestyle": { "noise": "quiet", "cooking": "low", "guests": "rare" },
-    "requirements": { "privateBedroom": true, "parking": false, "inUnitLaundry": false },
-    "desiredAmenities": ["quietBuilding", "ac"],
-    "weights": { "affordability": 0.20, "commute": 0.25, "amenities": 0.15, "lifestyle": 0.20, "space": 0.20 },
+    "lifestyle": {
+      "noise": "quiet",
+      "cooking": "low",
+      "guests": "rare"
+    },
+    "requirements": {
+      "privateBedroom": true,
+      "parking": false,
+      "inUnitLaundry": false
+    },
+    "desiredAmenities": [
+      "quietBuilding",
+      "ac"
+    ],
+    "weights": {
+      "affordability": 0.2,
+      "commute": 0.25,
+      "amenities": 0.15,
+      "lifestyle": 0.2,
+      "space": 0.2
+    },
     "fieldMeta": {}
   }
 ]
