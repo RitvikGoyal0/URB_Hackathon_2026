@@ -40,7 +40,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <SiteFooter />
         </TooltipProvider>
         <Toaster theme="light" position="bottom-center" richColors={false} />
-        {process.env.NODE_ENV === "development" && <Agentation appName="Hack the Lease" />}
+        {process.env.NODE_ENV === "development" && <Agentation appName="Hack the Lease" endpoint={process.env.NEXT_PUBLIC_AGENTATION_ENDPOINT} />}
       </body>
     </html>
   );
