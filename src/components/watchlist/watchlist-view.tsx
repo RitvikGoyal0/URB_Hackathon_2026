@@ -15,7 +15,7 @@ import { useAllVotes, useGroup } from "@/hooks/use-group";
 import type { Vote, VoteValue, WatchItem } from "@/lib/types";
 import { ListingSourceBadge, MemberAvatar, PageIntro } from "@/components/shared/bits";
 import { ScoreRing } from "@/components/shared/score-ring";
-import { VOTE_LABEL, fmtScore, relativeTime } from "@/components/shared/format";
+import { VOTE_LABEL, groupFitLabel, relativeTime } from "@/components/shared/format";
 import { PriceLine, ringMembersFor } from "@/components/explore/listing-card";
 import { ConsensusBadge } from "./consensus-badge";
 
@@ -58,7 +58,7 @@ function WatchCard({ item, votes }: { item: WatchItem; votes: Vote[] }) {
                 </Link>
               </h2>
               <p className="mt-0.5 text-[12.5px] text-muted-foreground">
-                Rank #{result.rank} · Average fit {fmtScore(result.mean)} · Least-satisfied member {fmtScore(result.min)}
+                Rank #{result.rank} · {groupFitLabel(result.groupScore)}
               </p>
             </div>
             <ConsensusBadge label={label} />

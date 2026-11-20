@@ -4,38 +4,18 @@ import { Check, RotateCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { FeatureKey, SourceType } from "@/lib/types";
 import { FEATURE_LABEL, money } from "@/components/shared/format";
+import { DEFAULT_FILTERS, isDefaultFilters, type Filters } from "@/lib/explore-query";
 import { ToggleChip } from "@/components/profile/segmented";
 import { BUDGET_MAX, BUDGET_MIN, BudgetSlider } from "./what-if-panel";
 
-export interface Filters {
-  sources: SourceType[];
-  bedrooms: "any" | "1" | "2" | "3" | "4+";
-  maxPrice: number | null;
-  includeUnpriced: boolean;
-  amenities: FeatureKey[];
-}
-
-export const DEFAULT_FILTERS: Filters = {
-  sources: ["haven", "umich_offcampus", "synthetic"],
-  bedrooms: "any",
-  maxPrice: null,
-  includeUnpriced: true,
-  amenities: [],
-};
+export { DEFAULT_FILTERS, isDefaultFilters, type Filters };
 
 const SOURCE_OPTS: { value: SourceType; label: string; dot: string }[] = [
   { value: "haven", label: "Haven", dot: "bg-teal" },
   { value: "umich_offcampus", label: "U-M Off-Campus", dot: "bg-umblue" },
-  { value: "synthetic", label: "Demo (fictional)", dot: "demo-stripes" },
 ];
 
 const FILTER_AMENITIES: FeatureKey[] = ["inUnitLaundry", "dishwasher", "parking", "largeKitchen", "ac", "furnished", "quietBuilding", "socialAmenities", "petFriendly"];
-
-export function isDefaultFilters(f: Filters) {
-  return (
-    f.sources.length === 3 && f.bedrooms === "any" && f.maxPrice === null && f.includeUnpriced && f.amenities.length === 0
-  );
-}
 
 export function FilterBar({ value, onChange, showSources = true }: { value: Filters; onChange: (f: Filters) => void; showSources?: boolean }) {
   const set = (patch: Partial<Filters>) => onChange({ ...value, ...patch });
@@ -94,7 +74,7 @@ export function FilterBar({ value, onChange, showSources = true }: { value: Filt
                 onChange={(e) => set({ includeUnpriced: e.target.checked })}
                 className="size-3.5 accent-[#14213d]"
               />
-              Include “Contact for pricing”
+              Include homes with unverified pricing
             </label>
             <span>Any</span>
           </div>

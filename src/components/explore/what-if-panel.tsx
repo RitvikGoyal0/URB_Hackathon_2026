@@ -11,7 +11,7 @@ import { diffRankings } from "@/lib/engine";
 import { actions } from "@/lib/store";
 import type { MemberProfile, RankedResult } from "@/lib/types";
 import { MemberAvatar } from "@/components/shared/bits";
-import { memberColor, money } from "@/components/shared/format";
+import { fmtScore, memberColor, money } from "@/components/shared/format";
 
 export const BUDGET_MIN = 500;
 export const BUDGET_MAX = 1600;
@@ -118,7 +118,10 @@ export function WhatIfPanel({
     return out;
   }, [changed, baseline, ranking]);
 
-  const sentences = diff && diff.sentences.length > 0 ? diff.sentences : fallbackSentences;
+  const sentences = (diff && diff.sentences.length > 0 ? diff.sentences : fallbackSentences).filter((x) => !x.startsWith("Changed:"));
+  const beforeTop = baseline[0];
+  const afterTop = ranking[0];
+  const topName = (r?: RankedResult) => (r ? (getListing(r.listingId)?.name ?? r.listingId) : "No homes");
 
   return (
     <aside className={cn("flex flex-col rounded-[26px] border border-line bg-white", className)} aria-label="What-if budgets">
@@ -128,7 +131,7 @@ export function WhatIfPanel({
             <Sparkles className="size-4.5 text-teal" aria-hidden /> What if budgets changed?
           </h2>
           <p className="mt-1 text-[13px] leading-relaxed text-muted-foreground">
-            Drag anyone&apos;s budget. Every home is re-scored for all four of you, and the list reorders live.
+            Drag anyone&apos;s budget. Every home is re-scored for the whole group, and the list reorders live.
           </p>
         </div>
         <Button size="icon-sm" variant="ghost" className="rounded-full" onClick={onClose} aria-label="Close what-if panel">
@@ -211,17 +214,38 @@ export function WhatIfPanel({
                   </li>
                 ))}
               </ul>
-              {sentences.length > 0 ? (
-                <ul className="mt-3 grid gap-1.5">
-                  {sentences.map((s, i) => (
-                    <li key={i} className="text-[13.5px] leading-relaxed text-ink">
-                      {s}
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p className="mt-3 text-[13px] text-muted-foreground">The ranking didn&apos;t move. Try a bigger change.</p>
-              )}
+              <dl className="mt-3 grid gap-2 text-[13px]">
+                <div className="grid grid-cols-[3.75rem_1fr] gap-2 rounded-xl bg-paper px-3 py-2">
+                  <dt className="text-muted-foreground">Before</dt>
+                  <dd className="min-w-0 text-ink">
+                    <span className="font-medium">#1 {topName(beforeTop)}</span>
+                    {beforeTop?.groupScore != null && <span className="text-muted-foreground"> · match {fmtScore(beforeTop.groupScore)}</span>}
+                  </dd>
+                </div>
+                <div className="grid grid-cols-[3.75rem_1fr] gap-2 rounded-xl bg-teal-soft px-3 py-2">
+                  <dt className="font-medium text-teal">After</dt>
+                  <dd className="min-w-0 text-ink">
+                    <span className="font-semibold">#1 {topName(afterTop)}</span>
+                    {afterTop?.groupScore != null && <span className="text-muted-foreground"> · match {fmtScore(afterTop.groupScore)}</span>}
+                  </dd>
+                </div>
+                <div className="grid grid-cols-[3.75rem_1fr] gap-2 px-3 py-1">
+                  <dt className="text-muted-foreground">Why</dt>
+                  <dd className="min-w-0">
+                    {sentences.length > 0 ? (
+                      <ul className="grid gap-1">
+                        {sentences.slice(0, 3).map((x, i) => (
+                          <li key={i} className="leading-relaxed text-ink">
+                            {x}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <span className="text-muted-foreground">The ranking didn&apos;t move. Try a bigger change.</span>
+                    )}
+                  </dd>
+                </div>
+              </dl>
               {rows.length > 0 && (
                 <table className="mt-3 w-full text-[12.5px]">
                   <thead>

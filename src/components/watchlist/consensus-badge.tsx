@@ -10,8 +10,13 @@ const TONE: Record<ConsensusLabel, string> = {
   "Awaiting Reviews": "bg-secondary text-muted-foreground",
 };
 
+/** Plain-words display text (V3 §7.7); the engine label stays the stable key. */
+const DISPLAY: Partial<Record<ConsensusLabel, string>> = { "Awaiting Reviews": "Waiting for votes" };
+
 export function ConsensusBadge({ label, className }: { label: ConsensusLabel; className?: string }) {
   return (
-    <span className={cn("inline-flex h-7 items-center rounded-full px-3 text-[12.5px] font-semibold whitespace-nowrap", TONE[label], className)}>{label}</span>
+    <span className={cn("inline-flex h-7 items-center rounded-full px-3 text-[12.5px] font-semibold whitespace-nowrap", TONE[label], className)}>
+      {DISPLAY[label] ?? label}
+    </span>
   );
 }

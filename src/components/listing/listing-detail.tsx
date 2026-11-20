@@ -1,69 +1,82 @@
 "use client";
-import { ScenarioBanner } from "@/components/shared/scenario-banner";
 
 import Link from "next/link";
-import { ArrowLeft, Bookmark, BookmarkCheck, Check, CircleHelp, ExternalLink, FlaskConical, MapPin, ThumbsDown, ThumbsUp, Minus } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import { AlertTriangle, ArrowLeft, Bath, BedDouble, Bookmark, BookmarkCheck, Calculator, Check, ChevronDown, ExternalLink, MapPin, Quote } from "lucide-react";
 import { toast } from "sonner";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { LIVE_MEMBER_ID, destinations, getCommunity, getListing, listings as allListings } from "@/lib/data";
-import { consensus, explainListing } from "@/lib/engine";
+import { LIVE_MEMBER_ID, destinations, getCommunity, getListing } from "@/lib/data";
+import { SUBJECTIVE_FEATURES, explainListing } from "@/lib/engine";
+import { exploreHref } from "@/lib/explore-query";
 import { actions } from "@/lib/store";
 import { useAllVotes, useGroup } from "@/hooks/use-group";
-import type { FeatureKey, Listing, VoteValue } from "@/lib/types";
-import { Chips, CoverageBadge, ListingSourceBadge, MemberAvatar } from "@/components/shared/bits";
+import type { FeatureKey, Listing, RankedResult } from "@/lib/types";
+import { dedupeWarnings } from "@/components/shared/bits";
 import { ScoreRing } from "@/components/shared/score-ring";
-import { RepresentativeImage } from "@/components/shared/representative-image";
-import { FEATURE_KEYS, FEATURE_LABEL, HOUSING_LABEL, VOTE_LABEL, fmtScore, longDate, money, shortDate } from "@/components/shared/format";
+import { ListingPhoto } from "@/components/shared/listing-photo";
+import { ScenarioBanner } from "@/components/shared/scenario-banner";
+import { FEATURE_KEYS, FEATURE_LABEL, blockerLine, groupFitLabel, longDate } from "@/components/shared/format";
 import { PriceLine, ringMembersFor } from "@/components/explore/listing-card";
-import { ConsensusBadge } from "@/components/watchlist/consensus-badge";
 import { MemberRow } from "./member-row";
 import { ScoreFormula } from "./score-formula";
+import { VotePanel } from "./vote-panel";
 
 function isHttp(url: string) {
   return /^https?:\/\//.test(url);
 }
 
-function triState(v: boolean | null) {
-  return v === true ? "Yes" : v === false ? "No" : "Unknown";
-}
-
-function unverifiedItems(l: Listing): { label: string; detail: string }[] {
-  const out: { label: string; detail: string }[] = [];
+/** Things to confirm with the property before signing (shown under Sources). */
+export function verificationNotes(l: Listing, groupSize: number): string[] {
+  const out: string[] = [];
   out.push(
     l.maxOccupancy === undefined
-      ? { label: "Occupancy", detail: "Not stated. Confirm with the property that 4 people can legally live here." }
-      : { label: "Occupancy", detail: `Listed max occupancy ${l.maxOccupancy}. Still confirm the lease allows it.` },
+      ? `Occupancy unverified: confirm ${groupSize} ${groupSize === 1 ? "person" : "people"} can legally live here.`
+      : `Listed max occupancy ${l.maxOccupancy}; confirm the lease allows your group.`,
   );
-  if (l.availability.status !== "available")
-    out.push({ label: "Availability", detail: l.availability.status === "unknown" ? "Not stated. Votes and scores never imply a unit is available." : "Listed as unavailable." });
-  else if (l.availability.date) out.push({ label: "Availability", detail: `Listed available ${longDate(l.availability.date)}; confirm before you plan around it.` });
-  if (l.rent.utilitiesIncluded === null) out.push({ label: "Utilities", detail: "Not stated whether utilities are included." });
-  else if (l.rent.utilitiesIncluded === false) out.push({ label: "Utilities", detail: "Not included. Budget extra; the per-person price excludes them." });
-  if (l.rent.amount === null || l.rent.basis === "unknown") out.push({ label: "Rent", detail: "Not published. Affordability isn't scored until you get a quote." });
-  if (l.privateBedrooms === null) out.push({ label: "Private bedrooms", detail: "Not stated." });
-  const unknownFeatures = FEATURE_KEYS.filter((k) => l.features[k] === null);
-  if (unknownFeatures.length)
-    out.push({ label: "Amenities not mentioned", detail: unknownFeatures.map((k) => FEATURE_LABEL[k]).join(", ") + ". Counted as not met." });
+  if (l.availability.status === "unknown") out.push("Availability not stated. Votes and scores never imply a unit is available.");
+  else if (l.availability.status !== "available") out.push("Listed as unavailable.");
+  else if (l.availability.date) out.push(`Listed available ${longDate(l.availability.date)}; confirm before you plan around it.`);
+  if (l.rent.amount === null || l.rent.basis === "unknown") out.push("Rent not published. Affordability isn't scored until you get a quote.");
+  if (l.rent.utilitiesIncluded === null) out.push("Not stated whether utilities are included.");
+  else if (l.rent.utilitiesIncluded === false) out.push("Utilities not included; the per-person price excludes them.");
+  if (l.privateBedrooms === null) out.push("Private bedrooms not stated.");
   return out;
 }
 
-const VOTE_ICON: Record<VoteValue, typeof ThumbsUp> = { interested: ThumbsUp, maybe: Minus, pass: ThumbsDown };
+/** At most 2 trade-offs: the main compromise, then the most useful group-level warning. */
+function tradeOffs(result: RankedResult, compromise: string | null): string[] {
+  const out: string[] = [];
+  if (compromise) out.push(compromise.replace(/^Main drawback:\s*/i, ""));
+  for (const w of dedupeWarnings(result.warnings)) {
+    if (out.length >= 2) break;
+    if (!w.memberId) out.push(w.message);
+  }
+  return out.slice(0, 2);
+}
 
 export function ListingDetail({ id }: { id: string }) {
   const listing = getListing(id);
   const g = useGroup();
   const votes = useAllVotes();
+  const params = useSearchParams();
+  const backHref = exploreHref(params.get("back"));
   const result = g.rankById.get(id);
   const community = listing ? getCommunity(listing.communityId) : undefined;
   const explanation = result && listing ? explainListing(result, listing, g.members, destinations) : null;
 
   if (!listing || !result) {
+    // A home outside this lobby's bedroom count isn't ranked here (V3 §5.2).
     return (
       <main className="mx-auto max-w-3xl px-4 py-20 text-center">
-        <h1 className="text-2xl font-semibold text-ink">We couldn&apos;t find that home.</h1>
-        <Link href="/explore" className={cn(buttonVariants(), "mt-6 rounded-full")}>
-          Back to Explore
+        <h1 className="text-2xl font-semibold text-ink">{listing ? `${listing.name} isn't ranked for this lobby.` : "We couldn't find that home."}</h1>
+        {listing && g.lobby && (
+          <p className="mt-2 text-[14px] text-muted-foreground">
+            {g.lobby.name} looks at {g.lobby.targetSize}-bedroom homes; this one has {listing.bedrooms}. Switch to Solo search to see every size.
+          </p>
+        )}
+        <Link href={backHref} className={cn(buttonVariants(), "mt-6 rounded-full")}>
+          Back to All Homes
         </Link>
       </main>
     );
@@ -71,87 +84,95 @@ export function ListingDetail({ id }: { id: string }) {
 
   const saved = g.data.watchlist.some((w) => w.listingId === id);
   const myVote = [...g.data.votes].reverse().find((v) => v.listingId === id && v.memberId === LIVE_MEMBER_ID)?.value;
-  const latestVotes = new Map<string, VoteValue>();
-  for (const v of [...votes].sort((a, b) => a.at.localeCompare(b.at))) if (v.listingId === id) latestVotes.set(v.memberId, v.value);
-  const label = consensus(votes, id, g.people.length);
-  const demo = listing.sourceType === "synthetic";
   const officialUrl = community?.officialUrl ?? (isHttp(listing.provenance.sourceUrl) ? listing.provenance.sourceUrl : undefined);
-  const groupBlockers = result.blockers.filter((b) => !b.memberId);
-  const groupWarnings = result.warnings.filter((w) => !w.memberId);
-
-  function vote(v: VoteValue) {
-    if (myVote === v) {
-      actions.clearVote(id);
-      toast(`Vote cleared for ${listing!.name}`);
-    } else {
-      actions.castVote(id, v);
-      toast.success(`Voted ${VOTE_LABEL[v]} on ${listing!.name}`);
-    }
-  }
+  const names = new Map(g.people.map((p) => [p.id, p.displayName]));
+  const red = blockerLine(result.blockers, names);
+  const blocked = result.eligibility === "blocked";
+  const oneLine = explanation?.summary.split(/(?<=\.)\s/)[0] ?? "";
+  const pros = (explanation?.strengths ?? []).slice(0, 2);
+  const cons = tradeOffs(result, explanation?.compromise ?? null);
+  const groupSize = result.perMember.length;
 
   return (
-    <main className="mx-auto w-full max-w-7xl px-4 pt-6 pb-16 sm:px-6">
-      <Link href="/explore" className="inline-flex items-center gap-1.5 text-[13.5px] font-medium text-charcoal hover:text-ink">
-        <ArrowLeft className="size-4" aria-hidden /> All homes
+    <main className="mx-auto w-full max-w-6xl px-4 pt-6 pb-16 sm:px-6">
+      <Link href={backHref} scroll={false} className="inline-flex min-h-10 items-center gap-1.5 text-[13.5px] font-medium text-charcoal hover:text-ink">
+        <ArrowLeft className="size-4" aria-hidden /> Back to All Homes
       </Link>
 
-      <ScenarioBanner changedInputs={g.changedInputs} className="mt-4" />
+      <ScenarioBanner changedInputs={g.changedInputs} className="mt-2" />
 
-      {demo && (
-        <div className="demo-stripes mt-4 flex items-center gap-2 rounded-2xl border border-[#e6b866] px-4 py-3 text-[13.5px] font-semibold text-[#7a4700]">
-          <FlaskConical className="size-4" aria-hidden />
-          DEMO LISTING — fictional. Created to fill a gap in real listings; the address and details do not describe a real building.
-        </div>
-      )}
+      {/* 1. Top */}
+      <div className="mt-3 grid gap-6 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] lg:items-start">
+        <ListingPhoto src={listing.images[0]} alt={listing.name} className="aspect-[16/10] w-full rounded-[24px]" sizes="(min-width: 1024px) 55vw, 100vw" priority />
 
-      <div className="mt-5 grid gap-8 lg:grid-cols-[minmax(0,1fr)_380px]">
         <div className="min-w-0">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="inline-flex h-7 items-center rounded-full bg-ink px-3 font-display text-[13px] font-semibold text-paper">
-              #{result.rank} of {allListings.length}
-            </span>
-            <ListingSourceBadge listing={listing} size="md" />
-            <CoverageBadge coverage={result.coverage} />
-          </div>
-          <h1 className="mt-3 text-[2rem] leading-[1.1] font-semibold text-ink sm:text-[2.6rem]">{listing.name}</h1>
+          <p className="text-[13px] font-medium text-teal">
+            #{result.rank} of {g.ranking.length} · {g.contextLabel}
+          </p>
+          <h1 className="mt-1 text-[1.9rem] leading-[1.12] font-semibold text-ink sm:text-[2.3rem]">{listing.name}</h1>
           {community && (
-            <p className="mt-2 inline-flex items-center gap-1.5 text-[14px] text-muted-foreground">
-              <MapPin className="size-4" aria-hidden /> {community.address}
+            <p className="mt-2 flex items-start gap-1.5 text-[14px] text-muted-foreground">
+              <MapPin className="mt-0.5 size-4 shrink-0" aria-hidden /> {community.address}
+            </p>
+          )}
+          <PriceLine listing={listing} result={result} className="mt-4" />
+          <p className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[13.5px] text-charcoal">
+            <span className="inline-flex items-center gap-1">
+              <BedDouble className="size-4" aria-hidden /> {listing.bedrooms === 0 ? "Studio" : `${listing.bedrooms} bed`}
+            </span>
+            <span className="inline-flex items-center gap-1">
+              <Bath className="size-4" aria-hidden /> {listing.bathrooms} bath
+            </span>
+            {listing.sqft && <span>{listing.sqft.toLocaleString()} sq ft</span>}
+          </p>
+
+          <div className="mt-5 flex items-center gap-4 rounded-[22px] border border-line bg-white p-4">
+            <ScoreRing score={result.groupScore} members={ringMembersFor(result, g.people)} size={84} stroke={8} dimmed={blocked} />
+            <div className="min-w-0">
+              <p className="text-[12.5px] text-muted-foreground">Your group match</p>
+              <p className="text-[17px] font-semibold text-ink">{groupFitLabel(result.groupScore)}</p>
+              {oneLine && <p className="mt-0.5 text-[13px] leading-snug text-charcoal">{oneLine}</p>}
+            </div>
+          </div>
+          {red && (
+            <p className="mt-3 flex items-start gap-1.5 rounded-2xl bg-blocker-soft px-3.5 py-2.5 text-[13px] font-medium text-blocker">
+              <AlertTriangle className="mt-px size-4 shrink-0" aria-hidden /> {red}
             </p>
           )}
 
-          <div className="mt-6 grid grid-cols-2 gap-2 sm:grid-cols-[2fr_1fr] sm:grid-rows-2">
-            <RepresentativeImage housingType={listing.housingType} className="col-span-2 h-56 rounded-[24px] sm:col-span-1 sm:row-span-2 sm:h-80" seed={result.rank} />
-            <RepresentativeImage housingType={listing.housingType} scene="kitchen" className="h-32 rounded-[20px] sm:h-auto" seed={result.rank + 1} />
-            <RepresentativeImage housingType={listing.housingType} scene="bedroom" className="h-32 rounded-[20px] sm:h-auto" seed={result.rank + 2} />
+          <div className="mt-4 grid grid-cols-2 gap-2">
+            <Button
+              variant="outline"
+              className={cn("h-11 rounded-full", saved && "border-teal bg-teal-soft text-teal")}
+              onClick={() => {
+                const now = actions.toggleWatch(id);
+                toast(now ? `Saved ${listing.name}` : `Removed ${listing.name} from saved homes`);
+              }}
+              aria-pressed={saved}
+            >
+              {saved ? <BookmarkCheck aria-hidden /> : <Bookmark aria-hidden />}
+              {saved ? "Saved" : "Save"}
+            </Button>
+            {officialUrl ? (
+              <a href={officialUrl} target="_blank" rel="noreferrer" className={cn(buttonVariants(), "h-11 rounded-full")}>
+                Official listing <ExternalLink className="size-3.5" aria-hidden />
+              </a>
+            ) : (
+              <span className="inline-flex h-11 items-center justify-center rounded-full border border-dashed border-line px-3 text-center text-[12px] text-muted-foreground">
+                No official page
+              </span>
+            )}
           </div>
-          <p className="mt-2 text-[12px] text-muted-foreground">Illustrations only. We don&apos;t copy listing photos; see the official page for real images.</p>
+        </div>
+      </div>
 
-          {/* Fit summary */}
-          <section className="mt-8 rounded-[26px] bg-ink p-5 text-paper sm:p-6">
-            <h2 className="text-[19px] font-semibold">How this home fits your group</h2>
-            {explanation?.summary && <p className="mt-2 text-[15px] leading-relaxed text-paper/90">{explanation.summary}</p>}
-            {explanation && explanation.strengths.length > 0 && (
-              <ul className="mt-3 grid gap-1.5">
-                {explanation.strengths.map((s, i) => (
-                  <li key={i} className="flex gap-2 text-[14px] text-paper/90">
-                    <Check className="mt-0.5 size-4 shrink-0 text-emerald" aria-hidden /> {s}
-                  </li>
-                ))}
-              </ul>
-            )}
-            {explanation?.compromise && (
-              <p className="mt-3 rounded-2xl bg-amber/25 px-3.5 py-2.5 text-[14px] text-[#ffe2b0]">{explanation.compromise}</p>
-            )}
-            {(groupBlockers.length > 0 || result.blockers.length > 0) && (
-              <div className="mt-3 rounded-2xl bg-white p-3">
-                <Chips result={result} max={8} />
-              </div>
-            )}
-          </section>
-
-          <h2 className="mt-10 text-[1.5rem] font-semibold text-ink">Each roommate&apos;s view</h2>
-          <div className="mt-4 grid gap-3 md:grid-cols-2">
+      <div className="mx-auto mt-10 grid max-w-3xl gap-8">
+        {/* 2. Each roommate */}
+        <section aria-labelledby="mates-h">
+          <h2 id="mates-h" className="text-[1.35rem] font-semibold text-ink">
+            {groupSize > 1 ? "How it works for each roommate" : "How it works for you"}
+          </h2>
+          <div className="mt-3 grid gap-3">
             {result.perMember.map((pm, i) => {
               const idx = g.people.findIndex((p) => p.id === pm.memberId);
               const m = g.people[idx] ?? g.people[i];
@@ -161,226 +182,157 @@ export function ListingDetail({ id }: { id: string }) {
                   member={m}
                   index={idx >= 0 ? idx : i}
                   pm={pm}
-                  lines={explanation?.perMember[pm.memberId] ?? []}
                   blockers={result.blockers.filter((b) => b.memberId === pm.memberId)}
-                  warnings={result.warnings.filter((w) => w.memberId === pm.memberId)}
-                  isLeast={result.leastSatisfiedMemberId === pm.memberId && result.perMember.length > 1}
+                  warnings={dedupeWarnings(result.warnings.filter((w) => w.memberId === pm.memberId))}
+                  isLeast={result.leastSatisfiedMemberId === pm.memberId && groupSize > 1}
                 />
               );
             })}
           </div>
+        </section>
 
-          <div className="mt-8">
-            <ScoreFormula result={result} listing={listing} people={g.people} />
-          </div>
+        {/* 3. Key amenities */}
+        <Amenities listing={listing} />
 
-          {/* Facts */}
-          <section className="mt-8 rounded-[26px] border border-line bg-white p-5 sm:p-6">
-            <h2 className="text-[19px] font-semibold text-ink">The facts</h2>
-            <dl className="mt-4 grid grid-cols-2 gap-x-6 gap-y-3 text-[13.5px] sm:grid-cols-3">
-              {[
-                ["Type", HOUSING_LABEL[listing.housingType]],
-                ["Bedrooms", String(listing.bedrooms)],
-                ["Bathrooms", String(listing.bathrooms)],
-                ["Size", listing.sqft ? `${listing.sqft.toLocaleString()} sq ft` : "Unknown"],
-                ["Private bedrooms", triState(listing.privateBedrooms)],
-                ["Max occupancy", listing.maxOccupancy !== undefined ? String(listing.maxOccupancy) : "Unknown"],
-                ["Utilities included", triState(listing.rent.utilitiesIncluded)],
-                ["Availability", listing.availability.status === "available" ? (listing.availability.date ? `From ${shortDate(listing.availability.date)}` : "Available") : listing.availability.status === "unknown" ? "Unknown" : "Unavailable"],
-                ["Rent as listed", listing.rent.amount === null ? "Not published" : `${money(listing.rent.amount)}${listing.rent.amountMax ? `–${money(listing.rent.amountMax)}` : ""} ${listing.rent.basis.replace("_", " ")}`],
-              ].map(([k, v]) => (
-                <div key={k}>
-                  <dt className="text-muted-foreground">{k}</dt>
-                  <dd className={cn("font-medium", v === "Unknown" || v === "Not published" ? "text-muted-foreground" : "text-ink")}>{v}</dd>
-                </div>
-              ))}
-            </dl>
-            {listing.rent.fees.length > 0 && (
-              <div className="mt-4">
-                <h3 className="text-[13px] font-medium text-muted-foreground">Required fees</h3>
-                <ul className="mt-1 grid gap-1 text-[13px] text-charcoal">
-                  {listing.rent.fees.map((f, i) => (
-                    <li key={i}>
-                      {f.label}: {money(f.monthly)}/mo {f.scope === "per_unit" ? "per unit (split)" : "per person"}
+        {/* 4. Pros and trade-offs */}
+        {(pros.length > 0 || cons.length > 0) && (
+          <section className="grid gap-3 sm:grid-cols-2" aria-label="Pros and trade-offs">
+            <div className="rounded-[22px] border border-line bg-white p-4">
+              <h2 className="text-[15px] font-semibold text-ink">What works</h2>
+              {pros.length === 0 ? (
+                <p className="mt-2 text-[13px] text-muted-foreground">No standout strengths for this group.</p>
+              ) : (
+                <ul className="mt-2 grid gap-1.5">
+                  {pros.map((s, i) => (
+                    <li key={i} className="flex gap-2 text-[13.5px] leading-snug text-charcoal">
+                      <Check className="mt-0.5 size-4 shrink-0 text-teal" aria-hidden /> {s}
                     </li>
                   ))}
                 </ul>
-              </div>
-            )}
-            <h3 className="mt-5 text-[13px] font-medium text-muted-foreground">Features</h3>
-            <ul className="mt-2 flex flex-wrap gap-1.5">
-              {FEATURE_KEYS.map((k: FeatureKey) => {
-                const v = listing.features[k];
-                return (
-                  <li
-                    key={k}
-                    className={cn(
-                      "rounded-full px-2.5 py-1 text-[12.5px]",
-                      v === true && "bg-teal-soft text-teal",
-                      v === false && "bg-secondary text-muted-foreground line-through decoration-1",
-                      v === null && "border border-dashed border-[#b8bcc4] text-muted-foreground",
-                    )}
-                  >
-                    {FEATURE_LABEL[k]}
-                    {v === null && " ?"}
-                  </li>
-                );
-              })}
-            </ul>
-          </section>
-
-          {/* Provenance */}
-          <section className="mt-6 rounded-[26px] border border-line bg-white p-5 sm:p-6">
-            <h2 className="text-[19px] font-semibold text-ink">Where this information comes from</h2>
-            <ul className="mt-3 grid gap-2 text-[13.5px]">
-              {[
-                ["Listing", listing.provenance],
-                ["Rent", listing.rent.provenance],
-                ["Availability", listing.availability.provenance],
-                ...(community ? ([["Community", community.provenance]] as const) : []),
-              ].map(([what, p]) => {
-                const prov = p as Listing["provenance"];
-                return (
-                  <li key={what as string} className="flex flex-wrap items-baseline justify-between gap-2 rounded-2xl bg-paper px-3.5 py-2.5">
-                    <span>
-                      <span className="font-medium text-ink">{what as string}:</span> {prov.sourceName}
-                      <span className="text-muted-foreground">
-                        {" "}
-                        · {prov.status.replaceAll("_", " ")} · observed {longDate(prov.observedAt)}
-                      </span>
-                      {prov.note && <span className="block text-[12.5px] text-muted-foreground">{prov.note}</span>}
-                    </span>
-                    {isHttp(prov.sourceUrl) ? (
-                      <a href={prov.sourceUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-[12.5px] font-medium text-teal hover:underline">
-                        Source <ExternalLink className="size-3" aria-hidden />
-                      </a>
-                    ) : (
-                      <span className="text-[12.5px] text-muted-foreground">No external source (fictional)</span>
-                    )}
-                  </li>
-                );
-              })}
-            </ul>
-          </section>
-        </div>
-
-        {/* Sticky decision rail */}
-        <aside className="lg:sticky lg:top-20 lg:self-start">
-          <div className="rounded-[28px] border border-line bg-white p-5">
-            <div className="flex items-center gap-4">
-              <ScoreRing score={result.groupScore} members={ringMembersFor(result, g.people)} size={104} stroke={9} dimmed={result.eligibility === "blocked"} />
-              <div>
-                <p className="text-[12.5px] text-muted-foreground">Group score</p>
-                <p className="text-[13.5px] leading-snug text-charcoal">
-                  Average fit <span className="font-semibold text-ink">{fmtScore(result.mean)}</span>
-                  <br />
-                  Least-satisfied member <span className="font-semibold text-ink">{fmtScore(result.min)}</span>
-                </p>
-                {result.eligibility === "blocked" && <p className="mt-1 text-[12px] font-medium text-blocker">Blocked for this group</p>}
-              </div>
-            </div>
-            <div className="mt-4 border-t border-line pt-4">
-              <PriceLine listing={listing} result={result} />
-            </div>
-
-            <div className="mt-5">
-              <p className="text-[13px] font-medium text-ink">Your vote</p>
-              <div className="mt-2 grid grid-cols-3 gap-2">
-                {(["interested", "maybe", "pass"] as VoteValue[]).map((v) => {
-                  const Icon = VOTE_ICON[v];
-                  const on = myVote === v;
-                  return (
-                    <button
-                      key={v}
-                      type="button"
-                      aria-pressed={on}
-                      onClick={() => vote(v)}
-                      className={cn(
-                        "flex flex-col items-center gap-1 rounded-2xl border py-2.5 text-[12.5px] font-medium transition-colors focus-visible:ring-3 focus-visible:ring-teal/40 focus-visible:outline-none",
-                        on
-                          ? v === "interested"
-                            ? "border-teal bg-teal text-white"
-                            : v === "pass"
-                              ? "border-blocker bg-blocker text-white"
-                              : "border-ink bg-ink text-paper"
-                          : "border-line bg-white text-charcoal hover:border-ink/30",
-                      )}
-                    >
-                      <Icon className="size-4" aria-hidden />
-                      {VOTE_LABEL[v]}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div className="mt-4 rounded-2xl bg-paper p-3">
-              <div className="flex items-center justify-between gap-2">
-                <span className="text-[12.5px] text-muted-foreground">Group consensus</span>
-                <ConsensusBadge label={label} />
-              </div>
-              <ul className="mt-2.5 grid grid-cols-4 gap-1">
-                {g.people.map((m, i) => {
-                  const v = latestVotes.get(m.id);
-                  return (
-                    <li key={m.id} className="flex flex-col items-center gap-1 text-center">
-                      <MemberAvatar member={m} index={i} size="sm" />
-                      <span className="text-[11px] leading-tight text-charcoal">{m.displayName}</span>
-                      <span className={cn("text-[10.5px]", v ? "font-medium text-ink" : "text-muted-foreground")}>{v ? VOTE_LABEL[v] : "No vote"}</span>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-
-            <div className="mt-4 grid grid-cols-2 gap-2">
-              <Button
-                variant="outline"
-                className={cn("h-10 rounded-full", saved && "border-teal bg-teal-soft text-teal")}
-                onClick={() => {
-                  const now = actions.toggleWatch(id);
-                  toast(now ? "Saved to your watchlist" : "Removed from your watchlist");
-                }}
-                aria-pressed={saved}
-              >
-                {saved ? <BookmarkCheck aria-hidden /> : <Bookmark aria-hidden />}
-                {saved ? "Saved" : "Save"}
-              </Button>
-              {officialUrl ? (
-                <a href={officialUrl} target="_blank" rel="noreferrer" className={cn(buttonVariants(), "h-10 rounded-full")}>
-                  Official page <ExternalLink className="size-3.5" aria-hidden />
-                </a>
-              ) : (
-                <span className="inline-flex h-10 items-center justify-center rounded-full border border-dashed border-line px-3 text-center text-[11.5px] leading-tight text-muted-foreground">
-                  Fictional: no official page
-                </span>
               )}
             </div>
-          </div>
+            <div className="rounded-[22px] border border-line bg-white p-4">
+              <h2 className="text-[15px] font-semibold text-ink">Things your group may need to compromise on</h2>
+              {cons.length === 0 ? (
+                <p className="mt-2 text-[13px] text-muted-foreground">Nothing major.</p>
+              ) : (
+                <ul className="mt-2 grid gap-1.5">
+                  {cons.map((s, i) => (
+                    <li key={i} className="flex gap-2 text-[13.5px] leading-snug text-charcoal">
+                      <AlertTriangle className="mt-0.5 size-4 shrink-0 text-amber" aria-hidden /> {s}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </section>
+        )}
 
-          <div className="mt-4 rounded-[24px] border border-dashed border-amber/50 bg-amber-soft/40 p-5">
-            <h2 className="flex items-center gap-2 text-[15px] font-semibold text-ink">
-              <CircleHelp className="size-4 text-amber" aria-hidden /> Unverified information
-            </h2>
-            <ul className="mt-3 grid gap-2 text-[13px] leading-relaxed text-charcoal">
-              {unverifiedItems(listing).map((u) => (
-                <li key={u.label}>
-                  <span className="font-medium text-ink">{u.label}:</span> {u.detail}
-                </li>
-              ))}
-            </ul>
-            {groupWarnings.length > 0 && (
-              <div className="mt-3 flex flex-wrap gap-1.5">
-                {groupWarnings.map((w, i) => (
-                  <span key={i} className="rounded-full bg-white px-2.5 py-0.5 text-[11.5px] text-[#8a5300]">
-                    {w.message}
+        {/* 5. Group vote */}
+        <VotePanel listingId={id} listingName={listing.name} people={g.people} votes={votes} myVote={myVote} liveMemberId={LIVE_MEMBER_ID} />
+
+        {/* 6. Sources & resources */}
+        <section className="rounded-[22px] border border-line bg-white p-5" aria-labelledby="src-h">
+          <h2 id="src-h" className="text-[18px] font-semibold text-ink">
+            Sources &amp; resources
+          </h2>
+          <ul className="mt-3 grid gap-2 text-[13px]">
+            {[
+              ["Listing", listing.provenance],
+              ["Rent", listing.rent.provenance],
+              ["Availability", listing.availability.provenance],
+            ].map(([what, p]) => {
+              const prov = p as Listing["provenance"];
+              return (
+                <li key={what as string} className="flex flex-wrap items-baseline justify-between gap-2 rounded-2xl bg-paper px-3.5 py-2.5">
+                  <span>
+                    <span className="font-medium text-ink">{what as string}:</span> {prov.sourceName}
+                    <span className="text-muted-foreground"> · observed {longDate(prov.observedAt)}</span>
                   </span>
-                ))}
-              </div>
-            )}
-          </div>
-        </aside>
+                  {isHttp(prov.sourceUrl) && (
+                    <a href={prov.sourceUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-[12.5px] font-medium text-teal hover:underline">
+                      Source <ExternalLink className="size-3" aria-hidden />
+                    </a>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+          <h3 className="mt-4 text-[13px] font-semibold text-ink">Confirm with the property</h3>
+          <ul className="mt-1.5 grid gap-1 text-[13px] leading-relaxed text-charcoal">
+            {verificationNotes(listing, groupSize).map((n) => (
+              <li key={n} className="flex gap-2">
+                <span className="mt-2 size-1 shrink-0 rounded-full bg-ink/40" aria-hidden />
+                {n}
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {/* 7. How we score (collapsed; the only place math appears) */}
+        <details className="group/s rounded-[22px] border border-line bg-white p-5">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-2 text-[16px] font-semibold text-ink [&::-webkit-details-marker]:hidden">
+            <span className="inline-flex items-center gap-2">
+              <Calculator className="size-4.5 text-teal" aria-hidden /> How we score
+            </span>
+            <ChevronDown className="size-4 transition-transform group-open/s:rotate-180" aria-hidden />
+          </summary>
+          <ScoreFormula result={result} listing={listing} people={g.people} bare />
+        </details>
       </div>
     </main>
+  );
+}
+
+const SUBJECTIVE = new Set<FeatureKey>(SUBJECTIVE_FEATURES);
+
+function Amenities({ listing }: { listing: Listing }) {
+  const yes = FEATURE_KEYS.filter((k) => listing.features[k] === true);
+  const no = FEATURE_KEYS.filter((k) => listing.features[k] === false);
+  const unknown = FEATURE_KEYS.filter((k) => listing.features[k] === null);
+  const quoted = yes.filter((k) => SUBJECTIVE.has(k) && listing.featureEvidence?.[k]);
+  return (
+    <section className="rounded-[22px] border border-line bg-white p-5" aria-labelledby="amen-h">
+      <h2 id="amen-h" className="text-[18px] font-semibold text-ink">
+        Key amenities
+      </h2>
+      {yes.length > 0 ? (
+        <ul className="mt-3 flex flex-wrap gap-1.5">
+          {yes.map((k) => (
+            <li key={k} className="inline-flex items-center gap-1 rounded-full bg-teal-soft px-2.5 py-1 text-[12.5px] font-medium text-teal">
+              <Check className="size-3.5" aria-hidden /> {FEATURE_LABEL[k]}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="mt-2 text-[13px] text-muted-foreground">The listing doesn&apos;t confirm any of the amenities we track.</p>
+      )}
+      {quoted.map((k) => {
+        const ev = listing.featureEvidence![k]!;
+        return (
+          <blockquote key={k} className="mt-3 flex gap-2 rounded-2xl bg-paper px-3.5 py-2.5 text-[13px] leading-snug text-charcoal">
+            <Quote className="mt-0.5 size-3.5 shrink-0 text-muted-foreground" aria-hidden />
+            <span>
+              <span className="font-medium text-ink">{FEATURE_LABEL[k]}:</span> &ldquo;{ev.quote}&rdquo;{" "}
+              {isHttp(ev.sourceUrl) && (
+                <a href={ev.sourceUrl} target="_blank" rel="noreferrer" className="text-[12px] font-medium text-teal hover:underline">
+                  source
+                </a>
+              )}
+            </span>
+          </blockquote>
+        );
+      })}
+      {no.length > 0 && (
+        <p className="mt-3 text-[13px] text-charcoal">
+          <span className="font-medium text-ink">Not available:</span> {no.map((k) => FEATURE_LABEL[k]).join(", ")}
+        </p>
+      )}
+      {unknown.length > 0 && (
+        <p className="mt-1.5 text-[13px] text-muted-foreground">
+          <span className="font-medium">Not listed:</span> {unknown.map((k) => FEATURE_LABEL[k]).join(", ")}
+        </p>
+      )}
+    </section>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { LayoutGroup, motion } from "motion/react";
 import { List, Map as MapIcon, SlidersHorizontal, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -10,14 +10,14 @@ import { communities, destinations, getCommunity, getListing, universities } fro
 import { explainListing } from "@/lib/engine";
 import { useGroup } from "@/hooks/use-group";
 import type { Explanation, Listing, RankedResult } from "@/lib/types";
-import { Note } from "@/components/shared/bits";
 import { ListingCard } from "./listing-card";
 import { ExploreMapClient } from "./map-client";
 import { WhatIfPanel } from "./what-if-panel";
-import { DEFAULT_FILTERS, FilterBar, isDefaultFilters, type Filters } from "./filters";
+import { FilterBar } from "./filters";
 import { HavenPortfolio } from "./haven-portfolio";
+import { DEFAULT_FILTERS, exploreQuery, isDefaultFilters, listingHref, parseExploreQuery, type ExploreTab as Mode, type Filters } from "@/lib/explore-query";
 
-type Mode = "all" | "haven";
+const SCROLL_KEY = "htl:explore-scroll";
 
 function passes(listing: Listing, result: RankedResult, f: Filters): boolean {
   if (!f.sources.includes(listing.sourceType)) return false;
@@ -33,14 +33,20 @@ function passes(listing: Listing, result: RankedResult, f: Filters): boolean {
 }
 
 export function ExploreView() {
+  // The URL is the source of truth for tab + filters (V3 §3.1), so "Back to All Homes" and a
+  // refresh land on the same view. history.replaceState keeps useSearchParams in sync.
   const params = useSearchParams();
-  const router = useRouter();
-  const pathname = usePathname();
-  const mode: Mode = params.get("mode") === "haven" ? "haven" : "all";
+  const { tab: mode, filters } = useMemo(() => parseExploreQuery(params), [params]);
+  const query = exploreQuery(mode, filters);
+  const writeQuery = useCallback((tab: Mode, f: Filters) => {
+    const q = exploreQuery(tab, f);
+    window.history.replaceState(null, "", q ? `/explore?${q}` : "/explore");
+  }, []);
+  const setFilters = (f: Filters) => writeQuery(mode, f);
+  const setMode = (m: Mode) => writeQuery(m, filters);
 
   const g = useGroup();
-  const { people, ranking, baselineById, data, contextLabel } = g;
-  const [filters, setFilters] = useState<Filters>(DEFAULT_FILTERS);
+  const { people, ranking, baselineById, data, contextLabel, lobby } = g;
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [whatIf, setWhatIf] = useState(false);
@@ -71,12 +77,34 @@ export function ExploreView() {
   const modeRows = mode === "haven" ? rows.filter((r) => r.listing.sourceType === "haven") : rows;
   const visible = modeRows.filter((r) => passes(r.listing, r.result, filters));
 
-  const setMode = (m: Mode) => {
-    const sp = new URLSearchParams(params.toString());
-    if (m === "haven") sp.set("mode", "haven");
-    else sp.delete("mode");
-    const qs = sp.toString();
-    router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
+  // Coming back from a listing: put the list where it was (saved when a card was opened). The
+  // listing's Back link uses scroll={false}, so this effect owns the scroll position on arrival.
+  useEffect(() => {
+    let saved: { q: string; y: number } | null = null;
+    try {
+      saved = JSON.parse(sessionStorage.getItem(SCROLL_KEY) ?? "null");
+    } catch {
+      saved = null;
+    }
+    const match = !!saved && typeof saved.y === "number" && saved.q === window.location.search.replace(/^\?/, "");
+    const y = match ? saved!.y : 0;
+    // A timer, not requestAnimationFrame: rAF is paused in background/embedded views.
+    const t = setTimeout(() => {
+      window.scrollTo({ top: y });
+      try {
+        sessionStorage.removeItem(SCROLL_KEY);
+      } catch {
+        /* ignore */
+      }
+    }, 30);
+    return () => clearTimeout(t);
+  }, []);
+  const rememberScroll = () => {
+    try {
+      sessionStorage.setItem(SCROLL_KEY, JSON.stringify({ q: query, y: window.scrollY }));
+    } catch {
+      /* private mode: no restore, still navigates */
+    }
   };
 
   const selectFromMap = useCallback((id: string) => {
@@ -119,9 +147,9 @@ export function ExploreView() {
     <main className="mx-auto w-full max-w-[90rem] px-4 pt-8 pb-16 sm:px-6">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <p className="text-[13px] font-medium text-teal">Ranked for {contextLabel}</p>
+          <p className="text-[13px] font-medium text-teal">{contextLabel}</p>
           <h1 className="mt-1 text-[2rem] leading-tight font-semibold text-ink sm:text-[2.5rem]">
-            {mode === "haven" ? "Haven communities" : "Homes that work for all four of you"}
+            {mode === "haven" ? "Haven communities" : lobby ? `Homes that work for all ${lobby.targetSize} of you` : "Homes near campus"}
           </h1>
         </div>
         <div className="flex flex-wrap items-center gap-2">
@@ -206,12 +234,6 @@ export function ExploreView() {
               />
             </div>
           )}
-          {mode === "all" && (
-            <Note className="mb-4">
-              Group score = 0.75 × average member fit + 0.25 × least-satisfied member. Homes that break a budget or a must-have stay in the list,
-              flagged in red, below the ones that work.
-            </Note>
-          )}
           {visible.length === 0 ? (
             <div className="rounded-[26px] border border-dashed border-line bg-white p-8 text-center">
               <p className="font-semibold text-ink">No homes match these filters.</p>
@@ -221,15 +243,14 @@ export function ExploreView() {
             </div>
           ) : (
             <LayoutGroup>
-              <ul className="grid grid-cols-1 gap-3">
-                {visible.map(({ result, listing, community }) => (
+              <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2" onClickCapture={rememberScroll}>
+                {visible.map(({ result, listing }) => (
                   <motion.li key={listing.id} className="min-w-0" layout="position" transition={{ type: "spring", stiffness: 380, damping: 36 }}>
                     <ListingCard
                       result={result}
                       listing={listing}
-                      community={community}
                       people={people}
-                      explanation={explanations.get(listing.id)}
+                      href={listingHref(listing.id, query)}
                       selected={selectedId === listing.id}
                       saved={saved.has(listing.id)}
                       compareRank={compare && g.hasScenario ? baselineById.get(listing.id)?.rank : undefined}

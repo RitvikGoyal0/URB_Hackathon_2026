@@ -285,12 +285,12 @@ export function ProfileEditor({
       )}
 
       {showPlaces && (
-        <Section title="Places you go often" hint="Clubs, jobs, a gym, a friend's place. Each one counts toward your commute, weighted by how often you go and how much it matters.">
+        <Section title="Places you go often" hint="Clubs, jobs, a gym, a friend's place. Each one counts toward your commute, more for places you go often and care about.">
           <PlacesSection profile={profile} onChange={onChange} start={placeStart} />
         </Section>
       )}
 
-      <Section title="Campus areas each week" hint="Where you go each week. Commute scores use these places, weighted by how often you go.">
+      <Section title="Campus areas each week" hint="Where you go each week. Commute scores count places you go more often more heavily.">
         {profile.destinations.length === 0 && (
           <p className="rounded-2xl border border-dashed border-line bg-white px-4 py-3 text-[13.5px] text-muted-foreground">
             No places yet. Add where you spend your weekdays so we can score commutes.
@@ -543,7 +543,7 @@ export function ProfileEditor({
           })}
       </Section>
 
-      <Section title="How your scores are weighted" hint="Starts from the default mix; each this-or-that answer moves 5 points between two categories.">
+      <Section title="What matters most to you" hint="Starts from the default mix; each this-or-that answer moves 5 points between two categories.">
         <WeightBars weights={profile.weights} />
       </Section>
     </div>

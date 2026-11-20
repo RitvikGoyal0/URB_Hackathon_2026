@@ -127,7 +127,7 @@ function ExploreMapInner({
                     : `${SOURCE_META[listing.sourceType].label} · ${SOURCE_META[listing.sourceType].status} ${shortDate(listing.provenance.observedAt)}`}
                 </div>
                 <div style={{ fontSize: 12, marginTop: 4 }}>
-                  Group score {fmtScore(result.groupScore)} · {pp === null ? "Contact for pricing" : `${money(pp)}/person`}
+                  Group score {fmtScore(result.groupScore)} · {pp === null ? "Pricing not verified" : `${money(pp)}/person`}
                   {result.eligibility === "blocked" ? " · blocked" : ""}
                 </div>
                 <div style={{ fontSize: 11.5, marginTop: 4, color: "#5d6472" }}>{routingNote(listing.id)}</div>

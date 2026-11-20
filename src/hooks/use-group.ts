@@ -73,7 +73,7 @@ export function useGroup(): GroupView & { state: ReturnType<typeof useAppState> 
         .map(({ m, before }) => `${m.displayName}'s budget $${before.toLocaleString()} → $${m.budgetMax.toLocaleString()}`),
     [members, baseMembers],
   );
-  const contextLabel = lobby ? `${lobby.name} · ${lobby.targetSize} people` : "Solo search";
+  const contextLabel = lobby ? `Ranked for ${lobby.name} · ${lobby.targetSize} people` : "Solo search · any size, priced per room";
 
   return {
     state,

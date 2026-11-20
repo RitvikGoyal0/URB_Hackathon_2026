@@ -4,8 +4,8 @@ import { buttonVariants } from "@/components/ui/button";
 import { CampusCard } from "@/components/campus/campus-card";
 import { ScoreRing } from "@/components/shared/score-ring";
 import { MemberAvatar, ListingSourceBadge } from "@/components/shared/bits";
-import { RepresentativeImage } from "@/components/shared/representative-image";
-import { fmtScore, memberColor, money } from "@/components/shared/format";
+import { ListingPhoto } from "@/components/shared/listing-photo";
+import { fmtScore, groupFitLabel, memberColor, money } from "@/components/shared/format";
 import { cn } from "@/lib/utils";
 import { commuteMatrix, defaultLivePersona, destinations, friends, getListing, getStudent, listings, universities } from "@/lib/data";
 import { filterForLobby, rankListings } from "@/lib/engine";
@@ -79,7 +79,7 @@ export default function Home() {
               href={`/listing/${topListing.id}`}
               className="group relative block rounded-[30px] border border-line bg-white p-3 shadow-[0_30px_80px_-50px_rgba(20,33,61,0.55)] transition-transform hover:-translate-y-0.5"
             >
-              <RepresentativeImage housingType={topListing.housingType} className="h-44 rounded-[22px] sm:h-52" />
+              <ListingPhoto src={topListing.images[0]} alt={topListing.name} className="h-44 rounded-[22px] sm:h-52" />
               <div className="px-3 pt-4 pb-2">
                 <p className="text-[12.5px] font-medium text-teal">Top match for an example group of {members.length}</p>
                 <div className="mt-1.5 flex items-start justify-between gap-4">
@@ -106,7 +106,7 @@ export default function Home() {
                   })}
                 </ul>
                 <p className="mt-4 text-[12.5px] leading-relaxed text-muted-foreground">
-                  Group score = 0.75 × average ({fmtScore(top.mean)}) + 0.25 × least-satisfied ({fmtScore(top.min)})
+                  {groupFitLabel(top.groupScore)} for everyone
                   {top.perMember[0]?.perPersonRent != null ? `, at ${money(top.perMember[0].perPersonRent)} per person` : ""}
                 </p>
               </div>

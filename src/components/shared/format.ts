@@ -120,8 +120,10 @@ export function scoreHex(score: number | null): string {
 
 export const fmtScore = (n: number | null | undefined) => (n === null || n === undefined ? "—" : String(Math.round(n)));
 
-/** Rent formula text for evidence panels, e.g. "$4,396 per unit ÷ 4 = $1,099/person". */
-export function rentFormula(listing: Listing, groupSize: number, perPerson: number | null): string {
+/** Rent formula text for evidence panels, e.g. "$4,396 per unit ÷ 4 rooms = $1,099/person". Rent is
+ *  always per room (one person per bedroom), whatever the group size. */
+export function rentFormula(listing: Listing, perPerson: number | null): string {
+  const groupSize = Math.max(1, Math.floor(listing.bedrooms) || 0);
   const { amount, basis, fees } = listing.rent;
   if (amount === null || basis === "unknown" || perPerson === null)
     return "Rent not published, so affordability is not scored. It is never treated as $0.";
@@ -130,11 +132,51 @@ export function rentFormula(listing: Listing, groupSize: number, perPerson: numb
   if (basis === "per_unit") {
     const inner = unitFeeSum ? `(${money(amount)} + ${money(unitFeeSum)} fees)` : `${money(amount)} per unit`;
     const tail = personFeeSum ? ` + ${money(personFeeSum)} per-person fees` : "";
-    return `${inner} ÷ ${groupSize}${tail} = ${money(perPerson)}/person`;
+    return `${inner} ÷ ${groupSize} ${groupSize === 1 ? "room" : "rooms"}${tail} = ${money(perPerson)}/person`;
   }
   const label = basis === "per_bedroom" ? "per bed" : "per person";
-  const extras = [personFeeSum ? `${money(personFeeSum)} fees` : "", unitFeeSum ? `${money(unitFeeSum)} ÷ ${groupSize} shared fees` : ""]
+  const extras = [personFeeSum ? `${money(personFeeSum)} fees` : "", unitFeeSum ? `${money(unitFeeSum)} ÷ ${groupSize} rooms shared fees` : ""]
     .filter(Boolean)
     .join(" + ");
-  return `${money(amount)} ${label}${extras ? ` + ${extras}` : ""} = ${money(perPerson)}/person (not divided by group size)`;
+  return `${money(amount)} ${label}${extras ? ` + ${extras}` : ""} = ${money(perPerson)}/person (not split further)`;
+}
+
+/** One-word group fit for cards (V3 §7.5). */
+export function groupFitLabel(score: number | null): string {
+  if (score === null) return "Not enough data";
+  if (score >= 80) return "Great fit";
+  if (score >= 65) return "Good fit";
+  if (score >= 50) return "Some fit";
+  return "Weak fit";
+}
+
+/** The single red line a card shows: the worst blocker in plain words, plus how many more. */
+export function blockerLine(blockers: { kind: string; message: string; memberId?: string; amount?: number }[], names: Map<string, string>): string | null {
+  if (blockers.length === 0) return null;
+  const budget = blockers.filter((b) => b.kind === "budget").sort((a, b) => (b.amount ?? 0) - (a.amount ?? 0));
+  const first = blockers.find((b) => b.kind === "capacity") ?? blockers.find((b) => b.kind === "required_feature") ?? budget[0] ?? blockers[0];
+  let text: string;
+  if (first.kind === "budget" && first.memberId && first.amount !== undefined) {
+    text = `Over ${names.get(first.memberId) ?? "a member"}'s budget by ${money(first.amount)}`;
+  } else {
+    text = first.message.replace(/\.$/, "");
+  }
+  const more = blockers.length - 1;
+  return more > 0 ? `${text} · +${more} more` : text;
+}
+
+/** How the rent was published, in words: per-person rent is always per room (one person per bedroom). */
+export function rentBasisText(listing: Listing): string {
+  const { amount, basis, secondary, utilitiesIncluded } = listing.rent;
+  const parts: string[] = [];
+  if (amount === null || basis === "unknown") parts.push("Rent not published");
+  else if (basis === "per_unit") {
+    const rooms = Math.max(1, Math.floor(listing.bedrooms) || 0);
+    parts.push(`${money(amount)}/mo for the home · ${rooms} ${rooms === 1 ? "room" : "rooms"}`);
+  } else if (basis === "per_bedroom") parts.push("Priced per bed");
+  else parts.push("Priced per person");
+  if (secondary) parts.push(`${secondary.label} ${money(secondary.min)}–${money(secondary.max)}`);
+  if (utilitiesIncluded === true) parts.push("utilities incl.");
+  if (utilitiesIncluded === false) parts.push("excludes utilities");
+  return parts.join(" · ");
 }

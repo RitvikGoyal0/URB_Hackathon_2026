@@ -8,8 +8,8 @@ import { cn } from "@/lib/utils";
 import type { Community, Explanation, Listing, MemberProfile, RankedResult } from "@/lib/types";
 import { SourceBadge } from "@/components/shared/bits";
 import { ScoreRing } from "@/components/shared/score-ring";
-import { RepresentativeImage } from "@/components/shared/representative-image";
-import { fmtScore, shortDate } from "@/components/shared/format";
+import { ListingPhoto } from "@/components/shared/listing-photo";
+import { groupFitLabel, shortDate } from "@/components/shared/format";
 import { PriceLine, ringMembersFor } from "./listing-card";
 
 /**
@@ -34,7 +34,7 @@ export function HavenPortfolio({
   return (
     <section className="overflow-hidden rounded-[28px] border border-teal/30 bg-white">
       <div>
-        <RepresentativeImage housingType={items[0]?.listing.housingType ?? "townhome"} className="h-44" seed={2} />
+        <ListingPhoto src={items[0]?.listing.images[0]} alt={community.name} className="h-44" />
         <div className="p-5 sm:p-6">
           <div className="flex flex-wrap items-center gap-2">
             <span className="inline-flex items-center gap-1 rounded-full bg-ink px-2.5 py-1 text-[11.5px] font-semibold text-paper">
@@ -107,7 +107,7 @@ export function HavenPortfolio({
                 <div className="min-w-0 flex-1">
                   <p className="font-semibold text-ink">{listing.name}</p>
                   <p className="text-[12.5px] text-muted-foreground">
-                    Rank #{result.rank} of {total} in All Housing · Average fit {fmtScore(result.mean)} · Least-satisfied member {fmtScore(result.min)}
+                    Rank #{result.rank} of {total} in All Housing · {groupFitLabel(result.groupScore)}
                   </p>
                   {ex?.summary && !ex.summary.toLowerCase().includes("stub") && <p className="mt-1 text-[13px] text-charcoal">{ex.summary}</p>}
                   {ex?.compromise && <p className="mt-1 text-[13px] text-[#8a5300]">{ex.compromise}</p>}

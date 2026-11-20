@@ -25,17 +25,18 @@ const r1 = (n: number) => (Math.round(n * 10) / 10).toFixed(1);
  * "How this score is calculated" — the full arithmetic behind the group score, with the
  * real numbers substituted in, plus every assumption the score depends on (rubric: evidence 20%).
  */
-export function ScoreFormula({ result, listing, people }: { result: RankedResult; listing: Listing; people: MemberProfile[] }) {
+export function ScoreFormula({ result, listing, people, bare }: { result: RankedResult; listing: Listing; people: MemberProfile[]; bare?: boolean }) {
   const scored = result.perMember.filter((pm) => pm.score !== null);
   const name = (id: string) => people.find((p) => p.id === id)?.displayName ?? id;
-  const groupSize = result.perMember.length;
   const pp = result.perMember[0]?.perPersonRent ?? null;
 
   return (
-    <section className="rounded-[26px] border border-ink/15 bg-white p-5 sm:p-6" aria-labelledby="formula-h">
-      <h2 id="formula-h" className="flex items-center gap-2 text-[19px] font-semibold text-ink">
-        <Calculator className="size-5 text-teal" aria-hidden /> How this score is calculated
-      </h2>
+    <section className={bare ? "" : "rounded-[26px] border border-ink/15 bg-white p-5 sm:p-6"} aria-label="How this score is calculated">
+      {!bare && (
+        <h2 className="flex items-center gap-2 text-[19px] font-semibold text-ink">
+          <Calculator className="size-5 text-teal" aria-hidden /> How this score is calculated
+        </h2>
+      )}
 
       <div className="mt-4 rounded-2xl bg-ink p-4 text-paper sm:p-5">
         <p className="text-[12.5px] text-paper/70">Group score</p>
@@ -102,7 +103,7 @@ export function ScoreFormula({ result, listing, people }: { result: RankedResult
       <h3 className="mt-6 text-[15px] font-semibold text-ink">Assumptions behind these numbers</h3>
       <ul className="mt-2 grid gap-2 text-[13px] leading-relaxed text-charcoal">
         <li className="rounded-xl bg-paper px-3 py-2">
-          <span className="font-medium text-ink">Rent per person:</span> {rentFormula(listing, groupSize, pp)}
+          <span className="font-medium text-ink">Rent per person:</span> {rentFormula(listing, pp)}
         </li>
         <li className="rounded-xl bg-paper px-3 py-2">
           <span className="font-medium text-ink">Affordability:</span> 100 at or under {Math.round(AFFORD_FULL_MARKS_RATIO * 100)}% of a member&apos;s budget, falling to {AFFORD_AT_BUDGET_SCORE} at 100%. Over budget scores 0
