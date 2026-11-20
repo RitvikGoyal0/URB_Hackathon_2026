@@ -140,6 +140,9 @@ export function parseToProfile(parse: ProfileParse, base: MemberProfile): Member
   if (parse.travelMode) {
     p.travelMode = parse.travelMode.value;
     p.fieldMeta.travelMode = aiMeta(parse.travelMode.sourceText, parse.travelMode.confidence);
+  } else if (parse.travelModeOptions?.length) {
+    // No follow-up question any more: an ambiguous mode defaults to walk, or bike if bike was mentioned.
+    p.travelMode = defaultTravelMode(parse);
   }
   if (parse.hasCar) {
     p.hasCar = parse.hasCar.value;
@@ -250,11 +253,15 @@ export function removeField(profile: MemberProfile, key: FieldKey): MemberProfil
 
 export type FollowUp =
   | { id: string; kind: "place"; question: string; placeText: string; suggestedDestinationId?: string }
-  | { id: string; kind: "travelMode"; question: string; options: TravelMode[] }
   | { id: string; kind: "budget"; question: string }
   | { id: string; kind: "destinations"; question: string };
 
-export const ALL_TRAVEL_MODES: TravelMode[] = ["walk", "bike", "bus", "drive"];
+/** The mode used when the text doesn't settle one (there is no travel-mode question): bike if it
+ *  was one of the options the student mentioned, otherwise walk. An explicit mode always wins. */
+export function defaultTravelMode(parse: ProfileParse): TravelMode {
+  if (parse.travelMode) return parse.travelMode.value;
+  return parse.travelModeOptions?.includes("bike") ? "bike" : NEUTRAL_TRAVEL_MODE;
+}
 
 /** Follow-ups, chosen by rules from the parse (spec §8.1 step 5 + §8.3). */
 export function buildFollowUps(parse: ProfileParse, opts: { budgetProvided: boolean }): FollowUp[] {
@@ -262,11 +269,6 @@ export function buildFollowUps(parse: ProfileParse, opts: { budgetProvided: bool
   parse.unmappedPlaces.forEach((u, i) =>
     out.push({ id: `place-${i}`, kind: "place", question: u.question, placeText: u.text, suggestedDestinationId: u.suggestedDestinationId }),
   );
-  if (parse.travelModeOptions && parse.travelModeOptions.length > 0 && !parse.travelMode) {
-    out.push({ id: "travelMode", kind: "travelMode", question: "How will you usually get to campus?", options: parse.travelModeOptions });
-  } else if (parse.missing.includes("travelMode")) {
-    out.push({ id: "travelMode", kind: "travelMode", question: "How will you usually get to campus?", options: ALL_TRAVEL_MODES });
-  }
   if (parse.missing.includes("budget") && !parse.budgetMax && !opts.budgetProvided) {
     out.push({ id: "budget", kind: "budget", question: "What's the most you can pay per month, including your share of rent?" });
   }

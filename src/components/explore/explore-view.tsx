@@ -3,51 +3,35 @@
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { LayoutGroup, motion } from "motion/react";
-import { List, Map as MapIcon, SlidersHorizontal, Sparkles } from "lucide-react";
+import { List, Map as MapIcon, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { communities, destinations, getCommunity, getListing, universities } from "@/lib/data";
 import { explainListing } from "@/lib/engine";
 import { useGroup } from "@/hooks/use-group";
-import type { Explanation, Listing, RankedResult } from "@/lib/types";
+import type { Explanation } from "@/lib/types";
 import { ListingCard } from "./listing-card";
 import { ExploreMapClient } from "./map-client";
 import { WhatIfPanel } from "./what-if-panel";
-import { FilterBar } from "./filters";
 import { HavenPortfolio } from "./haven-portfolio";
-import { DEFAULT_FILTERS, exploreQuery, isDefaultFilters, listingHref, parseExploreQuery, type ExploreTab as Mode, type Filters } from "@/lib/explore-query";
+import { exploreQuery, listingHref, parseExploreQuery, type ExploreTab as Mode } from "@/lib/explore-query";
 
 const SCROLL_KEY = "htl:explore-scroll";
 
-function passes(listing: Listing, result: RankedResult, f: Filters): boolean {
-  if (!f.sources.includes(listing.sourceType)) return false;
-  if (f.bedrooms !== "any") {
-    if (f.bedrooms === "4+" ? listing.bedrooms < 4 : listing.bedrooms !== Number(f.bedrooms)) return false;
-  }
-  const pp = result.perMember[0]?.perPersonRent ?? null;
-  if (pp === null) {
-    if (!f.includeUnpriced) return false;
-  } else if (f.maxPrice !== null && pp > f.maxPrice) return false;
-  for (const a of f.amenities) if (listing.features[a] !== true) return false;
-  return true;
-}
-
 export function ExploreView() {
-  // The URL is the source of truth for tab + filters (V3 §3.1), so "Back to All Homes" and a
-  // refresh land on the same view. history.replaceState keeps useSearchParams in sync.
+  // The URL is the source of truth for the tab (V3 §3.1), so "Back to All Homes" and a refresh
+  // land on the same view. There are no filters: the group's profiles decide what fits.
+  // history.replaceState keeps useSearchParams in sync.
   const params = useSearchParams();
-  const { tab: mode, filters } = useMemo(() => parseExploreQuery(params), [params]);
-  const query = exploreQuery(mode, filters);
-  const writeQuery = useCallback((tab: Mode, f: Filters) => {
-    const q = exploreQuery(tab, f);
+  const { tab: mode } = useMemo(() => parseExploreQuery(params), [params]);
+  const query = exploreQuery(mode);
+  const setMode = useCallback((tab: Mode) => {
+    const q = exploreQuery(tab);
     window.history.replaceState(null, "", q ? `/explore?${q}` : "/explore");
   }, []);
-  const setFilters = (f: Filters) => writeQuery(mode, f);
-  const setMode = (m: Mode) => writeQuery(m, filters);
 
   const g = useGroup();
   const { people, ranking, baselineById, data, contextLabel, lobby } = g;
-  const [filtersOpen, setFiltersOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [whatIf, setWhatIf] = useState(false);
   const [compare, setCompare] = useState(false);
@@ -75,7 +59,7 @@ export function ExploreView() {
 
   const havenCommunity = communities.find((c) => c.brand === "Haven" && c.campusId === "umich");
   const modeRows = mode === "haven" ? rows.filter((r) => r.listing.sourceType === "haven") : rows;
-  const visible = modeRows.filter((r) => passes(r.listing, r.result, filters));
+  const visible = modeRows;
 
   // Coming back from a listing: put the list where it was (saved when a card was opened). The
   // listing's Back link uses scroll={false}, so this effect owns the scroll position on arrival.
@@ -175,29 +159,20 @@ export function ExploreView() {
             ))}
           </div>
           <Button
-            variant="outline"
-            className={cn("h-10 rounded-full bg-white px-4", !isDefaultFilters(filters) && "border-ink")}
-            onClick={() => setFiltersOpen((o) => !o)}
-            aria-expanded={filtersOpen}
+            className={cn("h-auto min-h-10 max-w-full rounded-full px-4 py-2 whitespace-normal", whatIf && "bg-teal hover:bg-teal/90")}
+            onClick={() => setWhatIf((o) => !o)}
+            aria-expanded={whatIf}
           >
-            <SlidersHorizontal aria-hidden /> Filters{!isDefaultFilters(filters) ? " (on)" : ""}
-          </Button>
-          <Button className={cn("h-10 rounded-full px-4", whatIf && "bg-teal hover:bg-teal/90")} onClick={() => setWhatIf((o) => !o)} aria-expanded={whatIf}>
-            <Sparkles aria-hidden /> What if…
+            <Sparkles aria-hidden /> What if budgets changed?
             {g.hasScenario && <span className="ml-1 rounded-full bg-amber px-1.5 text-[11px] text-white">on</span>}
           </Button>
         </div>
       </div>
 
-      {filtersOpen && (
-        <div className="mt-5">
-          <FilterBar value={filters} onChange={setFilters} showSources={mode === "all"} />
-        </div>
-      )}
 
       <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
         <p className="text-[13px] text-muted-foreground">
-          Showing {visible.length} of {modeRows.length} {mode === "haven" ? "Haven floor plans" : "homes"}
+          Showing {visible.length} {mode === "haven" ? (visible.length === 1 ? "Haven floor plan" : "Haven floor plans") : visible.length === 1 ? "home" : "homes"}
           {blockedCount > 0 && ` · ${blockedCount} blocked (still ranked, marked in red)`}
           {g.hasScenario && " · what-if budgets applied"}
         </p>
@@ -236,10 +211,10 @@ export function ExploreView() {
           )}
           {visible.length === 0 ? (
             <div className="rounded-[26px] border border-dashed border-line bg-white p-8 text-center">
-              <p className="font-semibold text-ink">No homes match these filters.</p>
-              <Button variant="outline" className="mt-3 rounded-full" onClick={() => setFilters(DEFAULT_FILTERS)}>
-                Clear filters
-              </Button>
+              <p className="font-semibold text-ink">No homes to show yet.</p>
+              <p className="mt-1 text-[14px] text-muted-foreground">
+                {lobby ? `No home has exactly ${lobby.targetSize} bedrooms for this lobby.` : "Check back soon."}
+              </p>
             </div>
           ) : (
             <LayoutGroup>

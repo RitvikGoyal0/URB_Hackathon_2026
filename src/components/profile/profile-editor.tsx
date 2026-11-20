@@ -149,7 +149,8 @@ export function AboutFields({
 }: {
   profile: MemberProfile;
   onChange: (p: MemberProfile) => void;
-  onAskPlace: (s: { name: string; suggestion?: PlaceSuggestion }) => void;
+  /** Asks "Do you go to <club> regularly?" after a club is added. Omit to ask later (onboarding). */
+  onAskPlace?: (s: { name: string; suggestion?: PlaceSuggestion }) => void;
 }) {
   const [org, setOrg] = useState("");
   const [ask, setAsk] = useState<string | null>(null);
@@ -160,7 +161,7 @@ export function AboutFields({
     setOrg("");
     if (orgs.some((o) => o.toLowerCase() === name.toLowerCase())) return;
     onChange({ ...profile, organizations: [...orgs, name] });
-    if (!(profile.places ?? []).some((p) => p.name.toLowerCase() === name.toLowerCase())) setAsk(name);
+    if (onAskPlace && !(profile.places ?? []).some((p) => p.name.toLowerCase() === name.toLowerCase())) setAsk(name);
   };
   return (
     <div className="grid gap-2.5 rounded-2xl border border-line bg-white px-4 py-3.5">
@@ -213,7 +214,7 @@ export function AboutFields({
             className="rounded-full"
             onClick={() => {
               const b = searchBuildings(ask, 1)[0];
-              onAskPlace({ name: ask, suggestion: b ? { buildingId: b.id } : undefined });
+              onAskPlace?.({ name: ask, suggestion: b ? { buildingId: b.id } : undefined });
               setAsk(null);
             }}
           >
@@ -296,7 +297,7 @@ export function ProfileEditor({
       )}
 
       {showPlaces && (
-        <Section title="Schedule" hint="Upload a screenshot of your class schedule or type it in. Each class building you confirm counts as trips: the first class of the day, or one after a 2-hour gap.">
+        <Section title="Schedule" hint="Each class building you confirm counts as trips: the first class of the day, or one after a 2-hour gap. You can also type classes in.">
           <ScheduleSection profile={profile} onChange={onChange} />
         </Section>
       )}

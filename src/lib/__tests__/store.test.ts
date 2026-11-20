@@ -56,8 +56,7 @@ describe("store v2: lobbies", () => {
   });
   it("votes, saved homes and what-if are per lobby and separate from solo", () => {
     let s = withLobby();
-    s = reducers.castVote(s, "geddes_4br", "interested", T0);
-    s = reducers.toggleWatch(s, "geddes_4br", T0);
+    s = reducers.castVote(s, "geddes_4br", "interested", T0); // a vote also saves it
     s = reducers.createLobby(s, { id: "L2", name: "Other", targetSize: 3, at: T0 });
     expect(selectActiveData(s).votes).toEqual([]);
     expect(selectActiveData(s).watchlist).toEqual([]);
@@ -70,6 +69,30 @@ describe("store v2: lobbies", () => {
     s = reducers.castVote(s, "geddes_4br", "pass", T0);
     expect(selectActiveData(s).votes.map((v) => v.value)).toEqual(["pass"]);
     s = reducers.clearVote(s, "geddes_4br");
+    expect(selectActiveData(s).votes).toEqual([]);
+    expect(selectActiveData(s).watchlist.map((w) => w.listingId)).toEqual(["geddes_4br"]); // clearing a vote keeps it saved
+  });
+  it("any vote saves the home; unsave clears the vote; restore brings both back exactly", () => {
+    let s = withLobby();
+    for (const v of ["interested", "maybe", "pass"] as const) {
+      const t = reducers.castVote(s, "um_ssv_4br", v, T0);
+      expect(selectActiveData(t).watchlist.map((w) => w.listingId)).toEqual(["um_ssv_4br"]);
+    }
+    s = reducers.castVote(s, "um_ssv_4br", "pass", T0);
+    // voting again doesn't duplicate the saved home
+    s = reducers.castVote(s, "um_ssv_4br", "maybe", T0);
+    expect(selectActiveData(s).watchlist).toHaveLength(1);
+    const before = selectActiveData(s);
+    const removed = { item: before.watchlist[0], vote: before.votes[0] };
+    s = reducers.unsave(s, "um_ssv_4br");
+    expect(selectActiveData(s).watchlist).toEqual([]);
+    expect(selectActiveData(s).votes).toEqual([]);
+    s = reducers.restore(s, removed);
+    expect(selectActiveData(s).watchlist).toEqual(before.watchlist);
+    expect(selectActiveData(s).votes).toEqual(before.votes);
+    // toggleWatch on a saved home goes through unsave
+    s = reducers.toggleWatch(s, "um_ssv_4br", T0);
+    expect(selectActiveData(s).watchlist).toEqual([]);
     expect(selectActiveData(s).votes).toEqual([]);
   });
   it("leaving deletes the lobby and returns to solo; switching to an unknown id is ignored", () => {

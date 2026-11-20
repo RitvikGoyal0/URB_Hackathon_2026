@@ -1,10 +1,11 @@
 "use client";
 
 import { useId, useRef, useState } from "react";
-import { Check, Loader2, MapPin, Pencil, Plus, Trash2, Upload } from "lucide-react";
+import { Check, HelpCircle, Loader2, MapPin, Pencil, Plus, Trash2, Upload } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { destinations } from "@/lib/data";
 import { WEEKDAYS } from "@/lib/engine/schedule";
@@ -91,6 +92,10 @@ export function ScheduleSection({ profile, onChange }: { profile: MemberProfile;
 
   return (
     <div className="grid gap-3">
+      <p className="text-[13px] leading-relaxed text-muted-foreground">
+        Upload a screenshot of your class schedule from Wolverine Access, in a view that shows each class&apos;s room or building.{" "}
+        <WolverineAccessHelp />
+      </p>
       {saved && saved.classes.length > 0 ? (
         <div className="flex flex-wrap items-start gap-4 rounded-2xl border border-line bg-white p-4">
           {saved.image?.dataUrl && (
@@ -352,5 +357,40 @@ function ClassRow({ row, index, onChange, onRemove }: { row: DraftClass; index: 
         </Button>
       </div>
     </li>
+  );
+}
+
+/** "How do I get this?": the Wolverine Access steps for a schedule screenshot that shows rooms. */
+function WolverineAccessHelp() {
+  return (
+    <Dialog>
+      <DialogTrigger className="inline-flex items-center gap-1 font-medium text-teal underline-offset-4 hover:underline focus-visible:ring-3 focus-visible:ring-teal/40 focus-visible:outline-none">
+        <HelpCircle className="size-3.5" aria-hidden /> How do I get this?
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle>Get your schedule from Wolverine Access</DialogTitle>
+          <DialogDescription>We need the room for each class so we can find your buildings.</DialogDescription>
+        </DialogHeader>
+        <ol className="grid list-decimal gap-2 pl-5 text-[13.5px] leading-snug text-charcoal">
+          <li>
+            Sign in to{" "}
+            <a href="https://wolverineaccess.umich.edu" target="_blank" rel="noopener noreferrer" className="font-medium text-teal underline-offset-4 hover:underline">
+              Wolverine Access
+            </a>
+            .
+          </li>
+          <li>
+            Go to <span className="font-medium">Student Business</span>, then <span className="font-medium">View My Class Schedule</span>.
+          </li>
+          <li>
+            Pick the term, and switch to <span className="font-medium">List View</span> so the <span className="font-medium">Room</span> column shows (for
+            example &ldquo;1013 DOW&rdquo;).
+          </li>
+          <li>Take a screenshot that includes each class&apos;s name, days, times and room.</li>
+          <li>Upload it here. You&apos;ll check each class and confirm its building before it counts.</li>
+        </ol>
+      </DialogContent>
+    </Dialog>
   );
 }

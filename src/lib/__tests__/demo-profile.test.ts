@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { memberProfile, appState } from "@/lib/schemas";
 import { DEFAULT_STATE } from "@/lib/store";
-import { buildDemoProfile, mracingPlace } from "@/lib/demo-profile";
+import { DEMO_CONTACT, buildDemoProfile, mracingPlace } from "@/lib/demo-profile";
 import { unconfirmedCount } from "@/lib/onboarding";
 
 describe("/demo → Load demo profile", () => {
@@ -24,6 +24,16 @@ describe("/demo → Load demo profile", () => {
     expect(p.budgetMax).toBe(1150);
     expect(p.destinations.some((d) => d.destinationId === "north_campus")).toBe(true);
     expect(p.hasCar).toBe(false);
+  });
+
+  it("is actively looking, with placeholder umich.edu contact and consent", () => {
+    expect(p.roommateStatus).toBe("looking");
+    expect(p.contact).toEqual(DEMO_CONTACT);
+  });
+
+  it("defaults to walking (no travel-mode question); a mode can still be passed", () => {
+    expect(p.travelMode).toBe("walk");
+    expect(buildDemoProfile("bus").travelMode).toBe("bus");
   });
 
   it("is deterministic", () => {

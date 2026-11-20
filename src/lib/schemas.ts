@@ -5,6 +5,7 @@
  */
 import { z } from "zod";
 import type * as T from "./types";
+import { PHONE_RE, UMICH_EMAIL_RE } from "./contact";
 
 export const verificationStatus = z.enum([
   "verified",
@@ -238,6 +239,14 @@ export const scheduleClass = z.object({
   confirmed: z.boolean(),
 }) satisfies z.ZodType<T.ScheduleClass>;
 
+export const contactInfo = z
+  .object({
+    email: z.string().regex(UMICH_EMAIL_RE).optional(),
+    phone: z.string().regex(PHONE_RE).optional(),
+    consentAt: z.string(),
+  })
+  .refine((c) => !!c.email || !!c.phone, "An email or phone is required") satisfies z.ZodType<T.ContactInfo>;
+
 export const memberProfile = z.object({
   id: z.string(),
   displayName: z.string().min(1),
@@ -268,6 +277,8 @@ export const memberProfile = z.object({
     })
     .nullable()
     .optional(),
+  roommateStatus: z.enum(["looking", "found"]).optional(),
+  contact: contactInfo.nullable().optional(),
 }) satisfies z.ZodType<T.MemberProfile>;
 
 export const voteValue = z.enum(["interested", "maybe", "pass"]);

@@ -21,6 +21,7 @@ import { actions, selectLiveProfile, useAppState, useHydrated } from "@/lib/stor
 import type { MemberProfile } from "@/lib/types";
 import { PageIntro, Note } from "@/components/shared/bits";
 import { ProfileEditor } from "./profile-editor";
+import { RoommateSearchSettings } from "./roommate-search-fields";
 
 function Editor({ initial, onboarded }: { initial: MemberProfile; onboarded: boolean }) {
   const [draft, setDraft] = useState(initial);
@@ -74,6 +75,9 @@ export function ProfileView() {
         <Editor key={JSON.stringify(live)} initial={live} onboarded={onboarded} />
       ) : (
         <div className="h-96 animate-pulse rounded-[26px] bg-white" />
+      )}
+      {hydrated && (
+        <RoommateSearchSettings key={`rs-${JSON.stringify(live.contact ?? null)}-${live.roommateStatus ?? ""}`} profile={live} onSave={(p) => actions.setLiveProfile(p)} />
       )}
 
       <section className="mt-12 rounded-[26px] border border-blocker/25 bg-white p-5 sm:p-6">

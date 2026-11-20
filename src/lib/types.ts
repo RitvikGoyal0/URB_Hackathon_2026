@@ -226,6 +226,21 @@ export interface MemberProfile {
   /** places beyond the 7 campus areas (known buildings, pins, class buildings); student-located only */
   places?: Place[];
   schedule?: { classes: ScheduleClass[]; confirmedAt?: string; image?: { dataUrl: string; updatedAt: string } | null } | null;
+  /** Roommate search: only "looking" students appear as suggested roommates. Missing = "found". */
+  roommateStatus?: RoommateStatus;
+  /** Shown to suggested matches; saved only while "looking", after the consent box is ticked. */
+  contact?: ContactInfo | null;
+}
+
+export type RoommateStatus = "looking" | "found";
+
+export interface ContactInfo {
+  /** lowercase, @umich.edu */
+  email?: string;
+  /** 10 digits, no formatting */
+  phone?: string;
+  /** ISO time the consent box was ticked */
+  consentAt: string;
 }
 
 export type Weekday = "mon" | "tue" | "wed" | "thu" | "fri" | "sat" | "sun";

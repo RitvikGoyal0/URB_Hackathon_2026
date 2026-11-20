@@ -15,6 +15,7 @@ import type { Lobby, MemberProfile } from "@/lib/types";
 import { MemberAvatar } from "@/components/shared/bits";
 import { GroupName, InsightList, MemberCard } from "./lobby-view";
 import { deriveInsights } from "./insights";
+import { InviteLink } from "./invite-link";
 
 export function joinedCount(lobby: Lobby) {
   return 1 + lobby.members.filter((m) => m.status === "joined" && m.memberId !== LIVE_MEMBER_ID).length;
@@ -110,9 +111,10 @@ export function LobbyPageView({ id }: { id: string }) {
       </div>
 
       <div className="mt-6 grid gap-4 lg:grid-cols-[1fr_1fr]">
-        <section className="rounded-[26px] border border-line bg-white p-5">
+        <section className="min-w-0 rounded-[26px] border border-line bg-white p-5">
           <h2 className="text-[17px] font-semibold text-ink">Invite friends</h2>
           {full && <p className="mt-1 text-[13px] font-medium text-amber">Lobby is full</p>}
+          <InviteLink lobby={lobby} />
           <ul className="mt-3 grid gap-2">
             {friends.map((f, i) => {
               const member = lobby.members.find((m) => m.memberId === f.id);

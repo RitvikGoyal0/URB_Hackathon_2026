@@ -116,7 +116,13 @@
     "major": "Political Science",
     "organizations": [
       "Michigan Debate"
-    ]
+    ],
+    "roommateStatus": "looking",
+    "contact": {
+      "email": "jordnhtl@umich.edu",
+      "phone": "7345550142",
+      "consentAt": "2026-11-01T12:00:00.000Z"
+    }
   },
   {
     "id": "member_c",
@@ -163,7 +169,13 @@
     },
     "fieldMeta": {},
     "major": "Public Health",
-    "organizations": []
+    "organizations": [],
+    "roommateStatus": "looking",
+    "contact": {
+      "email": "samhtlpb@umich.edu",
+      "phone": "7345550117",
+      "consentAt": "2026-11-01T12:00:00.000Z"
+    }
   },
   {
     "id": "member_d",
@@ -214,7 +226,13 @@
     "major": "Engineering",
     "organizations": [
       "MRacing"
-    ]
+    ],
+    "roommateStatus": "looking",
+    "contact": {
+      "email": "rileyhtl@umich.edu",
+      "phone": "7345550163",
+      "consentAt": "2026-11-01T12:00:00.000Z"
+    }
   },
   {
     "id": "member_e",
@@ -264,7 +282,13 @@
     "major": "Computer Science",
     "organizations": [
       "Women in Computing"
-    ]
+    ],
+    "roommateStatus": "looking",
+    "contact": {
+      "email": "priyahtl@umich.edu",
+      "phone": "7345550128",
+      "consentAt": "2026-11-01T12:00:00.000Z"
+    }
   },
   {
     "id": "member_f",
@@ -315,7 +339,13 @@
     "major": "Business",
     "organizations": [
       "Ross Finance Club"
-    ]
+    ],
+    "roommateStatus": "looking",
+    "contact": {
+      "email": "marcshtl@umich.edu",
+      "phone": "7345550184",
+      "consentAt": "2026-11-01T12:00:00.000Z"
+    }
   },
   {
     "id": "member_g",
@@ -359,7 +389,13 @@
     "major": "Nursing",
     "organizations": [
       "Nursing Council"
-    ]
+    ],
+    "roommateStatus": "looking",
+    "contact": {
+      "email": "elenahtl@umich.edu",
+      "phone": "7345550139",
+      "consentAt": "2026-11-01T12:00:00.000Z"
+    }
   },
   {
     "id": "member_h",
@@ -403,7 +439,13 @@
     "major": "Engineering",
     "organizations": [
       "Solar Car"
-    ]
+    ],
+    "roommateStatus": "looking",
+    "contact": {
+      "email": "theohtlm@umich.edu",
+      "phone": "7345550171",
+      "consentAt": "2026-11-01T12:00:00.000Z"
+    }
   },
   {
     "id": "member_i",
@@ -453,6 +495,12 @@
     "major": "Music",
     "organizations": [
       "Michigan Marching Band"
-    ]
+    ],
+    "roommateStatus": "looking",
+    "contact": {
+      "email": "danahtls@umich.edu",
+      "phone": "7345550156",
+      "consentAt": "2026-11-01T12:00:00.000Z"
+    }
   }
 ]

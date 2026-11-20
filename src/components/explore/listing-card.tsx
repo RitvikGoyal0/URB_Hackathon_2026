@@ -2,14 +2,13 @@
 
 import Link from "next/link";
 import { ArrowDown, ArrowRight, ArrowUp, Ban, Bath, BedDouble, Bookmark, BookmarkCheck, Clock } from "lucide-react";
-import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import { actions } from "@/lib/store";
 import { averageCommute } from "@/lib/engine";
 import type { Listing, MemberProfile, RankedResult } from "@/lib/types";
 import { ScoreRing } from "@/components/shared/score-ring";
 import { ListingPhoto } from "@/components/shared/listing-photo";
 import { blockerLine, groupFitLabel, memberColor, money, rentBasisText } from "@/components/shared/format";
+import { toggleSaved } from "@/components/shared/save-toast";
 
 export function ringMembersFor(result: RankedResult, people: MemberProfile[]) {
   return result.perMember.map((pm, i) => {
@@ -93,8 +92,7 @@ export function ListingCard({
           type="button"
           onClick={(e) => {
             e.stopPropagation();
-            const nowSaved = actions.toggleWatch(listing.id);
-            toast(nowSaved ? `Saved ${listing.name}` : `Removed ${listing.name} from saved homes`);
+            toggleSaved(listing.id, listing.name);
           }}
           className={cn(
             "absolute top-3 right-3 z-10 inline-flex size-9 items-center justify-center rounded-full border shadow-sm transition-colors focus-visible:ring-3 focus-visible:ring-teal/40 focus-visible:outline-none",

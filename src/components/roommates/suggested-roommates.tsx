@@ -12,17 +12,18 @@ import { effectiveProfile } from "@/lib/onboarding";
 import { actions, lobbyHeadcount, selectActiveLobby, selectLiveProfile, useAppState } from "@/lib/store";
 import { MemberAvatar } from "@/components/shared/bits";
 import { useCreateLobby } from "@/components/lobby/create-lobby";
+import { ContactPopover } from "./contact-popover";
 
 const placeName = (id: string) => getDestination(id)?.shortName;
 
-/** Students you might get along with (V3 §7.5): not friends, not already in the active lobby. */
+/** Students you might get along with (V3 §7.5): actively looking for a roommate, and not friends. */
 export function useSuggestions() {
   const state = useAppState();
   const live = selectLiveProfile(state);
   const lobby = selectActiveLobby(state);
   const inLobby = useMemo(() => new Set(lobby?.members.map((m) => m.memberId) ?? []), [lobby]);
   const ranked = useMemo(
-    () => rankRoommates(effectiveProfile(live), students.filter((s) => !FRIEND_IDS.includes(s.id)), placeName),
+    () => rankRoommates(effectiveProfile(live), students.filter((s) => s.roommateStatus === "looking" && !FRIEND_IDS.includes(s.id)), placeName),
     [live],
   );
   return { ranked, lobby, inLobby };
@@ -81,7 +82,7 @@ export function SuggestedRoommates({ limit = 6, compact = false }: { limit?: num
               </ul>
             )}
             {compact && compat.reasons[0] && <p className="mt-2 truncate text-[12.5px] text-charcoal">{compat.reasons[0]}</p>}
-            <div className="mt-auto pt-3">
+            <div className="mt-auto flex flex-wrap items-center gap-2 pt-3">
               {status === "joined" ? (
                 <p className="inline-flex items-center gap-1.5 text-[13px] font-medium text-teal">
                   <Check className="size-3.5" aria-hidden /> Joined {lobby?.name}
@@ -95,6 +96,7 @@ export function SuggestedRoommates({ limit = 6, compact = false }: { limit?: num
                   <UserPlus className="size-3.5" aria-hidden /> {full ? "Lobby is full" : "Invite to lobby"}
                 </Button>
               )}
+              <ContactPopover member={member} compact={compact} />
             </div>
           </li>
         );
@@ -110,7 +112,8 @@ export function RoommatesView() {
       <p className="text-[13px] font-medium text-teal">{lobby ? `Inviting to ${lobby.name}` : "No lobby yet: inviting creates one"}</p>
       <h1 className="mt-1 text-[2rem] leading-tight font-semibold text-ink sm:text-[2.5rem]">Students you might get along with</h1>
       <p className="mt-2 max-w-2xl text-[15px] text-charcoal">
-        Matched on budget, where you spend your week, habits at home, priorities, must-haves, major and clubs. You only see ranges, never exact schedules.
+        Matched on budget, where you spend your week, habits at home, priorities, must-haves, major and clubs. You only see ranges, never exact
+        schedules. Students here are looking for roommates and chose to share how to reach them.
       </p>
       <div className="mt-8">
         <SuggestedRoommates limit={6} />

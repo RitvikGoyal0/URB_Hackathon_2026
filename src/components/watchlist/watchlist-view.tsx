@@ -18,13 +18,10 @@ import { ScoreRing } from "@/components/shared/score-ring";
 import { VOTE_LABEL, groupFitLabel, relativeTime } from "@/components/shared/format";
 import { PriceLine, ringMembersFor } from "@/components/explore/listing-card";
 import { ConsensusBadge } from "./consensus-badge";
+import { unsaveWithUndo } from "@/components/shared/save-toast";
+import { VoteIcon } from "@/components/shared/vote-icon";
 
 const VOTE_ICON: Record<VoteValue, typeof ThumbsUp> = { interested: ThumbsUp, maybe: Minus, pass: ThumbsDown };
-const VOTE_TONE: Record<VoteValue, string> = {
-  interested: "bg-teal-soft text-teal",
-  maybe: "bg-secondary text-charcoal",
-  pass: "bg-blocker-soft text-blocker",
-};
 
 function WatchCard({ item, votes }: { item: WatchItem; votes: Vote[] }) {
   const g = useGroup();
@@ -79,20 +76,13 @@ function WatchCard({ item, votes }: { item: WatchItem; votes: Vote[] }) {
           <ul className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-4">
             {g.people.map((m, i) => {
               const v = latest.get(m.id)?.value;
-              const Icon = v ? VOTE_ICON[v] : null;
               return (
                 <li key={m.id} className="flex items-center gap-2 rounded-2xl bg-paper px-2.5 py-2">
                   <MemberAvatar member={m} index={i} size="sm" />
-                  <span className="min-w-0 leading-tight">
-                    <span className="block truncate text-[12.5px] text-charcoal">{m.displayName}</span>
-                    {v && Icon ? (
-                      <span className={cn("mt-0.5 inline-flex items-center gap-1 rounded-full px-1.5 text-[11.5px] font-medium", VOTE_TONE[v])}>
-                        <Icon className="size-3" aria-hidden /> {VOTE_LABEL[v]}
-                      </span>
-                    ) : (
-                      <span className="text-[11.5px] text-muted-foreground">Not yet</span>
-                    )}
+                  <span className="min-w-0 flex-1 truncate text-[12.5px] text-charcoal" aria-hidden>
+                    {m.displayName}
                   </span>
+                  <VoteIcon name={m.displayName} value={v} />
                 </li>
               );
             })}
@@ -173,8 +163,7 @@ function WatchCard({ item, votes }: { item: WatchItem; votes: Vote[] }) {
           size="sm"
           className="rounded-full text-muted-foreground"
           onClick={() => {
-            actions.toggleWatch(listing.id);
-            toast(`Removed ${listing.name} from your watchlist`);
+            unsaveWithUndo(listing.id, listing.name);
           }}
         >
           <Trash2 aria-hidden /> Remove from watchlist

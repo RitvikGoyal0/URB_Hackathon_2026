@@ -44,8 +44,9 @@ function demoProfile(mode: TravelMode, answers: ThisOrThatAnswer[], confirm = tr
   let p = parseToProfile(parse, neutralProfile(defaultLivePersona, "Maya"));
   for (const f of buildFollowUps(parse, { budgetProvided: false })) {
     if (f.kind === "place" && f.suggestedDestinationId) p = addDestination(p, f.suggestedDestinationId, 2, f.placeText);
-    if (f.kind === "travelMode") p = setTravelMode(p, mode);
   }
+  // No travel-mode question: the demo sentence ("bus" or "walk") defaults to walk; the student can change it.
+  p = setTravelMode(p, mode);
   if (confirm) p = confirmAll(p);
   // Stage script §12.2: About you → MRacing → "Where is it?" Wilson Center → 3×/wk → Bus → High.
   p = { ...p, places: [mracing] };
@@ -74,10 +75,11 @@ const ANSWER_SETS: ThisOrThatAnswer[][] = [
 ];
 
 describe("demo path: onboarding builds the expected profile", () => {
-  it("follow-ups are the club question and the bus/walk question; cooking question is skipped", () => {
+  it("the only follow-up is the club question (no travel-mode question); cooking question is skipped", () => {
     const parse = lookupCachedParse(DEMO)!;
     const f = buildFollowUps(parse, { budgetProvided: false });
-    expect(f.map((x) => x.kind)).toEqual(["place", "travelMode"]);
+    expect(f.map((x) => x.kind)).toEqual(["place"]);
+    expect(parseToProfile(parse, neutralProfile(defaultLivePersona, "Maya")).travelMode).toBe("walk");
     const { ask, skipped } = selectThisOrThat(parse);
     expect(skipped.map((s) => s.q.id)).toContain("cooking_convenience");
     expect(ask.length).toBeGreaterThanOrEqual(2);

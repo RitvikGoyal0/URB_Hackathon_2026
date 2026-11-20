@@ -10,6 +10,7 @@ import type { MemberProfile, Vote, VoteValue } from "@/lib/types";
 import { MemberAvatar } from "@/components/shared/bits";
 import { VOTE_LABEL } from "@/components/shared/format";
 import { ConsensusBadge } from "@/components/watchlist/consensus-badge";
+import { VoteIcon } from "@/components/shared/vote-icon";
 
 const VOTE_ICON: Record<VoteValue, typeof ThumbsUp> = { interested: ThumbsUp, maybe: Minus, pass: ThumbsDown };
 const VOTE_ON: Record<VoteValue, string> = {
@@ -97,10 +98,10 @@ export function VotePanel({
             return (
               <li key={m.id} className="flex w-16 flex-col items-center gap-1 text-center">
                 <MemberAvatar member={m} index={i} size="sm" />
-                <span className="w-full truncate text-[11px] leading-tight text-charcoal" title={m.displayName}>
+                <span className="w-full truncate text-[11px] leading-tight text-charcoal" title={m.displayName} aria-hidden>
                   {m.displayName}
                 </span>
-                <span className={cn("text-[10.5px]", v ? "font-medium text-ink" : "text-muted-foreground")}>{v ? VOTE_LABEL[v] : "Waiting"}</span>
+                <VoteIcon name={m.displayName} value={v} />
               </li>
             );
           })}

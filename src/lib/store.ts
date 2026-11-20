@@ -12,7 +12,7 @@
 import { useSyncExternalStore } from "react";
 import { appState as appStateSchema, appStateV1 } from "@/lib/schemas";
 import { LIVE_MEMBER_ID, defaultLivePersona, getListing } from "@/lib/data";
-import type { AppState, Id, Listing, Lobby, LobbyData, MemberProfile, VoteValue } from "@/lib/types";
+import type { AppState, Id, Listing, Lobby, LobbyData, MemberProfile, Vote, VoteValue, WatchItem } from "@/lib/types";
 
 const STORAGE_KEY = "htl:app-state:v1";
 export const DEFAULT_INVITE_DELAY_MS = 3000;
@@ -33,6 +33,24 @@ export function defaultOpenQuestions(listing: Listing | undefined): string[] {
 }
 
 const emptyData = (): LobbyData => ({ watchlist: [], votes: [], scenario: null });
+
+/** What `unsave` removed, so Undo can put it back exactly. */
+export interface Unsaved {
+  item: WatchItem;
+  vote: Vote | null;
+}
+
+const newWatchItem = (listingId: Id, at: string): WatchItem => ({
+  listingId,
+  savedBy: LIVE_MEMBER_ID,
+  at,
+  openQuestions: defaultOpenQuestions(getListing(listingId)),
+});
+
+/** Saving a home that's already saved is a no-op. */
+function ensureSaved(d: LobbyData, listingId: Id, at: string): LobbyData {
+  return d.watchlist.some((w) => w.listingId === listingId) ? d : { ...d, watchlist: [...d.watchlist, newWatchItem(listingId, at)] };
+}
 
 export const DEFAULT_STATE: AppState = Object.freeze({
   version: 2,
@@ -218,25 +236,42 @@ export const reducers = {
     if (lobbyId !== null && !s.lobbies.some((l) => l.id === lobbyId)) return s;
     return s.activeLobbyId === lobbyId ? s : { ...s, activeLobbyId: lobbyId };
   },
+  /** Any vote also saves the home (Interested, Maybe or Pass). */
   castVote(s: AppState, listingId: Id, value: VoteValue, at = now()): AppState {
-    return updateActive(s, (d) => ({
-      ...d,
-      votes: [...d.votes.filter((v) => !(v.listingId === listingId && v.memberId === LIVE_MEMBER_ID)), { memberId: LIVE_MEMBER_ID, listingId, value, at }],
-    }));
+    return updateActive(s, (d) =>
+      ensureSaved(
+        {
+          ...d,
+          votes: [...d.votes.filter((v) => !(v.listingId === listingId && v.memberId === LIVE_MEMBER_ID)), { memberId: LIVE_MEMBER_ID, listingId, value, at }],
+        },
+        listingId,
+        at,
+      ),
+    );
   },
   clearVote(s: AppState, listingId: Id): AppState {
     return updateActive(s, (d) => ({ ...d, votes: d.votes.filter((v) => !(v.listingId === listingId && v.memberId === LIVE_MEMBER_ID)) }));
   },
+  /** Save, or unsave (which also clears your vote on it). */
   toggleWatch(s: AppState, listingId: Id, at = now()): AppState {
-    return updateActive(s, (d) => {
-      const exists = d.watchlist.some((w) => w.listingId === listingId);
-      return {
-        ...d,
-        watchlist: exists
-          ? d.watchlist.filter((w) => w.listingId !== listingId)
-          : [...d.watchlist, { listingId, savedBy: LIVE_MEMBER_ID, at, openQuestions: defaultOpenQuestions(getListing(listingId)) }],
-      };
-    });
+    const saved = selectActiveData(s).watchlist.some((w) => w.listingId === listingId);
+    return saved ? reducers.unsave(s, listingId) : updateActive(s, (d) => ensureSaved(d, listingId, at));
+  },
+  /** Remove a saved home and your vote on it. */
+  unsave(s: AppState, listingId: Id): AppState {
+    return updateActive(s, (d) => ({
+      ...d,
+      watchlist: d.watchlist.filter((w) => w.listingId !== listingId),
+      votes: d.votes.filter((v) => !(v.listingId === listingId && v.memberId === LIVE_MEMBER_ID)),
+    }));
+  },
+  /** Undo an `unsave`: the watch item and the vote come back unchanged. */
+  restore(s: AppState, u: Unsaved): AppState {
+    return updateActive(s, (d) => ({
+      ...d,
+      watchlist: d.watchlist.some((w) => w.listingId === u.item.listingId) ? d.watchlist : [...d.watchlist, u.item],
+      votes: u.vote ? [...d.votes.filter((v) => !(v.listingId === u.vote!.listingId && v.memberId === u.vote!.memberId)), u.vote] : d.votes,
+    }));
   },
 };
 
@@ -305,9 +340,23 @@ export const actions = {
   clearVote(listingId: Id) {
     setState((s) => reducers.clearVote(s, listingId));
   },
-  toggleWatch(listingId: Id): boolean {
+  /** Save a home that isn't saved yet. Returns false if it was already saved. */
+  save(listingId: Id): boolean {
+    if (selectActiveData(getSnapshot()).watchlist.some((w) => w.listingId === listingId)) return false;
     setState((s) => reducers.toggleWatch(s, listingId));
-    return selectActiveData(getSnapshot()).watchlist.some((w) => w.listingId === listingId);
+    return true;
+  },
+  /** Remove a saved home and your vote on it; returns what was removed (for Undo), or null. */
+  unsave(listingId: Id): Unsaved | null {
+    const d = selectActiveData(getSnapshot());
+    const item = d.watchlist.find((w) => w.listingId === listingId);
+    if (!item) return null;
+    const vote = d.votes.find((v) => v.listingId === listingId && v.memberId === LIVE_MEMBER_ID) ?? null;
+    setState((s) => reducers.unsave(s, listingId));
+    return { item, vote };
+  },
+  restore(u: Unsaved) {
+    setState((s) => reducers.restore(s, u));
   },
   addOpenQuestion(listingId: Id, question: string) {
     const q = question.trim();

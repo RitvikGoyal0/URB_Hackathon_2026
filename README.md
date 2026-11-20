@@ -51,14 +51,15 @@ npm run build && npm start
 0. **Offstage:** open `/demo` (hidden, not linked, not indexed) and click **Reset demo** twice to confirm. **Load demo profile** skips onboarding if time is short. The invite delay can be set to 0, 3 or 5 s.
 1. `/` → **Find My Fit** → **Michigan**.
 2. **Profile:**
-   - Type the demo sentence. The parse is instant (cached).
+   - Type the demo sentence. The parse is instant (cached). There's no travel-mode question; it defaults to walking.
    - Confirm the details.
-   - **About you:** Engineering. MRacing → "Where is it?" → Wilson Center → 3×/wk → Bus → High.
-   - Optionally upload a schedule screenshot.
+   - **Roommate search:** Actively looking → Engineering, add MRacing → a umich.edu email or phone → tick the consent box.
+   - **About you:** "Where is MRacing?" → Wilson Center → 3×/wk → Bus → High.
+   - Optionally upload a Wolverine Access schedule screenshot ("How do I get this?" shows the steps).
    - Two this-or-that questions, then the dashboard.
 3. **Create a lobby:** "Engineering House", 4 people.
-4. **Invite friends** Jordan and Sam. They show "Invited · pending", then "Joined".
-5. **Roommates:** "Students you might get along with". Invite the top card; it joins.
+4. **Invite friends** Jordan and Sam. They show "Invited · pending", then "Joined". The invite-link box above them copies a (cosmetic) link to send.
+5. **Roommates:** "Students you might get along with" (everyone here is actively looking). **Contact** shows their email and phone. Invite the top card; it joins.
 6. **Find Homes Together:**
    - Explore ranks only 4-bedroom homes, for the four of you.
    - Cards are photo-first, with a per-room price and "avg for you" commute times.
@@ -67,8 +68,8 @@ npm run build && npm start
    - Photos, per-room price, group match and the trade-offs.
    - One compact card per roommate, with their average commute.
    - The official source link.
-   - **Back to all homes** keeps the filters and scroll position.
-8. **Save** it and vote **Interested**. The summary reads "1 of 4 interested · 3 waiting".
+   - **Back to all homes** keeps the tab and scroll position.
+8. Vote **Interested**. Voting also saves the home to Saved. The summary reads "1 of 4 interested · 3 waiting", and each person's vote is an icon.
 9. **What if…:** raise Sam's budget by $100–$250. The Before / After / Why card shows a real home that only Sam's budget was blocking becoming #1, "because it became affordable for Sam". Reset.
 
 The flip is locked in by tests, on the real catalog:
@@ -144,7 +145,7 @@ All scoring is deterministic and lives in `src/lib/engine/`: pure functions, no 
 
 **Explanations, "Why" and "What changed?"** are templates filled from the score data (`explain.ts`, `diff.ts`). No LLM writes them.
 
-**Votes.** Interested / Maybe / Pass, separately for each lobby. The listing shows "N of M interested" and "Waiting for roommates' votes". New lobbies start with no votes; no votes are simulated. Votes show interest only, never availability.
+**Votes.** Interested / Maybe / Pass, separately for each lobby. Any vote saves the home; removing it from Saved clears your vote (with Undo). Explore has no filters: the group's profiles decide what fits. The listing shows "N of M interested" and "Waiting for roommates' votes". New lobbies start with no votes; no votes are simulated. Votes show interest only, never availability.
 
 ---
 
@@ -185,6 +186,7 @@ Gemini runs server-side only (`@google/genai`), for two things:
 ## Privacy and fairness
 
 - There are no demographic fields anywhere in the schema.
+- Contact details (umich.edu email and/or phone) are shown to suggested roommates only when a student is actively looking and ticked the consent box. "Already found" saves no contact. Like everything else, they stay in this browser.
 - Everything stays in this browser's `localStorage` (`htl:app-state:v1`, version 2, validated with Zod on load). That includes lobbies, invites, votes, places, priorities, the profile photo and the schedule. Nothing is sent to a server except the text or image you ask Gemini to parse.
 - Profile photos are resized to 256 px before they're saved. **Profile → Delete my profile** clears everything.
 - Haven gets no ranking boost.

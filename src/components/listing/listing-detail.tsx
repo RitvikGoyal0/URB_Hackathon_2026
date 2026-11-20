@@ -3,13 +3,11 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { AlertTriangle, ArrowLeft, Bath, BedDouble, Bookmark, BookmarkCheck, Calculator, Check, ChevronDown, ExternalLink, MapPin, Quote } from "lucide-react";
-import { toast } from "sonner";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { LIVE_MEMBER_ID, destinations, getCommunity, getListing, getListingPhotos } from "@/lib/data";
 import { SUBJECTIVE_FEATURES, explainListing } from "@/lib/engine";
 import { exploreHref } from "@/lib/explore-query";
-import { actions } from "@/lib/store";
 import { useAllVotes, useGroup } from "@/hooks/use-group";
 import type { FeatureKey, Listing, RankedResult } from "@/lib/types";
 import { dedupeWarnings } from "@/components/shared/bits";
@@ -21,6 +19,7 @@ import { Gallery } from "./gallery";
 import { MemberRow } from "./member-row";
 import { ScoreFormula } from "./score-formula";
 import { VotePanel } from "./vote-panel";
+import { toggleSaved } from "@/components/shared/save-toast";
 
 function isHttp(url: string) {
   return /^https?:\/\//.test(url);
@@ -145,8 +144,7 @@ export function ListingDetail({ id }: { id: string }) {
               variant="outline"
               className={cn("h-11 rounded-full", saved && "border-teal bg-teal-soft text-teal")}
               onClick={() => {
-                const now = actions.toggleWatch(id);
-                toast(now ? `Saved ${listing.name}` : `Removed ${listing.name} from saved homes`);
+                toggleSaved(id, listing.name);
               }}
               aria-pressed={saved}
             >
