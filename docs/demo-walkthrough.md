@@ -6,8 +6,8 @@ Every number below comes from the real engine and the team's final prices. `src/
 
 | | Who | Why they're in the demo |
 |---|---|---|
-| **Alex** (you, typed on stage) | Aerospace Engineering. North Campus 4×/wk, Central 2×/wk, MRacing at the Wilson Center 3×/wk. Bikes everywhere, no car. Cooks a lot, wants a quiet home, a big kitchen, a dishwasher and in-unit laundry. **$1,100**/month. | Shows the AI reading a week, quoting its sources, and turning it into a profile. |
-| **Riley** (matched roommate) | Alex's near-twin: Aerospace Engineering, MRacing, North + Central by bike, quiet, cooks a lot, the same must-haves and priorities. **$1,150**. | Top suggestion: **Great match · 95**, "Both on North Campus most weeks · Both want a quiet home". Next best is Priya at 66. |
+| **Alex** (you, typed on stage) | Aerospace Engineering. North Campus 4×/wk, Central 2×/wk, MRacing at the Wilson Center 3×/wk, six classes from a Wolverine Access screenshot. Bikes everywhere, no car. Cooks a lot, wants a quiet home, a big kitchen, a dishwasher and in-unit laundry. **$1,100**/month. | Shows the AI reading a week, quoting its sources, and turning it into a profile. |
+| **Riley** (matched roommate) | Alex's near-twin and classmate: Aerospace Engineering, the same six classes, MRacing, North + Central by bike, quiet, cooks a lot, the same must-haves and priorities. **$1,150**. | Top suggestion: **Great match · 95**, "Both on North Campus most weeks · Both want a quiet home". Next best is Priya at 66. |
 | **Jordan** (friend) | Political Science. Central Campus 5×/wk, Kerrytown 1×/wk. Walks. Social, has people over often. **$1,200**. | Disagrees with Alex on location: the least-satisfied member at Fair St (39-minute walk to Central). |
 | **Sam** (friend) | Public Health. Central 3×/wk, Medical Campus 2×/wk. Bikes. **$850, hard cap.** | The budget that blocks better homes. Raising it flips the #1 home. |
 
@@ -17,7 +17,8 @@ The other five suggested roommates (Priya, Dana, Theo, Elena, Marcus) are there 
 
 1. Open `/demo` (hidden page) → **Reset demo**. Set the invite delay (3 s is good on stage).
 2. Use a normal window. A private window works too, but it forgets everything when closed.
-3. If short on time: `/demo` → **Load demo profile** creates exactly the same Alex as steps 1–5 below. Then start at step 6.
+3. Download **Alex's schedule screenshot** from `/demo` (or use `public/demo/alex-schedule.png` from the repo) and keep it somewhere easy to find, such as the Desktop. Don't edit, crop or re-save it: the app recognizes this exact file.
+4. If short on time: `/demo` → **Load demo profile** creates exactly the same Alex as steps 1–5 below, schedule included. Then start at step 6.
 
 ## Script
 
@@ -45,7 +46,10 @@ The other five suggested roommates (Priya, Dana, Theo, Elena, Marcus) are there 
 
 ### 4. About you
 - The card **Where is MRacing?** → **Where is it?** → **Wilson Student Team Project Center** (suggested) → **A few times a week** → **Bike** (already selected) → **High**.
-- *Optional:* open **How do I get this?** to show the Wolverine Access instructions. Don't upload a schedule.
+- **Upload your schedule:** you can open **How do I get this?** first to show the Wolverine Access instructions. Then click **Upload a screenshot** and pick `alex-schedule.png`.
+  - It's read instantly from its known rows: **Found 6 classes. Check each one, then confirm it.** No AI call is made, so this works without a key or a network connection.
+  - For each of the six rows: **Is this ___? → Yes**, then tick **This is right**. The six buildings are Chrysler, G.G. Brown, Mason Hall, Weiser Hall, Ford Robotics and EECS.
+  - Click **Save schedule (6 confirmed)**. The summary shows the classes that add trips from home: Chrysler 2, Mason Hall 2, Ford Robotics 1, EECS 1. G.G. Brown and Weiser Hall add none, because they come straight after another class.
 - Click **Continue**.
 
 ### 5. Quick picks (3 questions; the quiet and cooking questions are skipped because the sentence answered them)
@@ -56,7 +60,7 @@ The other five suggested roommates (Priya, Dana, Theo, Elena, Marcus) are there 
 This lands on the dashboard. Alex's weights are now affordability 30, commute 20, amenities 15, lifestyle 15, space 20.
 
 ### 6. Dashboard (solo)
-"Recommended for you": **217 N Ashley St — 3BR Duplex (87)**, 1417 Broadway (70), State Street Village (82). Alone, Alex sees every size, priced per room.
+"Recommended for you": **217 N Ashley St — 3BR Duplex (87)**, 1417 Broadway (70), State Street Village (83). Alone, Alex sees every size, priced per room.
 
 ### 7. Create a lobby
 **Create a Lobby** → Group name `Engineering House`, **4 people** (default) → **Create Lobby**.
@@ -70,7 +74,7 @@ This lands on the dashboard. Alex's weights are now affordability 30, commute 20
 3. Foundry Lofts — $1,149/person, 58, over Sam's (and Alex's) budget
 
 ### 9. Roommates
-**Roommates** (top nav): **Riley — Great match · 95**, "Both on North Campus most weeks · Both want a quiet home".
+**Roommates** (top nav): **Riley — Great match · 95** (next best: Priya 63), "Both on North Campus most weeks · Both want a quiet home".
 - Click **Contact** to show Riley's email and phone.
 - **Invite to lobby**. Riley joins after the delay.
 

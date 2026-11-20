@@ -63,7 +63,22 @@ describe("walkthrough step 2: the typed profile", () => {
       ["north_campus", 4],
       ["central_campus", 2],
     ]);
-    expect(alex.places?.map((p) => [p.name, p.location.refId, p.visitsPerWeek, p.mode ?? alex.travelMode, p.importance])).toEqual([["MRacing", "wilson_center", 3, "bike", 3]]);
+    expect(alex.places?.map((p) => [p.name, p.location.refId, p.visitsPerWeek, p.mode ?? alex.travelMode, p.importance])).toEqual([
+      ["MRacing", "wilson_center", 3, "bike", 3],
+      // from the uploaded schedule: trips from home (first class of the day, or after a 2-hour gap)
+      ["Chrysler", "chrysler_center", 2, "bike", 2],
+      ["Mason Hall", "mason_hall", 2, "bike", 2],
+      ["Ford Robotics", "ford_robotics", 1, "bike", 2],
+      ["EECS", "eecs", 1, "bike", 2],
+    ]);
+    expect(alex.schedule?.classes.map((c) => c.placeId)).toEqual([
+      "class_chrysler_center",
+      "class_gg_brown",
+      "class_mason_hall",
+      "class_weiser_hall",
+      "class_ford_robotics",
+      "class_eecs",
+    ]);
     const w = alex.weights;
     expect([w.affordability, w.commute, w.amenities, w.lifestyle, w.space].map((x) => Math.round(x * 100))).toEqual([30, 20, 15, 15, 20]);
   });
@@ -81,6 +96,7 @@ describe("walkthrough step 2: the typed profile", () => {
       major: m.major,
       organizations: m.organizations,
       places: m.places,
+      schedule: m.schedule?.classes,
     });
     expect(pick(seed)).toEqual(pick(alex));
     for (const d of Object.keys(alex.weights) as (keyof typeof alex.weights)[]) expect(seed.weights[d]).toBeCloseTo(alex.weights[d], 6);
@@ -117,7 +133,7 @@ describe("walkthrough: rankings at each stage", () => {
     const r = rankFor(pool, group, lobby);
     expect(r.slice(0, 3).map((x) => x.listingId)).toEqual([FAIR, SSV, "um_smain_4br"]);
     expect(r[0].eligibility).not.toBe("blocked");
-    expect(r[0].groupScore).toBe(68.8);
+    expect(r[0].groupScore).toBe(68.9);
     expect(r[0].leastSatisfiedMemberId).toBe(jordan.id);
     const e = explainListing(r[0], listings.find((l) => l.id === FAIR)!, group, destinations);
     expect(e.compromise).toBe("Main drawback: a 39-minute walk to Central Campus for Jordan.");
@@ -128,7 +144,7 @@ describe("walkthrough: rankings at each stage", () => {
     const after = withSam(group, 950);
     const ranked = rankFor(pool, after, lobby);
     expect(ranked.slice(0, 2).map((x) => x.listingId)).toEqual([SSV, "um_mary_4br"]);
-    expect(ranked[0].groupScore).toBe(75.6);
+    expect(ranked[0].groupScore).toBe(75.7);
     const d = diffRankings(before, ranked, { changedInputs: ["Sam's budget $850 → $950"], listings, members: after });
     expect(d.previousTop).toBe(FAIR);
     expect(d.newTop).toBe(SSV);

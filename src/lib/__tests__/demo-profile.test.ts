@@ -14,7 +14,8 @@ describe("/demo → Load demo profile", () => {
 
   it("is fully confirmed, with MRacing at the Wilson Center as a place", () => {
     expect(unconfirmedCount(p)).toBe(0);
-    expect(p.places).toEqual([mracingPlace()]);
+    expect(p.places?.[0]).toEqual(mracingPlace());
+    expect(p.places?.filter((x) => x.kind === "class")).toHaveLength(4);
     expect(p.places?.[0].location).toMatchObject({ source: "building", refId: "wilson_center" });
     expect(p.major).toBe("Aerospace Engineering");
     expect(p.organizations).toEqual(["MRacing"]);

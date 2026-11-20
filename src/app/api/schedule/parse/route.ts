@@ -1,6 +1,7 @@
 import { geminiScheduleGenerate } from "@/lib/ai/schedule-gemini";
 import { ScheduleParseError, parseDataUrl, parseScheduleImage } from "@/lib/ai/schedule";
 import { MAX_UPLOAD_BYTES, type DraftClass } from "@/lib/schedule-import";
+import { DEMO_SCHEDULE_IMAGE_SHA256, demoScheduleRows } from "@/lib/demo-schedule";
 
 export type ScheduleParseResponse =
   | { ok: true; classes: DraftClass[] }
@@ -10,7 +11,9 @@ const fail = (reason: Extract<ScheduleParseResponse, { ok: false }>["reason"], e
   Response.json({ ok: false, reason, error } satisfies ScheduleParseResponse, { status });
 
 /**
- * POST /api/schedule/parse  { image: "data:image/png;base64,..." } → ScheduleParseResponse
+ * POST /api/schedule/parse  { image: "data:image/png;base64,...", fileHash?: sha256 of the original file } → ScheduleParseResponse
+ * The demo screenshot (public/demo/alex-schedule.png) is answered from its known rows, with no AI
+ * call, so the stage walkthrough reads it the same way on any machine (like the demo sentence).
  * Every failure is a clean { ok: false } so the review table opens empty for manual entry.
  */
 export async function POST(request: Request): Promise<Response> {
@@ -22,6 +25,9 @@ export async function POST(request: Request): Promise<Response> {
   }
   const image = parseDataUrl((body as { image?: unknown } | null)?.image, MAX_UPLOAD_BYTES);
   if (!image) return fail("bad_input", "Use a JPEG, PNG or WebP image under 8 MB.", 400);
+  if ((body as { fileHash?: unknown }).fileHash === DEMO_SCHEDULE_IMAGE_SHA256) {
+    return Response.json({ ok: true, classes: demoScheduleRows() } satisfies ScheduleParseResponse);
+  }
 
   const generate = geminiScheduleGenerate();
   if (!generate) return fail("no_key", "Automatic reading isn't set up here. Enter your classes below.", 503);

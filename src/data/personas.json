@@ -63,8 +63,181 @@
         },
         "visitsPerWeek": 3,
         "importance": 3
+      },
+      {
+        "id": "class_chrysler_center",
+        "name": "Chrysler",
+        "kind": "class",
+        "location": {
+          "source": "building",
+          "refId": "chrysler_center",
+          "label": "Chrysler",
+          "lat": 42.29089,
+          "lng": -83.71677
+        },
+        "visitsPerWeek": 2,
+        "importance": 2
+      },
+      {
+        "id": "class_mason_hall",
+        "name": "Mason Hall",
+        "kind": "class",
+        "location": {
+          "source": "building",
+          "refId": "mason_hall",
+          "label": "Mason Hall",
+          "lat": 42.27705,
+          "lng": -83.7395
+        },
+        "visitsPerWeek": 2,
+        "importance": 2
+      },
+      {
+        "id": "class_ford_robotics",
+        "name": "Ford Robotics",
+        "kind": "class",
+        "location": {
+          "source": "building",
+          "refId": "ford_robotics",
+          "label": "Ford Robotics",
+          "lat": 42.29459,
+          "lng": -83.70941
+        },
+        "visitsPerWeek": 1,
+        "importance": 2
+      },
+      {
+        "id": "class_eecs",
+        "name": "EECS",
+        "kind": "class",
+        "location": {
+          "source": "building",
+          "refId": "eecs",
+          "label": "EECS",
+          "lat": 42.29234,
+          "lng": -83.71388
+        },
+        "visitsPerWeek": 1,
+        "importance": 2
       }
-    ]
+    ],
+    "schedule": {
+      "classes": [
+        {
+          "name": "AEROSP 201 - 001",
+          "days": [
+            "mon",
+            "wed"
+          ],
+          "start": "09:00",
+          "end": "10:30",
+          "building": "CHRYSLER CENTER 133",
+          "location": {
+            "source": "building",
+            "refId": "chrysler_center",
+            "label": "Chrysler",
+            "lat": 42.29089,
+            "lng": -83.71677
+          },
+          "placeId": "class_chrysler_center",
+          "confirmed": true
+        },
+        {
+          "name": "MECHENG 211 - 002",
+          "days": [
+            "mon",
+            "wed"
+          ],
+          "start": "10:30",
+          "end": "12:00",
+          "building": "G.G. BROWN LABORATORY 1504",
+          "location": {
+            "source": "building",
+            "refId": "gg_brown",
+            "label": "G.G. Brown",
+            "lat": 42.2933,
+            "lng": -83.71399
+          },
+          "placeId": "class_gg_brown",
+          "confirmed": true
+        },
+        {
+          "name": "MATH 216 - 012",
+          "days": [
+            "tue",
+            "thu"
+          ],
+          "start": "10:00",
+          "end": "11:30",
+          "building": "MASON HALL 1400",
+          "location": {
+            "source": "building",
+            "refId": "mason_hall",
+            "label": "Mason Hall",
+            "lat": 42.27705,
+            "lng": -83.7395
+          },
+          "placeId": "class_mason_hall",
+          "confirmed": true
+        },
+        {
+          "name": "PHYSICS 240 - 003",
+          "days": [
+            "tue"
+          ],
+          "start": "12:00",
+          "end": "13:00",
+          "building": "WEISER HALL 260",
+          "location": {
+            "source": "building",
+            "refId": "weiser_hall",
+            "label": "Weiser Hall",
+            "lat": 42.2765,
+            "lng": -83.735
+          },
+          "placeId": "class_weiser_hall",
+          "confirmed": true
+        },
+        {
+          "name": "AEROSP 201 - 011",
+          "days": [
+            "thu"
+          ],
+          "start": "14:30",
+          "end": "16:30",
+          "building": "FORD MOTOR COMPANY ROBOTICS BUILDING 1010",
+          "location": {
+            "source": "building",
+            "refId": "ford_robotics",
+            "label": "Ford Robotics",
+            "lat": 42.29459,
+            "lng": -83.70941
+          },
+          "placeId": "class_ford_robotics",
+          "confirmed": true
+        },
+        {
+          "name": "ENGR 151 - 004",
+          "days": [
+            "fri"
+          ],
+          "start": "10:30",
+          "end": "12:30",
+          "building": "EECS 1311",
+          "location": {
+            "source": "building",
+            "refId": "eecs",
+            "label": "EECS",
+            "lat": 42.29234,
+            "lng": -83.71388
+          },
+          "placeId": "class_eecs",
+          "confirmed": true
+        }
+      ],
+      "confirmedAt": "2026-11-20T09:05:00.000Z",
+      "image": null
+    }
   },
   {
     "id": "member_b",
@@ -246,8 +419,181 @@
         },
         "visitsPerWeek": 3,
         "importance": 3
+      },
+      {
+        "id": "class_chrysler_center",
+        "name": "Chrysler",
+        "kind": "class",
+        "location": {
+          "source": "building",
+          "refId": "chrysler_center",
+          "label": "Chrysler",
+          "lat": 42.29089,
+          "lng": -83.71677
+        },
+        "visitsPerWeek": 2,
+        "importance": 2
+      },
+      {
+        "id": "class_mason_hall",
+        "name": "Mason Hall",
+        "kind": "class",
+        "location": {
+          "source": "building",
+          "refId": "mason_hall",
+          "label": "Mason Hall",
+          "lat": 42.27705,
+          "lng": -83.7395
+        },
+        "visitsPerWeek": 2,
+        "importance": 2
+      },
+      {
+        "id": "class_ford_robotics",
+        "name": "Ford Robotics",
+        "kind": "class",
+        "location": {
+          "source": "building",
+          "refId": "ford_robotics",
+          "label": "Ford Robotics",
+          "lat": 42.29459,
+          "lng": -83.70941
+        },
+        "visitsPerWeek": 1,
+        "importance": 2
+      },
+      {
+        "id": "class_eecs",
+        "name": "EECS",
+        "kind": "class",
+        "location": {
+          "source": "building",
+          "refId": "eecs",
+          "label": "EECS",
+          "lat": 42.29234,
+          "lng": -83.71388
+        },
+        "visitsPerWeek": 1,
+        "importance": 2
       }
-    ]
+    ],
+    "schedule": {
+      "classes": [
+        {
+          "name": "AEROSP 201 - 001",
+          "days": [
+            "mon",
+            "wed"
+          ],
+          "start": "09:00",
+          "end": "10:30",
+          "building": "CHRYSLER CENTER 133",
+          "location": {
+            "source": "building",
+            "refId": "chrysler_center",
+            "label": "Chrysler",
+            "lat": 42.29089,
+            "lng": -83.71677
+          },
+          "placeId": "class_chrysler_center",
+          "confirmed": true
+        },
+        {
+          "name": "MECHENG 211 - 002",
+          "days": [
+            "mon",
+            "wed"
+          ],
+          "start": "10:30",
+          "end": "12:00",
+          "building": "G.G. BROWN LABORATORY 1504",
+          "location": {
+            "source": "building",
+            "refId": "gg_brown",
+            "label": "G.G. Brown",
+            "lat": 42.2933,
+            "lng": -83.71399
+          },
+          "placeId": "class_gg_brown",
+          "confirmed": true
+        },
+        {
+          "name": "MATH 216 - 012",
+          "days": [
+            "tue",
+            "thu"
+          ],
+          "start": "10:00",
+          "end": "11:30",
+          "building": "MASON HALL 1400",
+          "location": {
+            "source": "building",
+            "refId": "mason_hall",
+            "label": "Mason Hall",
+            "lat": 42.27705,
+            "lng": -83.7395
+          },
+          "placeId": "class_mason_hall",
+          "confirmed": true
+        },
+        {
+          "name": "PHYSICS 240 - 003",
+          "days": [
+            "tue"
+          ],
+          "start": "12:00",
+          "end": "13:00",
+          "building": "WEISER HALL 260",
+          "location": {
+            "source": "building",
+            "refId": "weiser_hall",
+            "label": "Weiser Hall",
+            "lat": 42.2765,
+            "lng": -83.735
+          },
+          "placeId": "class_weiser_hall",
+          "confirmed": true
+        },
+        {
+          "name": "AEROSP 201 - 011",
+          "days": [
+            "thu"
+          ],
+          "start": "14:30",
+          "end": "16:30",
+          "building": "FORD MOTOR COMPANY ROBOTICS BUILDING 1010",
+          "location": {
+            "source": "building",
+            "refId": "ford_robotics",
+            "label": "Ford Robotics",
+            "lat": 42.29459,
+            "lng": -83.70941
+          },
+          "placeId": "class_ford_robotics",
+          "confirmed": true
+        },
+        {
+          "name": "ENGR 151 - 004",
+          "days": [
+            "fri"
+          ],
+          "start": "10:30",
+          "end": "12:30",
+          "building": "EECS 1311",
+          "location": {
+            "source": "building",
+            "refId": "eecs",
+            "label": "EECS",
+            "lat": 42.29234,
+            "lng": -83.71388
+          },
+          "placeId": "class_eecs",
+          "confirmed": true
+        }
+      ],
+      "confirmedAt": "2026-11-20T09:05:00.000Z",
+      "image": null
+    }
   },
   {
     "id": "member_e",

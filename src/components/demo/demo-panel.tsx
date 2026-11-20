@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState, type ReactNode } from "react";
-import { RotateCcw, UserRoundCheck } from "lucide-react";
+import { Download, RotateCcw, UserRoundCheck } from "lucide-react";
 import { toast } from "sonner";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -93,7 +93,7 @@ export function DemoPanel({ demoProfile, keyStatus }: { demoProfile: MemberProfi
             className="rounded-full"
             onClick={() => {
               actions.setLiveProfile(demoProfile);
-              toast.success("Demo profile loaded: the demo sentence, confirmed, plus MRacing at the Wilson Center.");
+              toast.success("Demo profile loaded: Alex, confirmed, with MRacing at the Wilson Center and the six-class schedule.");
             }}
           >
             <UserRoundCheck aria-hidden /> Load demo profile
@@ -104,6 +104,15 @@ export function DemoPanel({ demoProfile, keyStatus }: { demoProfile: MemberProfi
             </Link>
           )}
           <span className="basis-full text-[12.5px] text-muted-foreground">Skips onboarding. Lobbies and votes are left as they are.</span>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-2">
+          <a href="/demo/alex-schedule.png" download="alex-schedule.png" className={cn(buttonVariants({ variant: "outline" }), "rounded-full")}>
+            <Download aria-hidden /> Alex&apos;s schedule screenshot
+          </a>
+          <span className="basis-full text-[12.5px] text-muted-foreground">
+            Upload this exact file in About you. It&apos;s read from its known rows (no AI call), so it works the same on any machine.
+          </span>
         </div>
 
         <div className="grid gap-1.5">

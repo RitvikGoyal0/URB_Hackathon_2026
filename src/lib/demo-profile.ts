@@ -7,6 +7,8 @@
  *   3. Roommate search: Actively looking, major "Aerospace Engineering", club "MRacing",
  *      email, consent box.
  *   4. About you: "Where is MRacing?" → Wilson Student Team Project Center, 3×/wk, Bike, High.
+ *      Upload a screenshot → public/demo/alex-schedule.png (read from its known rows, no AI call)
+ *      → Use each suggested building and confirm all six classes → Save schedule.
  *   5. Quick picks: More space at home → Lower rent → A room of my own (the quiet/social and
  *      cooking questions are skipped because the sentence answered them).
  *
@@ -27,6 +29,8 @@ import {
   type ThisOrThat,
   type ThisOrThatAnswer,
 } from "./onboarding";
+import { applySchedule, suggestLocation, type DraftClass } from "./schedule-import";
+import { demoScheduleRows } from "./demo-schedule";
 import type { MemberProfile, Place, TravelMode } from "./types";
 
 /** The first example chip on the "Your week" step. */
@@ -59,6 +63,12 @@ export function mracingPlace(): Place {
   };
 }
 
+/** The six demo classes after review: each building confirmed as suggested, each row confirmed. */
+export function demoScheduleConfirmed(): DraftClass[] {
+  return demoScheduleRows().map((r) => ({ ...r, location: suggestLocation(r), confirmed: true }));
+}
+export const DEMO_SCHEDULE_SAVED_AT = "2026-11-20T09:05:00.000Z";
+
 /** Alex as the app stores it after onboarding. `mode` overrides the travel mode (for what-if tests). */
 export function buildDemoProfile(mode?: TravelMode): MemberProfile {
   const parse = lookupCachedParse(DEMO_SENTENCE);
@@ -75,6 +85,7 @@ export function buildDemoProfile(mode?: TravelMode): MemberProfile {
     organizations: [DEMO_CLUB],
     places: [mracingPlace()],
   };
+  p = applySchedule(p, demoScheduleConfirmed(), DEMO_SCHEDULE_SAVED_AT, null);
   for (const q of selectThisOrThat(parse).ask) p = applyThisOrThatAnswer(p, q, DEMO_ANSWERS[q.id] ?? "skip");
   return effectiveProfile(p);
 }
